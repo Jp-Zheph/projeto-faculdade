@@ -22,5 +22,8 @@ namespace NewSIGASE.Models
 			Modelo = modelo;
 			SalasEquipamentos = new List<SalaEquipamento>();
 		}
+
+		public Equipamento()
+		{ }
 	}
 }

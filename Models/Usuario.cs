@@ -29,20 +29,19 @@ namespace SIGASE.Models
 		public string Senha { get; set; }
 
 		[Required]
-		public EnumTipoPerfil Tipo { get; set; }
+		public EnumTipoPerfil Perfil { get; set; }
 
 		public Usuario(string matricula, 
 			string email, 
-			string nome, 
-			string senha, 
-			EnumTipoPerfil tipo)
+			string nome,  
+			EnumTipoPerfil perfil)
 		{
 			Id = Guid.NewGuid();
 			Matricula = matricula;
 			Email = email;
 			Nome = nome;
-			Senha = senha;
-			Tipo = tipo;
+			Senha = Guid.NewGuid().ToString();
+			Perfil = perfil;
 		}
 
 		public Usuario()

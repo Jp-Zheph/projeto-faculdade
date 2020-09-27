@@ -1,48 +1,41 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
+using NewSIGASE.Dto.Request;
+using NewSIGASE.Dto.Response;
+using NewSIGASE.Services;
 using SIGASE.Models;
 
 namespace NewSIGASE.Controllers {
     public class UsuariosController : Controller {
-        private readonly SIGASEContext _context;
 
-        public UsuariosController(SIGASEContext context)
+        private readonly UsuarioService _usuarioService;
+
+        public UsuariosController(UsuarioService usuarioService)
         {
-            _context = context;
+            _usuarioService = usuarioService;
         }
 
         // GET: Usuarios
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Usuario.ToListAsync());
+            var usuarios = _usuarioService.Obter();
+
+            return View(usuarios.Select(u => new UsuarioListaDto(u)));
         }
 
         // GET: Usuarios/Details/5
-        public async Task<IActionResult> Details(Guid? id)
+        public async Task<IActionResult> Details(Guid id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var usuario = await _context.Usuario
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (usuario == null)
-            {
-                return NotFound();
-            }
+            var usuario = _usuarioService.Obter(id);
 
             return View(usuario);
         }
 
         // GET: Usuarios/Create
         public IActionResult Create()
-        {
+        {           
             return View();
         }
 
@@ -51,31 +44,29 @@ namespace NewSIGASE.Controllers {
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Matricula,Email,Nome,Senha,Tipo")] Usuario usuario)
+        public async Task<IActionResult> Create(UsuarioCriarDto usuarioDto)
         {
-            if (ModelState.IsValid)
+            usuarioDto.Validate();
+
+            if (usuarioDto.Invalid)
             {
-                _context.Add(usuario);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return View();
             }
-            return View(usuario);
+
+            await _usuarioService.Criar(usuarioDto);
+            if (_usuarioService.Invalid)
+            {
+                return View();
+            }
+
+            return View();
         }
 
         // GET: Usuarios/Edit/5
         public async Task<IActionResult> Edit(Guid? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var usuario = await _context.Usuario.FindAsync(id);
-            if (usuario == null)
-            {
-                return NotFound();
-            }
-            return View(usuario);
+           
+            return View();
         }
 
         // POST: Usuarios/Edit/5
@@ -85,43 +76,16 @@ namespace NewSIGASE.Controllers {
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Guid id, [Bind("Id,Matricula,Email,Nome,Senha,Tipo")] Usuario usuario)
         {
-            if (id != usuario.Id)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(usuario);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    throw;
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(usuario);
+           
+            return View();
         }
 
         // GET: Usuarios/Delete/5
         public async Task<IActionResult> Delete(Guid? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+         
 
-            var usuario = await _context.Usuario
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (usuario == null)
-            {
-                return NotFound();
-            }
-
-            return View(usuario);
+            return View();
         }
 
         // POST: Usuarios/Delete/5
@@ -129,15 +93,8 @@ namespace NewSIGASE.Controllers {
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var usuario = await _context.Usuario.FindAsync(id);
-            _context.Usuario.Remove(usuario);
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool UsuarioExists(Guid id)
-        {
-            return _context.Usuario.Any(e => e.Id == id);
-        }
     }
 }
