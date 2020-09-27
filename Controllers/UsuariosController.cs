@@ -7,10 +7,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SIGASE.Models;
 
-namespace NewSIGASE.Controllers
-{
-    public class UsuariosController : Controller
-    {
+namespace NewSIGASE.Controllers {
+    public class UsuariosController : Controller {
         private readonly SIGASEContext _context;
 
         public UsuariosController(SIGASEContext context)
@@ -25,7 +23,7 @@ namespace NewSIGASE.Controllers
         }
 
         // GET: Usuarios/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(Guid? id)
         {
             if (id == null)
             {
@@ -65,7 +63,7 @@ namespace NewSIGASE.Controllers
         }
 
         // GET: Usuarios/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(Guid? id)
         {
             if (id == null)
             {
@@ -85,7 +83,7 @@ namespace NewSIGASE.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Matricula,Email,Nome,Senha,Tipo")] Usuario usuario)
+        public async Task<IActionResult> Edit(Guid id, [Bind("Id,Matricula,Email,Nome,Senha,Tipo")] Usuario usuario)
         {
             if (id != usuario.Id)
             {
@@ -101,14 +99,7 @@ namespace NewSIGASE.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!UsuarioExists(usuario.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    throw;
                 }
                 return RedirectToAction(nameof(Index));
             }
@@ -116,7 +107,7 @@ namespace NewSIGASE.Controllers
         }
 
         // GET: Usuarios/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(Guid? id)
         {
             if (id == null)
             {
@@ -136,7 +127,7 @@ namespace NewSIGASE.Controllers
         // POST: Usuarios/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
             var usuario = await _context.Usuario.FindAsync(id);
             _context.Usuario.Remove(usuario);
@@ -144,7 +135,7 @@ namespace NewSIGASE.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool UsuarioExists(int id)
+        private bool UsuarioExists(Guid id)
         {
             return _context.Usuario.Any(e => e.Id == id);
         }

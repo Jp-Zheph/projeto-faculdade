@@ -1,18 +1,21 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace NewSIGASE.Models
 {
 	public class SalaEquipamento
 	{
-		public int Id { get; set; }
-		public int IdSala { get; set; }
+		public Guid Id { get; set; }
 		public Sala Sala { get; set; }
+		public Guid SalaId { get; set; }
 		public Equipamento Equipamento { get; set; }
-		public int IdEquipamento { get; set; }
+		public Guid EquipamentoId { get; set; }
 
-		
+		public SalaEquipamento(Guid salaId, 
+			Guid equipamentoId)
+		{
+			Id = Guid.NewGuid();
+			SalaId = salaId;
+			EquipamentoId = equipamentoId;
+		}
 	}
 }
