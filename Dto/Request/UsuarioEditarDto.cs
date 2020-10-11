@@ -1,24 +1,32 @@
 ﻿using Flunt.Notifications;
 using Flunt.Validations;
 using NewSIGASE.Models.Enum;
+using SIGASE.Models;
 using System;
-using System.ComponentModel.DataAnnotations;
 
 namespace NewSIGASE.Dto.Request
 {
-    public class UsuarioCriarDto : Notifiable, IValidatable
+    public class UsuarioEditarDto : Notifiable, IValidatable
     {
-        [Required]
+        public Guid Id { get; set; }
         public string Nome { get; set; }
-
-        [Required]
         public string Matricula { get; set; }
-
-        [Required]
         public string Email { get; set; }
-
-        [Required]
         public EnumTipoPerfil Perfil { get; set; }
+        public bool Ativo { get; set; }
+
+        public UsuarioEditarDto(Usuario usuario)
+        {
+            Id = usuario.Id;
+            Nome = usuario.Nome;
+            Matricula = usuario.Matricula;
+            Email = usuario.Email;
+            Perfil = usuario.Perfil;
+            Ativo = usuario.Ativo;
+        }
+
+        public UsuarioEditarDto()
+        { }
 
         public void Validate()
         {

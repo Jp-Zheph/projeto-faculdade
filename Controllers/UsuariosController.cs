@@ -4,23 +4,27 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using NewSIGASE.Dto.Request;
 using NewSIGASE.Dto.Response;
-using NewSIGASE.Services;
-using SIGASE.Models;
+using NewSIGASE.Services.InterfacesServices;
+using NewSIGASE.Models;
 
 namespace NewSIGASE.Controllers {
     public class UsuariosController : Controller {
 
-        private readonly UsuarioService _usuarioService;
+        private readonly IUsuarioService _usuarioService;
 
-        public UsuariosController(UsuarioService usuarioService)
+        public UsuariosController(IUsuarioService usuarioService)
         {
             _usuarioService = usuarioService;
         }
 
         // GET: Usuarios
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
             var usuarios = _usuarioService.Obter();
+            if (!usuarios.Any())
+            {
+                return NoContent();
+            }
 
             return View(usuarios.Select(u => new UsuarioListaDto(u)));
         }
@@ -28,14 +32,20 @@ namespace NewSIGASE.Controllers {
         // GET: Usuarios/Details/5
         public async Task<IActionResult> Details(Guid id)
         {
-            var usuario = _usuarioService.Obter(id);
+            var usuario = await _usuarioService.Obter(id);
+            if (_usuarioService.Invalid)
+            {
+                return View();
+            }
 
-            return View(usuario);
+            return View();
         }
 
         // GET: Usuarios/Create
         public IActionResult Create()
-        {           
+        {
+            ViewBag.Perfil = Combos.retornarOpcoesPerfil();
+
             return View();
         }
 
@@ -50,23 +60,30 @@ namespace NewSIGASE.Controllers {
 
             if (usuarioDto.Invalid)
             {
-                return View();
+                return View(usuarioDto);
             }
 
             await _usuarioService.Criar(usuarioDto);
             if (_usuarioService.Invalid)
             {
-                return View();
+                return View(usuarioDto);
             }
 
-            return View();
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Usuarios/Edit/5
-        public async Task<IActionResult> Edit(Guid? id)
+        public async Task<IActionResult> Edit(Guid id)
         {
-           
-            return View();
+            var usuario = await _usuarioService.Obter(id);
+            if (_usuarioService.Invalid)
+            {
+                return View();
+            }
+
+            ViewBag.Perfil = Combos.retornarOpcoesPerfil();
+
+            return View(new UsuarioEditarDto(usuario));
         }
 
         // POST: Usuarios/Edit/5
@@ -74,16 +91,26 @@ namespace NewSIGASE.Controllers {
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("Id,Matricula,Email,Nome,Senha,Tipo")] Usuario usuario)
+        public async Task<IActionResult> Edit(UsuarioEditarDto usuarioDto)
         {
+            usuarioDto.Validate();
+            if (usuarioDto.Invalid)
+            {
+                return View();
+            }
+
+            await _usuarioService.Editar(usuarioDto);
+            if (_usuarioService.Invalid)
+            {
+                return View();
+            }
            
-            return View();
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Usuarios/Delete/5
         public async Task<IActionResult> Delete(Guid? id)
-        {
-         
+        {         
 
             return View();
         }
@@ -96,5 +123,25 @@ namespace NewSIGASE.Controllers {
             return RedirectToAction(nameof(Index));
         }
 
+        // GET: Usuarios/CriarSenha
+        public async Task<IActionResult> CriarSenha()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CriarSenha(SenhaCriarDto senhaDto)
+        {
+            senhaDto.Validate();
+            if (senhaDto.Invalid)
+            {
+                return RedirectToAction(nameof(CriarSenha));
+            }
+
+            await _usuarioService.CriarSenha(Guid.NewGuid(), senhaDto.Senha);
+
+            return RedirectToAction(nameof(Index), "Home");
+        }
     }
 }
