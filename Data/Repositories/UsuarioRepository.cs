@@ -1,14 +1,14 @@
 ﻿
 using Microsoft.EntityFrameworkCore;
+using NewSIGASE.Data.Repositories.InterfacesRepositories;
 using SIGASE.Models;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace NewSIGASE.Data.Repositories
 {
-    public class UsuarioRepository
+    public class UsuarioRepository : IUsuarioRespository
     {
         private readonly SIGASEContext _context;
 

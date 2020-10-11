@@ -31,10 +31,13 @@ namespace SIGASE.Models
 		[Required]
 		public EnumTipoPerfil Perfil { get; set; }
 
-		public Usuario(string matricula, 
+        public bool Ativo { get; set; }
+
+        public Usuario(string matricula, 
 			string email, 
 			string nome,  
-			EnumTipoPerfil perfil)
+			EnumTipoPerfil perfil,
+			bool ativo)
 		{
 			Id = Guid.NewGuid();
 			Matricula = matricula;
@@ -42,9 +45,15 @@ namespace SIGASE.Models
 			Nome = nome;
 			Senha = Guid.NewGuid().ToString();
 			Perfil = perfil;
+			Ativo = ativo;
 		}
 
 		public Usuario()
 		{ }
+
+		public void AlterarSenha(string senha)
+        {
+			Senha = senha;
+        }
 	}
 }
