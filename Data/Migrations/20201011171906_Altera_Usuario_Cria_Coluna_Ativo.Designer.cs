@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SIGASE.Models;
 
 namespace NewSIGASE.Migrations
 {
     [DbContext(typeof(SIGASEContext))]
-    partial class SIGASEContextModelSnapshot : ModelSnapshot
+    [Migration("20201011171906_Altera_Usuario_Cria_Coluna_Ativo")]
+    partial class Altera_Usuario_Cria_Coluna_Ativo
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
