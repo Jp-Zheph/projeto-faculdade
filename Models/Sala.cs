@@ -12,7 +12,7 @@ namespace NewSIGASE.Models
 		public string Observacao { get; set; }
 		public int CapacidadeAlunos { get; set; }
 
-		public List<SalaEquipamento> SalasEquipamentos { get; set; }
+		public List<Equipamento> Equipamentos { get; set; }
 		public List<Agendamento> Agendamentos { get; set; }
 
 		public Sala(EnumTipoSala tipo, 
@@ -25,11 +25,22 @@ namespace NewSIGASE.Models
 			IdentificadorSala = identificadorSala;
 			Observacao = observacao;
 			CapacidadeAlunos = capacidadeAlunos;
-			SalasEquipamentos = new List<SalaEquipamento>();
 			Agendamentos = new List<Agendamento>();
+			Equipamentos = new List<Equipamento>();
 		}
 
 		public Sala()
 		{ }
+
+		public void AdicionarEquipamentos(IEnumerable<Equipamento> equipamentosId)
+		{
+			foreach (var equipamento in equipamentosId)
+			{
+				if (!Equipamentos.Contains(equipamento))
+				{
+					Equipamentos.Add(equipamento);
+				}
+			}
+		}
 	}
 }

@@ -21,12 +21,8 @@ namespace NewSIGASE.Controllers {
         public IActionResult Index()
         {
             var usuarios = _usuarioService.Obter();
-            if (!usuarios.Any())
-            {
-                return NoContent();
-            }
 
-            return View(usuarios.Select(u => new UsuarioListaDto(u)));
+            return View(usuarios?.Select(u => new UsuarioListaDto(u)));
         }
 
         // GET: Usuarios/Details/5

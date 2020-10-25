@@ -10,17 +10,19 @@ namespace NewSIGASE.Models
 		public string Nome { get; set; }
 		public string Modelo { get; set; }
 
-		public List<SalaEquipamento> SalasEquipamentos { get; set; }
+		public Sala Sala { get; set; }
+		public Guid? SalaId { get; set; }
 
 		public Equipamento(string serial, 
 			string nome, 
-			string modelo)
+			string modelo,
+			Guid? salaId)
 		{
 			Id = Guid.NewGuid();
 			Serial = serial;
 			Nome = nome;
 			Modelo = modelo;
-			SalasEquipamentos = new List<SalaEquipamento>();
+			SalaId = salaId;
 		}
 
 		public Equipamento()
