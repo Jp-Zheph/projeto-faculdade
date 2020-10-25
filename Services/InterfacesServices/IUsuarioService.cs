@@ -10,8 +10,8 @@ namespace NewSIGASE.Services.InterfacesServices
     {
         IQueryable<Usuario> Obter();
         Task<Usuario> Obter(Guid id);
-        Task Criar(UsuarioCriarDto usuarioDto);
-        Task Editar(UsuarioEditarDto dto);
+        Task Criar(UsuarioDto usuarioDto);
+        Task Editar(UsuarioDto dto);
         Task CriarSenha(Guid usuarioId, string senha);
     }
 }

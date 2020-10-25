@@ -25,18 +25,6 @@ namespace NewSIGASE.Controllers {
             return View(usuarios?.Select(u => new UsuarioListaDto(u)));
         }
 
-        // GET: Usuarios/Details/5
-        public async Task<IActionResult> Details(Guid id)
-        {
-            var usuario = await _usuarioService.Obter(id);
-            if (_usuarioService.Invalid)
-            {
-                return View();
-            }
-
-            return View();
-        }
-
         // GET: Usuarios/Create
         public IActionResult Create()
         {
@@ -50,7 +38,7 @@ namespace NewSIGASE.Controllers {
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(UsuarioCriarDto usuarioDto)
+        public async Task<IActionResult> Create(UsuarioDto usuarioDto)
         {
             usuarioDto.Validate();
 
@@ -79,7 +67,7 @@ namespace NewSIGASE.Controllers {
 
             ViewBag.Perfil = Combos.retornarOpcoesPerfil();
 
-            return View(new UsuarioEditarDto(usuario));
+            return View(new UsuarioDto(usuario));
         }
 
         // POST: Usuarios/Edit/5
@@ -87,8 +75,13 @@ namespace NewSIGASE.Controllers {
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(UsuarioEditarDto usuarioDto)
+        public async Task<IActionResult> Edit(UsuarioDto usuarioDto)
         {
+            if (usuarioDto.Id == null)
+            {
+                return View();
+            }
+
             usuarioDto.Validate();
             if (usuarioDto.Invalid)
             {
