@@ -40,7 +40,7 @@ namespace NewSIGASE.Services
             return usuario;
         }
 
-        public async Task Criar(UsuarioCriarDto usuarioDto)
+        public async Task Criar(UsuarioDto usuarioDto)
         {
             var usuarioCadastrado = _usuarioRepository.Obter(usuarioDto.Email, usuarioDto.Matricula);
 
@@ -58,7 +58,7 @@ namespace NewSIGASE.Services
             await _emailService.EnviarEmailCadastroUsuario();
         }
 
-        public void ValidarUsuarioCadastrado(UsuarioCriarDto usuarioDto, Usuario usuarioCadastrado)
+        public void ValidarUsuarioCadastrado(UsuarioDto usuarioDto, Usuario usuarioCadastrado)
         {
             AddNotifications(new Contract()
                 .IfNotNull(usuarioCadastrado?.Email, x => x.AreNotEquals(usuarioCadastrado.Email, usuarioDto.Email, "CriarUsuario", MensagemValidacaoService.Usuario.JaCadastrado(nameof(usuarioDto.Email)), StringComparison.OrdinalIgnoreCase))
@@ -66,9 +66,9 @@ namespace NewSIGASE.Services
             );
         }
 
-        public async Task Editar(UsuarioEditarDto dto)
+        public async Task Editar(UsuarioDto dto)
         {
-            var usuarioEditar = await _usuarioRepository.Obter(dto.Id);
+            var usuarioEditar = await _usuarioRepository.Obter(dto.Id.Value);
 
             ValidarUsuarioEditar(usuarioEditar, dto.Email, dto.Matricula);
             if (Invalid)

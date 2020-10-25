@@ -19,25 +19,25 @@ namespace NewSIGASE.Data.Repositories
 
         public IQueryable<Usuario> Obter()
         {
-            return _context.Usuario.AsNoTracking();
+            return _context.Usuarios.AsNoTracking();
         }
 
         public async Task<Usuario> Obter(Guid id)
         {
-            return await _context.Usuario
+            return await _context.Usuarios
                 .FirstOrDefaultAsync(u => u.Id == id);
         }
 
         public Usuario Obter(string email, string matricula)
         {
-            return _context.Usuario
+            return _context.Usuarios
                 .AsNoTracking()
                 .FirstOrDefault(u => u.Email == email || u.Matricula == matricula);
         }
 
         public async Task Criar(Usuario usuario)
         {
-            _context.Usuario.Add(usuario);
+            _context.Usuarios.Add(usuario);
             await _context.SaveChangesAsync();
         }
 
