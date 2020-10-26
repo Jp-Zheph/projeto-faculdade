@@ -3,6 +3,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using NewSIGASE.Dto.Request;
+using NewSIGASE.Dto.Response;
 using NewSIGASE.Models;
 using SIGASE.Models;
 
@@ -20,13 +22,16 @@ namespace NewSIGASE.Controllers
         // GET: Salas
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Sala.ToListAsync());
+            var lista = _context.Salas.AsNoTracking();
+            return View(lista.Select(x=>new SalaListaDto(x)));
+           
         }
 
        
         // GET: Salas/Create
         public IActionResult Create()
         {
+            ViewBag.Sala = Combos.retornarOpcoesSala();
             return View();
         }
 
@@ -35,16 +40,30 @@ namespace NewSIGASE.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Tipo,IdentificadorSala,Observacao,CapacidadeAlunos")] Sala sala)
+        public async Task<IActionResult> Create(SalaDto saladto)
         {
-            if (ModelState.IsValid)
+            saladto.Validate();
+
+             var identificadorSala = _context.Salas.Where(x => x.IdentificadorSala == saladto.IdentificadorSala)
+                .FirstOrDefault();
+
+            if (saladto.Invalid)
             {
-                sala.Id = Guid.NewGuid();
-                _context.Add(sala);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return View(saladto);
+               
             }
-            return View(sala);
+          
+            if(identificadorSala != null)
+			{
+                return View(saladto);
+			}
+
+            Sala sala = new Sala(saladto.Tipo, saladto.IdentificadorSala, saladto.Observacao, saladto.CapacidadeAlunos);
+           
+            _context.Add(sala);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+
         }
 
         // GET: Salas/Edit/5
@@ -55,7 +74,7 @@ namespace NewSIGASE.Controllers
                 return NotFound();
             }
 
-            var sala = await _context.Sala.FindAsync(id);
+            var sala = await _context.Salas.FindAsync(id);
             if (sala == null)
             {
                 return NotFound();
@@ -68,7 +87,7 @@ namespace NewSIGASE.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("Id,Tipo,IdentificadorSala,Observacao,CapacidadeAlunos")] Sala sala)
+        public async Task<IActionResult> Edit(Guid id, SalaDto sala)
         {
             if (id != sala.Id)
             {
@@ -77,22 +96,11 @@ namespace NewSIGASE.Controllers
 
             if (ModelState.IsValid)
             {
-                try
-                {
+                
                     _context.Update(sala);
                     await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!SalaExists(sala.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+              
+                
                 return RedirectToAction(nameof(Index));
             }
             return View(sala);
@@ -106,7 +114,7 @@ namespace NewSIGASE.Controllers
                 return NotFound();
             }
 
-            var sala = await _context.Sala
+            var sala = await _context.Salas
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (sala == null)
             {

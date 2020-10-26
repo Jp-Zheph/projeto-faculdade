@@ -7,6 +7,8 @@ namespace NewSIGASE.Models.Enum
 {
 	public enum EnumTipoSala
 	{
+		SalaDeAula = 0,
+		Laboratorio = 1
 
 	}
 }

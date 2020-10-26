@@ -1,15 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using NewSIGASE.Models.Enum;
 
 namespace NewSIGASE.Models
 {
 	public class Sala
 	{
+		
+		[Required]
 		public Guid Id { get; set; }
+		[Required]
 		public EnumTipoSala Tipo { get; set; }
+		[Required]
 		public string IdentificadorSala { get; set; }
+		[Required]
 		public string Observacao { get; set; }
+		[Required]
 		public int CapacidadeAlunos { get; set; }
 
 		public List<Equipamento> Equipamentos { get; set; }

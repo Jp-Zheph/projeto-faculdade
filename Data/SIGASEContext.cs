@@ -14,5 +14,7 @@ namespace SIGASE.Models
         public DbSet<Usuario> Usuarios { get; set; }
 
         public DbSet<Equipamento> Equipamentos { get; set; }
-    }
+
+		public DbSet<Sala> Salas { get; set; }
+	}
 }

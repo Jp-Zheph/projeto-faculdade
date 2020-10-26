@@ -1,4 +1,5 @@
-﻿using NewSIGASE.Models.Enum;
+﻿using NewSIGASE.Models;
+using NewSIGASE.Models.Enum;
 using System;
 
 namespace NewSIGASE.Dto.Response
@@ -11,12 +12,12 @@ namespace NewSIGASE.Dto.Response
 		public string IdentificadorSala { get; set; }
 		public int CapacidadeAlunos { get; set; }
 
-		public SalaListaDto(Guid id, EnumTipoSala tipo, string identificadorSala, string observacao, int capacidadeAlunos)
+		public SalaListaDto(Sala sala)
 		{
-			Id = id;
-			Tipo = tipo;
-			IdentificadorSala = identificadorSala;
-			CapacidadeAlunos = capacidadeAlunos;
+			Id = sala.Id;
+			Tipo = sala.Tipo;
+			IdentificadorSala = sala.IdentificadorSala;
+			CapacidadeAlunos = sala.CapacidadeAlunos;
 		}
 	}
 	
