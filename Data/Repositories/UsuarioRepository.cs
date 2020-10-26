@@ -1,14 +1,14 @@
 ﻿
 using Microsoft.EntityFrameworkCore;
+using NewSIGASE.Data.Repositories.InterfacesRepositories;
 using SIGASE.Models;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace NewSIGASE.Data.Repositories
 {
-    public class UsuarioRepository
+    public class UsuarioRepository : IUsuarioRespository
     {
         private readonly SIGASEContext _context;
 
@@ -19,18 +19,18 @@ namespace NewSIGASE.Data.Repositories
 
         public IQueryable<Usuario> Obter()
         {
-            return _context.Usuario.AsNoTracking();
+            return _context.Usuarios.AsNoTracking();
         }
 
         public async Task<Usuario> Obter(Guid id)
         {
-            return await _context.Usuario
+            return await _context.Usuarios
                 .FirstOrDefaultAsync(u => u.Id == id);
         }
 
         public Usuario Obter(string email, string matricula)
         {
-            return _context.Usuario
+            return _context.Usuarios
                 .AsNoTracking()
                 .FirstOrDefault(u => u.Email == email || u.Matricula == matricula);
         }
@@ -44,7 +44,7 @@ namespace NewSIGASE.Data.Repositories
 
         public async Task Criar(Usuario usuario)
         {
-            _context.Usuario.Add(usuario);
+            _context.Usuarios.Add(usuario);
             await _context.SaveChangesAsync();
         }
 
