@@ -1,7 +1,7 @@
 ﻿
 using Microsoft.EntityFrameworkCore;
 using NewSIGASE.Data.Repositories.InterfacesRepositories;
-using SIGASE.Models;
+using NewSIGASE.Models;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -37,7 +37,7 @@ namespace NewSIGASE.Data.Repositories
 
         public Usuario ObterPorEmail(string email)
         {
-            return _context.Usuario
+            return _context.Usuarios
                 .AsNoTracking()
                 .FirstOrDefault(u => u.Email == email);
         }

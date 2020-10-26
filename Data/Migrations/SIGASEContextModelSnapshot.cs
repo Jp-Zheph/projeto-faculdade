@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using SIGASE.Models;
+using NewSIGASE.Models;
 
 namespace NewSIGASE.Migrations
 {
@@ -45,7 +45,7 @@ namespace NewSIGASE.Migrations
                     b.ToTable("Equipamentos");
                 });
 
-            modelBuilder.Entity("SIGASE.Models.Usuario", b =>
+            modelBuilder.Entity("NewSIGASE.Models.Usuario", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()

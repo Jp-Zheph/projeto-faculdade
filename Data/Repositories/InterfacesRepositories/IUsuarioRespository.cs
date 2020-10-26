@@ -1,5 +1,5 @@
 ﻿
-using SIGASE.Models;
+using NewSIGASE.Models;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -17,6 +17,8 @@ namespace NewSIGASE.Data.Repositories.InterfacesRepositories
         Task Criar(Usuario usuario);
 
          Task<Usuario> Editar(Usuario usuario);
+
+        Usuario ObterPorEmail(string email);
 
     }
 }

@@ -5,7 +5,7 @@ using NewSIGASE.Data.Repositories.InterfacesRepositories;
 using NewSIGASE.Dto.Request;
 using NewSIGASE.Services.Constantes;
 using NewSIGASE.Services.InterfacesServices;
-using SIGASE.Models;
+using NewSIGASE.Models;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -112,6 +112,27 @@ namespace NewSIGASE.Services
 
             usuario.AlterarSenha(senha);
             await _usuarioRepository.Editar(usuario);
+        }
+
+        public Usuario ValidarLogin(string email, string senha, out string mensagem)
+        {
+            mensagem = "";
+            var retorno = _usuarioRepository.ObterPorEmail(email);
+            if (retorno != null && retorno.Senha == senha)
+            {
+                return retorno;
+            }
+            else if (retorno != null && retorno.Senha != senha)
+            {
+                mensagem = "Senha informada incorreta para o usuário informado";
+                return null;
+            }
+            else if (retorno == null)
+            {
+                mensagem = "Nenhum usuário econtrado para o E-mail informado.";
+                return null;
+            }
+            return null;
         }
     }
 }
