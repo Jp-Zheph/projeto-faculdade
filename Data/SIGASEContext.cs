@@ -1,5 +1,6 @@
 ﻿
 using Microsoft.EntityFrameworkCore;
+using NewSIGASE.Models;
 
 namespace SIGASE.Models
 {
@@ -11,5 +12,6 @@ namespace SIGASE.Models
         }
 
         public DbSet<Usuario> Usuario { get; set; }
+        public DbSet<Agendamento> Agendamento { get; set; }
     }
 }

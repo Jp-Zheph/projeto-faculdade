@@ -52,5 +52,23 @@ namespace NewSIGASE.Services
             );
         }
 
+        public Usuario ValidarLogin(string email, string senha, out string mensagem)
+        {
+            mensagem = "";
+            var retorno = _usuarioRepository.ObterPorEmail(email);
+            if(retorno != null && retorno.Senha == senha){
+                return retorno;
+            }else if ( retorno != null && retorno.Senha != senha)
+            {
+                mensagem = "Senha informada incorreta para o usuário informado";
+                return null;
+            }else if(retorno == null)
+            {
+                mensagem = "Usuário informado não localizado.";
+                return null;
+            }
+            return null;
+        }
+
     }
 }

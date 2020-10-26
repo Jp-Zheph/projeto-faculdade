@@ -5,8 +5,9 @@ using System.Threading.Tasks;
 
 namespace NewSIGASE.Models.Enum
 {
-	public  enum EnumTipoPerfil
+	public enum EnumTipoPerfil
 	{
-
+		Adminstrador = 1,
+		Professor
 	}
 }

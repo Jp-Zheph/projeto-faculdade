@@ -35,6 +35,13 @@ namespace NewSIGASE.Data.Repositories
                 .FirstOrDefault(u => u.Email == email || u.Matricula == matricula);
         }
 
+        public Usuario ObterPorEmail(string email)
+        {
+            return _context.Usuario
+                .AsNoTracking()
+                .FirstOrDefault(u => u.Email == email);
+        }
+
         public async Task Criar(Usuario usuario)
         {
             _context.Usuario.Add(usuario);
