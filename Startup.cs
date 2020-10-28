@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using NewSIGASE.Infra.Extensions;
 using NewSIGASE.Infra.Configuration;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace NewSIGASE
 {
@@ -27,6 +28,12 @@ namespace NewSIGASE
 			services.AddConfiguration(Configuration);
 
 			services.AddSession();
+
+			services.AddAuthentication(x =>
+			{
+				x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+				x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+			})
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
