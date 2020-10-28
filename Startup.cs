@@ -33,7 +33,7 @@ namespace NewSIGASE
 			{
 				x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
 				x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-			})
+			});
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
