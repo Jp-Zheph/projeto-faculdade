@@ -3,6 +3,8 @@ using NewSIGASE.Services.InterfacesServices;
 using NewSIGASE.Models;
 using System.Web;
 using Microsoft.AspNetCore.Http;
+using NewSIGASE.Services;
+using NewSIGASE.Infra.Configuration;
 
 namespace NewSIGASE.Controllers
 {
@@ -25,7 +27,8 @@ namespace NewSIGASE.Controllers
             if (retorno != null)
             {
                 HttpContext.Session.SetString("Perfil", retorno.Perfil.ToString());
-                Global.Perfil = HttpContext.Session.GetString("Perfil");
+                AppSettings.Perfil = HttpContext.Session.GetString("Perfil");
+
                 return Json(new { erro = false, strErro = "" });
             }
             return Json(new { erro = true, strErro = mesangem });

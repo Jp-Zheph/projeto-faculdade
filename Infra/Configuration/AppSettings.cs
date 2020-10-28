@@ -5,6 +5,19 @@ namespace NewSIGASE.Infra.Configuration
     {
         public EmailOptions Email { get; set; }
         public StringConexaoOptions StringConexao { get; set; }
+
+        static string PerfilUsuario;
+        public static string Perfil
+        {
+            get
+            {
+                return PerfilUsuario;
+            }
+            set
+            {
+                PerfilUsuario = value;
+            }
+        }
     }
 
     public class EmailOptions
@@ -23,4 +36,6 @@ namespace NewSIGASE.Infra.Configuration
 
         public string SIGASEContext { get; set; }
     }
+
+
 }
