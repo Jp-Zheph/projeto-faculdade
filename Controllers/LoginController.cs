@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using NewSIGASE.Models.Enum;
-using NewSIGASE.Services;
+﻿using Microsoft.AspNetCore.Mvc;
 using NewSIGASE.Services.InterfacesServices;
 using NewSIGASE.Models;
+using System.Web;
+using Microsoft.AspNetCore.Http;
+
 namespace NewSIGASE.Controllers
 {
     public class LoginController : Controller
@@ -28,6 +24,8 @@ namespace NewSIGASE.Controllers
             Usuario retorno = _usuarioService.ValidarLogin(email, password, out string mesangem);
             if (retorno != null)
             {
+                HttpContext.Session.SetString("Perfil", retorno.Perfil.ToString());
+                Global.Perfil = HttpContext.Session.GetString("Perfil");
                 return Json(new { erro = false, strErro = "" });
             }
             return Json(new { erro = true, strErro = mesangem });

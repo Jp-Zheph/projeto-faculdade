@@ -28,21 +28,21 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Agendamento" asp-action="Index">Agendamentos</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Agendamentos" asp-action="Index">Agendamentos</a>
                         </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Cadastros
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="/Equipamento/Create">Equipamentos</a>
-                                <a class="dropdown-item" href="/Sala/Create">Salas</a>
-                            </div>
-                        </li>
-                        @if (usuario.Perfil == NewSIGASE.Models.Enum.EnumTipoPerfil.Administrador)
+                        @if (Global.Perfil == NewSIGASE.Models.Enum.EnumTipoPerfil.Administrador.ToString())
                         {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Cadastros
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="/Equipamentos/Create">Equipamentos</a>
+                                    <a class="dropdown-item" href="/Sala/Create">Salas</a>
+                                </div>
+                            </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Relatorio" asp-action="index">Relatórios</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Relatorios" asp-action="index">Relatórios</a>
                             </li>
                         }
                     </ul>
