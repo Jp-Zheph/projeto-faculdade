@@ -7,12 +7,6 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
-@{
-    NewSIGASE.Models.Usuario usuario = new NewSIGASE.Models.Usuario()
-    {
-        Perfil = NewSIGASE.Models.Enum.EnumTipoPerfil.Professor,
-    };
- }
 <body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
@@ -37,8 +31,8 @@
                                     Cadastros
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="/Equipamentos/Create">Equipamentos</a>
-                                    <a class="dropdown-item" href="/Salas/Create">Salas</a>
+                                    <a class="dropdown-item" href="/Equipamentos/Index">Equipamentos</a>
+                                    <a class="dropdown-item" href="/Salas/Index">Salas</a>
                                 </div>
                             </li>
                             <li class="nav-item">

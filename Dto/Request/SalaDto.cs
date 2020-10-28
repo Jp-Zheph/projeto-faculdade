@@ -11,47 +11,49 @@ using System.Linq;
 
 namespace NewSIGASE.Dto.Request
 {
-	public class SalaDto : Notifiable, IValidatable
-	{
-		public Guid? Id { get; set; }
-		[Required]
-		public EnumTipoSala Tipo { get; set; }
-		[Required]
-		public string IdentificadorSala { get; set; }  // numero da sala
-		[Required]
-		public string Observacao { get; set; }
-		public int CapacidadeAlunos { get; set; }
-		[Required]
-		public IEnumerable<EquipamentoListaDto> Equipamentos { get; set; }
+    public class SalaDto : Notifiable, IValidatable
+    {
+        public Guid? Id { get; set; }
 
-		public SalaDto(Sala sala)
-		{
-			Tipo = sala.Tipo;
-			IdentificadorSala = sala.IdentificadorSala;
-			CapacidadeAlunos = sala.CapacidadeAlunos;
-			Equipamentos = sala.Equipamentos.Select(x => new EquipamentoListaDto(x)); 
-		}
+        [Required]
+        public EnumTipoSala Tipo { get; set; }
 
-		public SalaDto()
-		{
-					
-		}
+        [Required]
+        public string IdentificadorSala { get; set; }  // numero da sala
 
-		public void Validate()
-		{
-			var tipoSalaExiste = Enum.IsDefined(typeof(EnumTipoSala), Tipo);
+        public string Observacao { get; set; }
 
-			AddNotifications(new Contract()
+        [Required]
+        public int CapacidadeAlunos { get; set; }
 
-			   .IsTrue(tipoSalaExiste, nameof(Tipo), MensagemValidacaoDto.CampoTipoInvalido(nameof(Tipo)))
+        [Required]
+        public IEnumerable<EquipamentoListaDto> Equipamentos { get; set; }
 
-				.IsNotNullOrEmpty(IdentificadorSala, nameof(IdentificadorSala), MensagemValidacaoDto.CampoObrigatorio)
-				.HasMaxLengthIfNotNullOrEmpty(IdentificadorSala, 100, nameof(IdentificadorSala), MensagemValidacaoDto.CampoLimite50Caracteres)
-				.IsTrue(CapacidadeAlunos > 0, nameof(CapacidadeAlunos), MensagemValidacaoDto.CampoTipoInvalido(nameof(CapacidadeAlunos)))
-				//.IsTrue(Equipamentos.Count() > 0, nameof(Equipamentos), MensagemValidacaoDto.CampoTipoInvalido(nameof(Equipamentos)))
+        public SalaDto(Sala sala)
+        {
+            Tipo = sala.Tipo;
+            IdentificadorSala = sala.IdentificadorSala;
+            CapacidadeAlunos = sala.CapacidadeAlunos;
+            Equipamentos = sala.Equipamentos.Any() ? sala.Equipamentos.Select(x => new EquipamentoListaDto(x)) : Array.Empty<EquipamentoListaDto>();
+        }
 
-			);
+        public SalaDto()
+        { }
 
-		}
-	}
+        public void Validate()
+        {
+            var tipoSalaExiste = Enum.IsDefined(typeof(EnumTipoSala), Tipo);
+
+            AddNotifications(new Contract()
+                .IsTrue(tipoSalaExiste, nameof(Tipo), MensagemValidacaoDto.CampoTipoInvalido(nameof(Tipo)))
+
+                .IsNotNullOrEmpty(IdentificadorSala, nameof(IdentificadorSala), MensagemValidacaoDto.CampoObrigatorio)
+                .HasMaxLengthIfNotNullOrEmpty(IdentificadorSala, 100, nameof(IdentificadorSala), MensagemValidacaoDto.CampoLimite50Caracteres)
+
+                .IsTrue(CapacidadeAlunos > 0, nameof(CapacidadeAlunos), MensagemValidacaoDto.CampoTipoInvalido(nameof(CapacidadeAlunos)))
+            //.IsTrue(Equipamentos.Count() > 0, nameof(Equipamentos), MensagemValidacaoDto.CampoTipoInvalido(nameof(Equipamentos)))
+            );
+
+        }
+    }
 }

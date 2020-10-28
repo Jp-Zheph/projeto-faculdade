@@ -40,7 +40,6 @@ namespace NewSIGASE.Controllers {
         public async Task<IActionResult> Create(UsuarioDto usuarioDto)
         {
             usuarioDto.Validate();
-
             if (usuarioDto.Invalid)
             {
                 return View(usuarioDto);
@@ -77,7 +76,7 @@ namespace NewSIGASE.Controllers {
         public async Task<IActionResult> Edit(UsuarioDto usuarioDto)
         {
             if (usuarioDto.Id == null)
-            {
+            {                
                 return View();
             }
 

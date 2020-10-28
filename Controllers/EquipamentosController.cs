@@ -82,11 +82,6 @@ namespace NewSIGASE.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(EquipamentoDto equipamentoDto)
         {
-            if (equipamentoDto.Id == null)
-            {
-                return NotFound();
-            }
-
             equipamentoDto.Validate();
             if (equipamentoDto.Invalid)
             {
