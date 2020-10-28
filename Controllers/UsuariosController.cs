@@ -29,7 +29,6 @@ namespace NewSIGASE.Controllers {
         public IActionResult Create()
         {
             ViewBag.Perfil = Combos.retornarOpcoesPerfil();
-
             return View();
         }
 

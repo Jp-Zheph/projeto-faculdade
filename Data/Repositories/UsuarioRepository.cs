@@ -1,7 +1,7 @@
 ﻿
 using Microsoft.EntityFrameworkCore;
 using NewSIGASE.Data.Repositories.InterfacesRepositories;
-using SIGASE.Models;
+using NewSIGASE.Models;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -33,6 +33,13 @@ namespace NewSIGASE.Data.Repositories
             return _context.Usuarios
                 .AsNoTracking()
                 .FirstOrDefault(u => u.Email == email || u.Matricula == matricula);
+        }
+
+        public Usuario ObterPorEmail(string email)
+        {
+            return _context.Usuarios
+                .AsNoTracking()
+                .FirstOrDefault(u => u.Email == email);
         }
 
         public async Task Criar(Usuario usuario)

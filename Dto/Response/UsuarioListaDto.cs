@@ -1,5 +1,5 @@
 ﻿using NewSIGASE.Models.Enum;
-using SIGASE.Models;
+using NewSIGASE.Models;
 using System;
 
 namespace NewSIGASE.Dto.Response

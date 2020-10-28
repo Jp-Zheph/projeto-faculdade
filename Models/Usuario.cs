@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using NewSIGASE.Models.Enum;
 using Toolbelt.ComponentModel.DataAnnotations.Schema;
 
-namespace SIGASE.Models
+namespace NewSIGASE.Models
 {
 	public class Usuario
 	{

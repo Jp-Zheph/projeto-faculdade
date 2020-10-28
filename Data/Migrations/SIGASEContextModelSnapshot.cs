@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using SIGASE.Models;
+using NewSIGASE.Models;
 
 namespace NewSIGASE.Migrations
 {
@@ -18,39 +18,6 @@ namespace NewSIGASE.Migrations
                 .HasAnnotation("ProductVersion", "3.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("NewSIGASE.Models.Agendamento", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("DataCriacao")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("DataFinal")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("DataInicial")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid>("SalaId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<bool>("Status")
-                        .HasColumnType("bit");
-
-                    b.Property<Guid>("UsuarioId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("SalaId");
-
-                    b.HasIndex("UsuarioId");
-
-                    b.ToTable("Agendamento");
-                });
 
             modelBuilder.Entity("NewSIGASE.Models.Equipamento", b =>
                 {
@@ -138,27 +105,12 @@ namespace NewSIGASE.Migrations
                     b.ToTable("Usuarios");
                 });
 
-            modelBuilder.Entity("NewSIGASE.Models.Agendamento", b =>
-                {
-                    b.HasOne("NewSIGASE.Models.Sala", "Sala")
-                        .WithMany("Agendamentos")
-                        .HasForeignKey("SalaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("SIGASE.Models.Usuario", "Usuario")
-                        .WithMany()
-                        .HasForeignKey("UsuarioId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("NewSIGASE.Models.Equipamento", b =>
-                {
-                    b.HasOne("NewSIGASE.Models.Sala", null)
-                        .WithMany("Equipamentos")
-                        .HasForeignKey("SalaId");
-                });
+            {
+                b.HasOne("NewSIGASE.Models.Sala", null)
+                    .WithMany("Equipamentos")
+                    .HasForeignKey("SalaId");
+            });
 #pragma warning restore 612, 618
         }
     }

@@ -1,4 +1,4 @@
-﻿using SIGASE.Models;
+﻿using NewSIGASE.Models;
 using System;
 
 namespace NewSIGASE.Models

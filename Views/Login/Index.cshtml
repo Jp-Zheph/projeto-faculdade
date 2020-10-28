@@ -1,0 +1,31 @@
+﻿@{
+    Layout = null;
+}
+
+<link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+<script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<link href="~/css/LoginStyles/login.css" rel="stylesheet" />
+<script src="~/js/LoginJs/LoginJs.js"></script>
+
+<div class="simple-login-container">
+    <h2>Acesso ao Sistema</h2>
+    <div id="MSG">
+        <p id="msgRetorno"></p>
+    </div>
+    <div class="row">
+        <div class="col-md-12 form-group">
+            <input id="inputEmail" type="text" class="form-control" placeholder="E-mail">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 form-group">
+            <input id="inputSenha" type="password" placeholder="Senha" class="form-control">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 form-group">
+            <button type="submit" onclick="login();" class="btn btn-block btn-login" placeholder="Entrar">Entrar</button>
+        </div>
+    </div>
+</div>

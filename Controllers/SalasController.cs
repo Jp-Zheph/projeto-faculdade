@@ -6,7 +6,6 @@ using Microsoft.EntityFrameworkCore;
 using NewSIGASE.Dto.Request;
 using NewSIGASE.Dto.Response;
 using NewSIGASE.Models;
-using SIGASE.Models;
 
 namespace NewSIGASE.Controllers
 {

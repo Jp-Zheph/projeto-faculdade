@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using NewSIGASE.Models;
 
-namespace SIGASE.Models
+namespace NewSIGASE.Models
 {
     public class SIGASEContext : DbContext
     {

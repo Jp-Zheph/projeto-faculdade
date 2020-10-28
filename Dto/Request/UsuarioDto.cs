@@ -1,7 +1,7 @@
 ﻿using Flunt.Notifications;
 using Flunt.Validations;
 using NewSIGASE.Models.Enum;
-using SIGASE.Models;
+using NewSIGASE.Models;
 using System;
 using System.ComponentModel.DataAnnotations;
 

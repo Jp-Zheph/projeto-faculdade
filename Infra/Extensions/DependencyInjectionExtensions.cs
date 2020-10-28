@@ -5,7 +5,7 @@ using NewSIGASE.Data.Repositories;
 using NewSIGASE.Data.Repositories.InterfacesRepositories;
 using NewSIGASE.Services;
 using NewSIGASE.Services.InterfacesServices;
-using SIGASE.Models;
+using NewSIGASE.Models;
 
 namespace NewSIGASE.Infra.Extensions
 {

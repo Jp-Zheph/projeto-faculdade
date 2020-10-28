@@ -1,5 +1,5 @@
 ﻿using NewSIGASE.Dto.Request;
-using SIGASE.Models;
+using NewSIGASE.Models;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -13,5 +13,6 @@ namespace NewSIGASE.Services.InterfacesServices
         Task Criar(UsuarioDto usuarioDto);
         Task Editar(UsuarioDto dto);
         Task CriarSenha(Guid usuarioId, string senha);
+        Usuario ValidarLogin(string email, string password, out string mesangem);
     }
 }
