@@ -9,7 +9,7 @@ using NewSIGASE.Models;
 
 namespace NewSIGASE.Controllers
 {
-	public class SalasController : Controller
+    public class SalasController : Controller
     {
         private readonly SIGASEContext _context;
 
@@ -19,18 +19,23 @@ namespace NewSIGASE.Controllers
         }
 
         // GET: Salas
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
             var lista = _context.Salas.AsNoTracking();
-            return View(lista.Select(x=>new SalaListaDto(x)));
-           
+            if (lista == null)
+            {
+                lista = Array.Empty<Sala>().AsQueryable();
+            }
+
+            return View(lista.Select(x => new SalaListaDto(x)));
         }
 
-       
+
         // GET: Salas/Create
         public IActionResult Create()
         {
-            ViewBag.Sala = Combos.retornarOpcoesSala();
+            ViewBag.TipoSala = Combos.retornarOpcoesSala();
+
             return View();
         }
 
@@ -39,30 +44,28 @@ namespace NewSIGASE.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(SalaDto saladto)
+        public async Task<IActionResult> Create(SalaDto salaDto)
         {
-            saladto.Validate();
+            salaDto.Validate();
+            if (salaDto.Invalid)
+            {
+                return View(salaDto);
+            }
 
-             var identificadorSala = _context.Salas.Where(x => x.IdentificadorSala == saladto.IdentificadorSala)
+            var identificadorSala = _context.Salas
+                .Where(x => x.IdentificadorSala == salaDto.IdentificadorSala)
                 .FirstOrDefault();
 
-            if (saladto.Invalid)
+            if (identificadorSala != null)
             {
-                return View(saladto);
-               
+                return View(salaDto);
             }
-          
-            if(identificadorSala != null)
-			{
-                return View(saladto);
-			}
 
-            Sala sala = new Sala(saladto.Tipo, saladto.IdentificadorSala, saladto.Observacao, saladto.CapacidadeAlunos);
-           
-            _context.Add(sala);
+            var sala = new Sala(salaDto.Tipo, salaDto.IdentificadorSala, salaDto.Observacao, salaDto.CapacidadeAlunos);
+
+            _context.Salas.Add(sala);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
-
         }
 
         // GET: Salas/Edit/5
@@ -73,12 +76,13 @@ namespace NewSIGASE.Controllers
                 return NotFound();
             }
 
-            var sala = await _context.Salas.FindAsync(id);
+            var sala = await _context.Salas.FirstOrDefaultAsync(s => s.Id == id);
             if (sala == null)
             {
                 return NotFound();
             }
-            return View(sala);
+
+            return View(new SalaDto(sala));
         }
 
         // POST: Salas/Edit/5
@@ -86,23 +90,41 @@ namespace NewSIGASE.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, SalaDto sala)
+        public async Task<IActionResult> Edit(SalaDto salaDto)
         {
-            if (id != sala.Id)
+            if (salaDto.Id == null)
+            {
+                return View();
+            }
+
+            salaDto.Validate();
+            if (salaDto.Invalid)
+            {
+                return View(salaDto);
+            }
+
+            var salaEditar = await _context.Salas.FirstOrDefaultAsync(s => s.Id == salaDto.Id);
+            if (salaEditar == null)
             {
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+            var identificadorSalaDuplicado = _context.Salas
+                .Where(x => x.IdentificadorSala == salaEditar.IdentificadorSala)
+                .AsNoTracking()
+                .FirstOrDefault();
+
+            if (identificadorSalaDuplicado != null && identificadorSalaDuplicado.Id != salaEditar.Id)
             {
-                
-                    _context.Update(sala);
-                    await _context.SaveChangesAsync();
-              
-                
-                return RedirectToAction(nameof(Index));
+                return View(salaDto);
             }
-            return View(sala);
+
+            salaEditar.Editar(salaDto.Tipo, salaDto.IdentificadorSala, salaDto.Observacao, salaDto.CapacidadeAlunos);
+
+            _context.Update(salaEditar);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Salas/Delete/5
@@ -122,7 +144,5 @@ namespace NewSIGASE.Controllers
 
             return View(sala);
         }
-
-      
     }
 }

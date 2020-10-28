@@ -9,18 +9,21 @@ namespace NewSIGASE.Models
 	{
 		
 		[Required]
+		[Key]
 		public Guid Id { get; set; }
+
 		[Required]
 		public EnumTipoSala Tipo { get; set; }
+
 		[Required]
 		public string IdentificadorSala { get; set; }
-		[Required]
 		public string Observacao { get; set; }
+
 		[Required]
 		public int CapacidadeAlunos { get; set; }
 
 		public List<Equipamento> Equipamentos { get; set; }
-		public List<Agendamento> Agendamentos { get; set; }
+		//public List<Agendamento> Agendamentos { get; set; }
 
 		public Sala(EnumTipoSala tipo, 
 			string identificadorSala, 
@@ -32,12 +35,23 @@ namespace NewSIGASE.Models
 			IdentificadorSala = identificadorSala;
 			Observacao = observacao;
 			CapacidadeAlunos = capacidadeAlunos;
-			Agendamentos = new List<Agendamento>();
+			//Agendamentos = new List<Agendamento>();
 			Equipamentos = new List<Equipamento>();
 		}
 
 		public Sala()
 		{ }
+
+		public void Editar(EnumTipoSala tipo,
+			string identificadorSala,
+			string observacao,
+			int capacidadeAlunos)
+        {
+			Tipo = tipo;
+			IdentificadorSala = identificadorSala;
+			Observacao = observacao;
+			CapacidadeAlunos = capacidadeAlunos;
+		}
 
 		public void AdicionarEquipamentos(IEnumerable<Equipamento> equipamentosId)
 		{

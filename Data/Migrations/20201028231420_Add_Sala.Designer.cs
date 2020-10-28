@@ -10,8 +10,8 @@ using NewSIGASE.Models;
 namespace NewSIGASE.Migrations
 {
     [DbContext(typeof(SIGASEContext))]
-    [Migration("20201025233502_AddSala_migration")]
-    partial class AddSala_migration
+    [Migration("20201028231420_Add_Sala")]
+    partial class Add_Sala
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -20,39 +20,6 @@ namespace NewSIGASE.Migrations
                 .HasAnnotation("ProductVersion", "3.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("NewSIGASE.Models.Agendamento", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("DataCriacao")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("DataFinal")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("DataInicial")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid>("SalaId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<bool>("Status")
-                        .HasColumnType("bit");
-
-                    b.Property<Guid>("UsuarioId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("SalaId");
-
-                    b.HasIndex("UsuarioId");
-
-                    b.ToTable("Agendamento");
-                });
 
             modelBuilder.Entity("NewSIGASE.Models.Equipamento", b =>
                 {
@@ -107,7 +74,7 @@ namespace NewSIGASE.Migrations
                     b.ToTable("Salas");
                 });
 
-            modelBuilder.Entity("SIGASE.Models.Usuario", b =>
+            modelBuilder.Entity("NewSIGASE.Models.Usuario", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -138,21 +105,6 @@ namespace NewSIGASE.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Usuarios");
-                });
-
-            modelBuilder.Entity("NewSIGASE.Models.Agendamento", b =>
-                {
-                    b.HasOne("NewSIGASE.Models.Sala", "Sala")
-                        .WithMany("Agendamentos")
-                        .HasForeignKey("SalaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("SIGASE.Models.Usuario", "Usuario")
-                        .WithMany()
-                        .HasForeignKey("UsuarioId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("NewSIGASE.Models.Equipamento", b =>
