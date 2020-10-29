@@ -51,6 +51,7 @@ namespace NewSIGASE.Controllers {
             await _usuarioService.Criar(usuarioDto);
             if (_usuarioService.Invalid)
             {
+                TempData["Notificacao"] = new BadRequestDto(_usuarioService.Notifications);
                 return View(usuarioDto);
             }
 
@@ -63,6 +64,7 @@ namespace NewSIGASE.Controllers {
             var usuario = await _usuarioService.Obter(id);
             if (_usuarioService.Invalid)
             {
+                TempData["Notificacao"] = new BadRequestDto(_usuarioService.Notifications);
                 return RedirectToAction(nameof(Index));
             }
 
@@ -82,19 +84,21 @@ namespace NewSIGASE.Controllers {
 
             if (usuarioDto.Id == null)
             {                
-                return View();
+                return NotFound();
             }
 
             usuarioDto.Validate();
             if (usuarioDto.Invalid)
             {
-                return View();
+                TempData["Notificacao"] = new BadRequestDto(usuarioDto.Notifications);
+                return View(usuarioDto);
             }
 
             await _usuarioService.Editar(usuarioDto);
             if (_usuarioService.Invalid)
             {
-                return View();
+                TempData["Notificacao"] = new BadRequestDto(_usuarioService.Notifications);
+                return View(usuarioDto);
             }
            
             return RedirectToAction(nameof(Index));
@@ -131,12 +135,14 @@ namespace NewSIGASE.Controllers {
             senhaDto.Validate();
             if (senhaDto.Invalid)
             {
+                TempData["Notificacao"] = new BadRequestDto(senhaDto.Notifications);
                 return View(senhaDto);
             }
 
             await _usuarioService.CriarSenha(senhaDto);
             if (_usuarioService.Invalid)
             {
+                TempData["Notificacao"] = new BadRequestDto(_usuarioService.Notifications);
                 return View(senhaDto);
             }
 

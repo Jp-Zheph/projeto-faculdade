@@ -49,6 +49,7 @@ namespace NewSIGASE.Controllers
             dto.Validate();
             if (dto.Invalid)
             {
+                TempData["Notificacao"] = new BadRequestDto(dto.Notifications);
                 return View(dto);
             }
 
@@ -109,7 +110,14 @@ namespace NewSIGASE.Controllers
                 return NotFound();
             }
 
-            var agendamentoEditar = _context.Agendamentos.FirstOrDefault(a => a.Id == dto.Id);
+            dto.Validate();
+            if (dto.Invalid)
+            {
+                TempData["Notificacao"] = new BadRequestDto(dto.Notifications);
+                return View(dto);
+            }
+
+            var agendamentoEditar = await _context.Agendamentos.FirstOrDefaultAsync(a => a.Id == dto.Id);
             if (agendamentoEditar == null)
             {
                 return NotFound();
@@ -129,7 +137,7 @@ namespace NewSIGASE.Controllers
             agendamentoEditar.Editar(dto.DataAgendada, dto.Periodo, dto.SalaId);
 
             _context.Entry<Agendamento>(agendamentoEditar).State = EntityState.Modified;
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             return RedirectToAction(nameof(Index));
         }

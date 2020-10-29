@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -41,6 +42,7 @@ namespace NewSIGASE.Controllers
             equipamentoDto.Validate();
             if (equipamentoDto.Invalid)
             {
+                TempData["Notificacao"] = new BadRequestDto(equipamentoDto.Notifications);
                 return View(equipamentoDto);
             }
 
@@ -85,6 +87,7 @@ namespace NewSIGASE.Controllers
             equipamentoDto.Validate();
             if (equipamentoDto.Invalid)
             {
+                TempData["Notificacao"] = new BadRequestDto(equipamentoDto.Notifications);
                 return View(equipamentoDto);
             }
 
@@ -123,7 +126,6 @@ namespace NewSIGASE.Controllers
             }
 
             var equipamento = await _context.Equipamentos
-                //.Include(e => e.Sala)
                 .FirstOrDefaultAsync(m => m.Id == id);
 
             if (equipamento == null)
