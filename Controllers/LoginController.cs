@@ -28,6 +28,10 @@ namespace NewSIGASE.Controllers
             {
                 HttpContext.Session.SetString("Perfil", retorno.Perfil.ToString());
                 AppSettings.Perfil = HttpContext.Session.GetString("Perfil");
+                if(retorno.Senha == retorno.Matricula)
+                {
+                    return RedirectToAction("CriarSenha", "Usuario", retorno.Id);
+                }
 
                 return Json(new { erro = false, strErro = "" });
             }
