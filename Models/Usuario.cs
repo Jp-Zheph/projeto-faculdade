@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using NewSIGASE.Models.Enum;
@@ -33,7 +34,9 @@ namespace NewSIGASE.Models
 
         public bool Ativo { get; set; }
 
-        public Usuario(string matricula, 
+		public List<Agendamento> Agendamentos { get; set; }
+
+		public Usuario(string matricula, 
 			string email, 
 			string nome,  
 			EnumTipoPerfil perfil,

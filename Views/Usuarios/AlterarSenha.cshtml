@@ -1,7 +1,7 @@
 ﻿@model NewSIGASE.Dto.Request.SenhaCriarDto
 
 @{
-    ViewData["Title"] = "Criar Senha";
+    ViewData["Title"] = "Alterar Senha";
 }
 
 <h1>Criar Senha</h1>
@@ -15,13 +15,13 @@
                 <label asp-for="SenhaAtual" class="control-label"></label>
                 <input asp-for="SenhaAtual" class="form-control" data-toggle="password" type="password" />
                 <span asp-validation-for="SenhaAtual" class="text-danger"></span>
-                <input type="checkbox" onclick="showPassword()"> <small> Mostrar Senha</small>
+                <input type="checkbox" onclick="showPasswordAtual()"> <small> Mostrar Senha</small>
             </div>
             <div class="form-group">
                 <label asp-for="SenhaNova" class="control-label"></label>
                 <input asp-for="SenhaNova" class="form-control" data-toggle="password" type="password" />
                 <span asp-validation-for="SenhaNova" class="text-danger"></span>
-                <input type="checkbox" onclick="showPassword()"> <small> Mostrar Senha</small>
+                <input type="checkbox" onclick="showPasswordNova()"> <small> Mostrar Senha</small>
             </div>
             <div class="form-group">
                 <input type="submit" value="Alterar Senha" class="btn btn-primary" />
@@ -31,8 +31,8 @@
 </div>
 
 <script>
-    function showPassword() {
-        var senha = document.getElementById("Senha");
+    function showPasswordAtual() {
+        var senha = document.getElementById("SenhaAtual");
         if (senha.type === "password") {
             senha.type = "text";
         } else {
@@ -40,5 +40,13 @@
         }
     }
 
+    function showPasswordNova() {
+        var senha = document.getElementById("SenhaNova");
+        if (senha.type === "password") {
+            senha.type = "text";
+        } else {
+            senha.type = "password";
+        }
+    }
 </script>
 

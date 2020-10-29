@@ -1,11 +1,13 @@
 ﻿using NewSIGASE.Models.Enum;
 using NewSIGASE.Models;
 using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace NewSIGASE.Models
 {
 	public class Agendamento
 	{
+		[Key]
 		public Guid Id { get; set; }
 		public DateTime DataCriacao { get; set; }
 		public DateTime DataAgendada { get; set; }
@@ -20,7 +22,6 @@ namespace NewSIGASE.Models
 
         public Agendamento(DateTime dataAgendada, 
 			EnumPeriodo periodo, 
-			bool status, 
 			Guid salaId, 
 			Guid usuarioId)
         {
@@ -28,12 +29,21 @@ namespace NewSIGASE.Models
 			DataCriacao = DateTime.UtcNow;
 			DataAgendada = dataAgendada;
             Periodo = periodo;
-            Status = status;
+            Status = true;
             SalaId = salaId;
             UsuarioId = usuarioId;
         }
 
 		public Agendamento()
 		{ }
+
+		public void Editar(DateTime dataAgendada, 
+			EnumPeriodo periodo,
+			Guid salaId)
+        {
+			DataAgendada = dataAgendada;
+			Periodo = periodo;
+			SalaId = salaId;
+		}
 	}
 }

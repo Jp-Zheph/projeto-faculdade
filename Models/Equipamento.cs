@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Toolbelt.ComponentModel.DataAnnotations.Schema;
@@ -24,7 +23,7 @@ namespace NewSIGASE.Models
 		[Column(TypeName = "VARCHAR(255)")]
 		public string Modelo { get; set; }
 
-		//public Sala Sala { get; set; }
+		public Sala Sala { get; set; }
 		public Guid? SalaId { get; set; }
 
 		public Equipamento(string serial, 

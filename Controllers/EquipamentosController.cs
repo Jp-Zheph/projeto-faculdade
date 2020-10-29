@@ -108,8 +108,8 @@ namespace NewSIGASE.Controllers
             equipamento.Nome = equipamentoDto.Nome;
             equipamento.Serial = equipamentoDto.Serial;
 
-            _context.Update(equipamento);
-            await _context.SaveChangesAsync();
+            _context.Entry<Equipamento>(equipamento).State = EntityState.Modified;
+            _context.SaveChanges();
 
             return RedirectToAction(nameof(Index));
         }

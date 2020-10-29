@@ -16,7 +16,6 @@ namespace NewSIGASE.Models
             return cadastroOptions;
         }
 
-
         static public List<SelectListItem> retornarOpcoesSala()
         {
             List<SelectListItem> cadastroOptions = new List<SelectListItem>()
@@ -28,9 +27,17 @@ namespace NewSIGASE.Models
             return cadastroOptions;
         }
 
-
-
-
+        static public List<SelectListItem> retornarOpcoesPeriodo()
+        {
+            List<SelectListItem> cadastroOptions = new List<SelectListItem>()
+            {
+                new SelectListItem() { Text="Selecione", Value=""},
+                new SelectListItem() { Text="Matutino", Value="0"},
+                new SelectListItem() { Text="Vespertino", Value="1"},
+                new SelectListItem() { Text="Noturno", Value="2"}
+            };
+            return cadastroOptions;
+        }
     }
 
 }

@@ -39,6 +39,8 @@ namespace NewSIGASE.Controllers {
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(UsuarioDto usuarioDto)
         {
+            ViewBag.Perfil = Combos.retornarOpcoesPerfil();
+
             usuarioDto.Validate();
             if (usuarioDto.Invalid)
             {
@@ -60,7 +62,7 @@ namespace NewSIGASE.Controllers {
             var usuario = await _usuarioService.Obter(id);
             if (_usuarioService.Invalid)
             {
-                return View();
+                return RedirectToAction(nameof(Index));
             }
 
             ViewBag.Perfil = Combos.retornarOpcoesPerfil();
@@ -75,6 +77,8 @@ namespace NewSIGASE.Controllers {
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(UsuarioDto usuarioDto)
         {
+            ViewBag.Perfil = Combos.retornarOpcoesPerfil();
+
             if (usuarioDto.Id == null)
             {                
                 return View();

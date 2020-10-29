@@ -23,7 +23,7 @@ namespace NewSIGASE.Models
 		public int CapacidadeAlunos { get; set; }
 
 		public List<Equipamento> Equipamentos { get; set; }
-		//public List<Agendamento> Agendamentos { get; set; }
+		public List<Agendamento> Agendamentos { get; set; }
 
 		public Sala(EnumTipoSala tipo, 
 			string identificadorSala, 
@@ -35,7 +35,6 @@ namespace NewSIGASE.Models
 			IdentificadorSala = identificadorSala;
 			Observacao = observacao;
 			CapacidadeAlunos = capacidadeAlunos;
-			//Agendamentos = new List<Agendamento>();
 			Equipamentos = new List<Equipamento>();
 		}
 

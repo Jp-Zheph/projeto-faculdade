@@ -121,8 +121,8 @@ namespace NewSIGASE.Controllers
 
             salaEditar.Editar(salaDto.Tipo, salaDto.IdentificadorSala, salaDto.Observacao, salaDto.CapacidadeAlunos);
 
-            _context.Update(salaEditar);
-            await _context.SaveChangesAsync();
+            _context.Entry<Sala>(salaEditar).State = EntityState.Modified;
+            _context.SaveChanges();
 
             return RedirectToAction(nameof(Index));
         }
