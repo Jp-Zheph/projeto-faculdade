@@ -18,6 +18,8 @@ namespace NewSIGASE.Dto.Request
         [Required]
         public EnumTipoSala Tipo { get; set; }
 
+        public List<Guid> EquipamentoId { get; set; }
+
         [Required]
         public string IdentificadorSala { get; set; }  // numero da sala
 
@@ -26,15 +28,11 @@ namespace NewSIGASE.Dto.Request
         [Required]
         public int CapacidadeAlunos { get; set; }
 
-        [Required]
-        public IEnumerable<EquipamentoListaDto> Equipamentos { get; set; }
-
         public SalaDto(Sala sala)
         {
             Tipo = sala.Tipo;
             IdentificadorSala = sala.IdentificadorSala;
             CapacidadeAlunos = sala.CapacidadeAlunos;
-            Equipamentos = sala.Equipamentos.Any() ? sala.Equipamentos.Select(x => new EquipamentoListaDto(x)) : Array.Empty<EquipamentoListaDto>();
         }
 
         public SalaDto()
@@ -51,7 +49,6 @@ namespace NewSIGASE.Dto.Request
                 .HasMaxLengthIfNotNullOrEmpty(IdentificadorSala, 100, nameof(IdentificadorSala), MensagemValidacaoDto.CampoLimite50Caracteres)
 
                 .IsTrue(CapacidadeAlunos > 0, nameof(CapacidadeAlunos), MensagemValidacaoDto.CampoTipoInvalido(nameof(CapacidadeAlunos)))
-            //.IsTrue(Equipamentos.Count() > 0, nameof(Equipamentos), MensagemValidacaoDto.CampoTipoInvalido(nameof(Equipamentos)))
             );
 
         }

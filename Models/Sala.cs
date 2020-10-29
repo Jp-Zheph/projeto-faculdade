@@ -28,14 +28,15 @@ namespace NewSIGASE.Models
 		public Sala(EnumTipoSala tipo, 
 			string identificadorSala, 
 			string observacao, 
-			int capacidadeAlunos)
+			int capacidadeAlunos,
+			List<Equipamento> equipamentos)
 		{
 			Id = Guid.NewGuid();
 			Tipo = tipo;
 			IdentificadorSala = identificadorSala;
 			Observacao = observacao;
 			CapacidadeAlunos = capacidadeAlunos;
-			Equipamentos = new List<Equipamento>();
+			Equipamentos = equipamentos;
 		}
 
 		public Sala()

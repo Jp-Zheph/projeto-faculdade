@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using NewSIGASE.Dto.Request;
 using NewSIGASE.Dto.Response;
@@ -35,7 +37,16 @@ namespace NewSIGASE.Controllers
         public IActionResult Create()
         {
             ViewBag.TipoSala = Combos.retornarOpcoesSala();
-
+            var lista = _context.Equipamentos.AsNoTracking().Where(e => e.SalaId == null);
+            if (lista != null)
+            {
+                ViewBag.Equipamentos = lista.Select(x => new SelectListItem() { Text = x.Nome + " " + x.Modelo, Value = x.Id.ToString() });
+            }
+            else
+            {
+                ViewBag.Equipamentos = null;
+            }
+            
             return View();
         }
 
@@ -44,11 +55,21 @@ namespace NewSIGASE.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(SalaDto salaDto)
+        public IActionResult Create(SalaDto salaDto)
         {
             salaDto.Validate();
             if (salaDto.Invalid)
             {
+                ViewBag.TipoSala = Combos.retornarOpcoesSala();
+                var lista = _context.Equipamentos.AsNoTracking().Where(e => e.SalaId == null);
+                if (lista != null)
+                {
+                    ViewBag.Equipamentos = lista.Select(x => new SelectListItem() { Text = x.Nome + " " + x.Modelo, Value = x.Id.ToString() });
+                }
+                else
+                {
+                    ViewBag.Equipamentos = null;
+                }
                 return View(salaDto);
             }
 
@@ -60,12 +81,18 @@ namespace NewSIGASE.Controllers
             {
                 return View(salaDto);
             }
-
-            var sala = new Sala(salaDto.Tipo, salaDto.IdentificadorSala, salaDto.Observacao, salaDto.CapacidadeAlunos);
-
-            _context.Salas.Add(sala);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            List<Equipamento> listaEquips = salaDto.EquipamentoId == null ? null : _context.Equipamentos.Where(e => salaDto.EquipamentoId.Contains(e.Id)).ToList();
+            var sala = new Sala(salaDto.Tipo, salaDto.IdentificadorSala, salaDto.Observacao, salaDto.CapacidadeAlunos, listaEquips);
+            try
+            {
+                _context.Salas.Add(sala);
+                _context.SaveChangesAsync();
+            }catch(Exception ex)
+            {
+                var msg = ex.Message;
+            }
+            
+            return View(salaDto);
         }
 
         // GET: Salas/Edit/5

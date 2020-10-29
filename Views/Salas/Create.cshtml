@@ -4,38 +4,41 @@
     ViewData["Title"] = "Create";
 }
 
-<h1>Create</h1>
+<h1>Cadastro Sala</h1>
 
-<h4>Sala</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-		<form asp-action="Create">
-			<div asp-validation-summary="ModelOnly" class="text-danger"></div>
-			<div class="form-group">
-				<label asp-for="Tipo" class="control-label">Tipo da Sala</label>
-				<select asp-for="Tipo" class="form-control" asp-items="@ViewBag.TipoSala"></select>
-				<span asp-validation-for="Tipo" class="text-danger"></span>
-			</div>
-			<div class="form-group">
-				<label asp-for="IdentificadorSala" class="control-label">Identificador da Sala</label>
-				<input asp-for="IdentificadorSala" class="form-control" />
-				<span asp-validation-for="IdentificadorSala" class="text-danger"></span>
-			</div>
-			<div class="form-group">
-				<label asp-for="CapacidadeAlunos" class="control-label">Capacidade de Alunos</label>
-				<input asp-for="CapacidadeAlunos" class="form-control" />
-				<span asp-validation-for="CapacidadeAlunos" class="text-danger"></span>
-			</div>
-			<div class="form-group">
-				<label asp-for="Observacao" class="control-label">Observação</label>
-				<input asp-for="Observacao" class="form-control" />
-				<span asp-validation-for="Observacao" class="text-danger"></span>
-			</div>
-			<div class="form-group">
-				<input type="submit" value="Create" class="btn btn-primary" />
-			</div>
-		</form>
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Tipo" class="control-label">Tipo da Sala</label>
+                <select asp-for="Tipo" class="form-control" asp-items="@ViewBag.TipoSala"></select>
+                <span asp-validation-for="Tipo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IdentificadorSala" class="control-label">Identificador da Sala</label>
+                <input asp-for="IdentificadorSala" class="form-control" />
+                <span asp-validation-for="IdentificadorSala" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CapacidadeAlunos" class="control-label">Capacidade de Alunos</label>
+                <input asp-for="CapacidadeAlunos" class="form-control" />
+                <span asp-validation-for="CapacidadeAlunos" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Observacao" class="control-label">Observação</label>
+                <input asp-for="Observacao" class="form-control" />
+                <span asp-validation-for="Observacao" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EquipamentoId" class="control-label">Equipamentos</label>
+                <select multiple asp-for="EquipamentoId" class="form-control" asp-items="@ViewBag.Equipamentos"></select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
     </div>
 </div>
 
