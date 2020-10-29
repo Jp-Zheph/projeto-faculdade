@@ -32,7 +32,12 @@ namespace NewSIGASE.Dto.Request
 
         public void Validate()
         {
-            throw new NotImplementedException();
+            var periodoExiste = Enum.IsDefined(typeof(EnumPeriodo), Periodo);
+
+            AddNotifications(new Contract()
+                .IsTrue(DataAgendada.Date > DateTime.Now.Date, nameof(DataAgendada), "A data do agendamento deve ser maior que a data atual.")
+                .IsTrue(periodoExiste, nameof(Periodo), "A data do agendamento deve bla bnla.")
+            );
         }
 
         public AgendamentoDto(Agendamento agendamento)

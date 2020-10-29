@@ -13,14 +13,15 @@
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="UsuarioId" value="@NewSIGASE.Infra.Configuration.AppSettings.Usuario" />
             <div class="form-group">
                 <label asp-for="DataAgendada" class="control-label">Data do Agendamento</label>
-                <input asp-for="DataAgendada" class="form-control" />
+                <input asp-for="DataAgendada" type="date" class="form-control" />
                 <span asp-validation-for="DataAgendada" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Periodo" class="control-label">Período do Dia</label>
-                <select asp-for="Periodo" class="form-control"  asp-items="ViewBag.Periodo"></select>
+                <select asp-for="Periodo" class="form-control" asp-items="ViewBag.Periodo"></select>
                 <span asp-validation-for="Periodo" class="text-danger"></span>
             </div>
             <div class="form-group">

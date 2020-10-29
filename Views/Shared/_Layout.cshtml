@@ -6,6 +6,17 @@
     <title>@ViewData["Title"] - SIGASE</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+   @* <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">*@
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    <script type="text/javascript">
+
+        function Notificacao(titulo, mensagem, tipo) {
+            $('#alert_container').append('<div id="alert_div" class="alert alert-warning"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><strong>' + titulo + '!</strong> <span>' + mensagem + '</span></div>');
+        }
+
+    </script>
 </head>
 <body>
     <header>
@@ -33,7 +44,7 @@
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item" href="/Equipamentos/Index">Equipamentos</a>
                                     <a class="dropdown-item" href="/Salas/Index">Salas</a>
-                                    <a class="dropdown-item" href="/Usuarios/Index">Usuarios</a>
+                                    <a class="dropdown-item" href="/Usuarios/Index">Usuários</a>
                                 </div>
                             </li>
                             <li class="nav-item">
@@ -49,13 +60,29 @@
         </nav>
     </header>
     <div class="container">
+        <div class="messagealert" id="alert_container">
+        </div>
         <main role="main" class="pb-3">
+
+            @if (TempData["Notificacao"] != null)
+            {
+                var notificacao = TempData["Notificacao"] as NewSIGASE.Dto.Response.BadRequestDto;
+
+                foreach (var item in notificacao.Erros)
+                {
+                    <script type="text/javascript">
+                        Notificacao("@item.Property", "@item.Message", "warning");
+                    </script>
+                }
+            }
+
             @RenderBody()
         </main>
+
     </div>
 
-    <footer class="border-top footer text-muted sticky-foote">
-        <div class="container text-center">
+    <footer class="border-top footer text-muted">
+        <div class="container">
             &copy; 2020 - SIGASE Por Glads, Jota e Juan - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>

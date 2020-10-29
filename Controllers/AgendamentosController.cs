@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -60,7 +59,7 @@ namespace NewSIGASE.Controllers
                 return View(dto);
             }
 
-            var agendamentoExiste = _context.Agendamentos.Where(a => a.SalaId == dto.SalaId && a.Periodo == dto.Periodo).FirstOrDefault();
+            var agendamentoExiste = _context.Agendamentos.Where(a => a.SalaId == dto.SalaId && a.Periodo == dto.Periodo && a.DataAgendada.Date == dto.DataAgendada.Date).FirstOrDefault();
             if (agendamentoExiste != null)
             {
                 //Mensagem: A sala escolhida já está reservada para esse período. Favor escolher outro.
@@ -83,7 +82,10 @@ namespace NewSIGASE.Controllers
                 return NotFound();
             }
 
-            var agendamento = await _context.Agendamentos.FindAsync(id);
+            var agendamento = await _context.Agendamentos
+                .Include(a => a.Sala)
+                .Include(a => a.Usuario)
+                .FirstOrDefaultAsync(a => a.Id == id);
             if (agendamento == null)
             {
                 return NotFound();
@@ -116,9 +118,9 @@ namespace NewSIGASE.Controllers
             ViewBag.Periodo = Combos.retornarOpcoesPeriodo();
             ViewBag.Salas = new SelectList(_context.Salas.AsNoTracking(), "Id", "IdentificadorSala", dto.SalaId);
 
-            var agendamentoDuplicado = _context.Agendamentos.AsNoTracking().FirstOrDefault(a => a.SalaId == dto.SalaId && a.Periodo == dto.Periodo);
+            var agendamentoDuplicado = _context.Agendamentos.AsNoTracking().FirstOrDefault(a => a.SalaId == dto.SalaId && a.Periodo == dto.Periodo && a.DataAgendada.Date == dto.DataAgendada.Date);
 
-            if (agendamentoEditar.UsuarioId != agendamentoDuplicado.UsuarioId)
+            if (agendamentoDuplicado != null && agendamentoEditar.UsuarioId != agendamentoDuplicado.UsuarioId)
             {
                 //Mensagem Já existe esse agendamento para outro usuario.
                 return View(dto);
