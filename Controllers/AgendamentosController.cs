@@ -59,7 +59,7 @@ namespace NewSIGASE.Controllers
                 return View(dto);
             }
 
-            var agendamentoExiste = _context.Agendamentos.Where(a => a.SalaId == dto.SalaId && a.Periodo == dto.Periodo).FirstOrDefault();
+            var agendamentoExiste = _context.Agendamentos.Where(a => a.SalaId == dto.SalaId && a.Periodo == dto.Periodo && a.DataAgendada.Date == dto.DataAgendada.Date).FirstOrDefault();
             if (agendamentoExiste != null)
             {
                 //Mensagem: A sala escolhida já está reservada para esse período. Favor escolher outro.
@@ -118,7 +118,7 @@ namespace NewSIGASE.Controllers
             ViewBag.Periodo = Combos.retornarOpcoesPeriodo();
             ViewBag.Salas = new SelectList(_context.Salas.AsNoTracking(), "Id", "IdentificadorSala", dto.SalaId);
 
-            var agendamentoDuplicado = _context.Agendamentos.AsNoTracking().FirstOrDefault(a => a.SalaId == dto.SalaId && a.Periodo == dto.Periodo);
+            var agendamentoDuplicado = _context.Agendamentos.AsNoTracking().FirstOrDefault(a => a.SalaId == dto.SalaId && a.Periodo == dto.Periodo && a.DataAgendada.Date == dto.DataAgendada.Date);
 
             if (agendamentoDuplicado != null && agendamentoEditar.UsuarioId != agendamentoDuplicado.UsuarioId)
             {

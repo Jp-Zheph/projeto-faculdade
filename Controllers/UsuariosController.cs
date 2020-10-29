@@ -44,6 +44,7 @@ namespace NewSIGASE.Controllers {
             usuarioDto.Validate();
             if (usuarioDto.Invalid)
             {
+                TempData["Notificacao"] = new BadRequestDto(usuarioDto.Notifications);
                 return View(usuarioDto);
             }
 
