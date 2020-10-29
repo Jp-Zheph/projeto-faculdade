@@ -43,7 +43,7 @@ namespace NewSIGASE.Models
 			Matricula = matricula;
 			Email = email;
 			Nome = nome;
-			Senha = Guid.NewGuid().ToString();
+			Senha = matricula;
 			Perfil = perfil;
 			Ativo = ativo;
 		}

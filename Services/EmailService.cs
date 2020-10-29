@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Options;
 using NewSIGASE.Infra.Configuration;
+using NewSIGASE.Models;
 using NewSIGASE.Services.Constantes;
 using NewSIGASE.Services.InterfacesServices;
 using SendGrid;
@@ -15,14 +16,14 @@ namespace NewSIGASE.Services
     {
         private readonly SendGridClient _client;
         private readonly string _caminhoPastaEmails;
-        private readonly string _urlCriarConta;
+        private readonly string _urlLogin;
 
         public SendGridMessage Mensagem { get; private set; }
 
         public EmailService(IOptions<EmailOptions> options, IHostingEnvironment env)
         {
             _client = new SendGridClient(options.Value.ApiKey);
-            _urlCriarConta = options.Value.UrlCriarConta;
+            _urlLogin = options.Value.UrlLogin;
 
             _caminhoPastaEmails = env.WebRootPath
                             + Path.DirectorySeparatorChar.ToString()
@@ -38,16 +39,16 @@ namespace NewSIGASE.Services
             Mensagem.AddTo(email, nome);
         }
 
-        public async Task EnviarEmailCadastroUsuario()
+        public async Task EnviarEmailCadastroUsuario(Usuario usuario)
         {
             var caminhoTemplate = _caminhoPastaEmails + CaminhoArquivoEmail.ArquivoCadastroUsuario;
 
             var builder = new StringBuilder();
             builder.Append(File.ReadAllText(caminhoTemplate, Encoding.UTF8));
 
-            var urlConta = _urlCriarConta;
-
-            builder.Replace("{{URL_CRIACAO_CONTA}}", urlConta);
+            builder.Replace("{{URL_ACESSO}}", _urlLogin);
+            builder.Replace("{{EMAIL_USUARIO}}", usuario.Email);
+            builder.Replace("{{SENHA_USUARIO}}", usuario.Senha);
 
             await EnviarAsync(AssuntosEmail.ConcluirCadastro, builder.ToString());
         }

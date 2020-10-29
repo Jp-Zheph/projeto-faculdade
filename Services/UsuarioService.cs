@@ -55,7 +55,7 @@ namespace NewSIGASE.Services
             await _usuarioRepository.Criar(usuario);
 
             _emailService.AdicionarDestinatario(usuario.Email, usuario.Nome);
-            await _emailService.EnviarEmailCadastroUsuario();
+            await _emailService.EnviarEmailCadastroUsuario(usuario);
         }
 
         public void ValidarUsuarioCadastrado(UsuarioDto usuarioDto, Usuario usuarioCadastrado)
@@ -101,16 +101,26 @@ namespace NewSIGASE.Services
             }
         }
 
-        public async Task CriarSenha(Guid usuarioId, string senha)
+        public async Task CriarSenha(SenhaCriarDto senhaDto)
         {
-            var usuario = await _usuarioRepository.Obter(usuarioId);
+            var usuario = await _usuarioRepository.Obter(senhaDto.Id);
             if (usuario == null)
             {
-                AddNotification("CriarSenha", MensagemValidacaoService.Usuario.NaoExiste);
+                AddNotification("AlterarSenha", MensagemValidacaoService.Usuario.NaoExiste);
                 return;
             }
 
-            usuario.AlterarSenha(senha);
+            AddNotifications(new Contract()
+                .AreNotEquals(senhaDto.SenhaNova, usuario.Matricula, "AlterarSenha", MensagemValidacaoService.Usuario.SenhaNaoPodeSerMatricula, StringComparison.OrdinalIgnoreCase)
+                .AreEquals(senhaDto.SenhaAtual, usuario.Senha, "AlterarSenha", MensagemValidacaoService.Usuario.SenhaDiferente, StringComparison.OrdinalIgnoreCase)
+            );
+
+            if (Invalid)
+            {
+                return;
+            }
+
+            usuario.AlterarSenha(senhaDto.SenhaNova);
             await _usuarioRepository.Editar(usuario);
         }
 
@@ -129,7 +139,7 @@ namespace NewSIGASE.Services
             }
             else if (retorno == null)
             {
-                mensagem = "Nenhum usuário econtrado para o E-mail informado.";
+                mensagem = "Nenhum usuário encontrado para o E-mail informado.";
                 return null;
             }
             return null;

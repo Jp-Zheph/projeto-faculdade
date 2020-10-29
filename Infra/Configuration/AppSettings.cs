@@ -27,7 +27,7 @@ namespace NewSIGASE.Infra.Configuration
         public string ApiKey { get; set; }
         public string NomeRemetente { get; set; }
         public string EmailRemetente { get; set; }
-        public string UrlCriarConta { get; set; }
+        public string UrlLogin { get; set; }
     }
 
     public class StringConexaoOptions
