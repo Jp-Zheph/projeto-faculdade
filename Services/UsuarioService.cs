@@ -55,7 +55,7 @@ namespace NewSIGASE.Services
             await _usuarioRepository.Criar(usuario);
 
             _emailService.AdicionarDestinatario(usuario.Email, usuario.Nome);
-            await _emailService.EnviarEmailCadastroUsuario();
+            await _emailService.EnviarEmailCadastroUsuario(usuario);
         }
 
         public void ValidarUsuarioCadastrado(UsuarioDto usuarioDto, Usuario usuarioCadastrado)
