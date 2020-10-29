@@ -20,7 +20,7 @@ namespace NewSIGASE.Dto.Response
 			Tipo = sala.Tipo;
 			IdentificadorSala = sala.IdentificadorSala;
 			CapacidadeAlunos = sala.CapacidadeAlunos;
-			QuantidadeEquipamentos = sala.Equipamentos.Count();
+			QuantidadeEquipamentos = sala.Equipamentos?.Count() ?? 0;
 		}
 	}
 	

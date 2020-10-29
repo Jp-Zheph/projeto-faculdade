@@ -26,7 +26,6 @@ namespace NewSIGASE.Dto.Request
         [Required]
         public int CapacidadeAlunos { get; set; }
 
-        [Required]
         public IEnumerable<EquipamentoListaDto> Equipamentos { get; set; }
 
         public SalaDto(Sala sala)
@@ -34,7 +33,7 @@ namespace NewSIGASE.Dto.Request
             Tipo = sala.Tipo;
             IdentificadorSala = sala.IdentificadorSala;
             CapacidadeAlunos = sala.CapacidadeAlunos;
-            Equipamentos = sala.Equipamentos.Any() ? sala.Equipamentos.Select(x => new EquipamentoListaDto(x)) : Array.Empty<EquipamentoListaDto>();
+            Equipamentos = sala.Equipamentos != null ? sala.Equipamentos.Select(x => new EquipamentoListaDto(x)) : null;
         }
 
         public SalaDto()

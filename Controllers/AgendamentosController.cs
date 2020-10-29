@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -83,7 +82,10 @@ namespace NewSIGASE.Controllers
                 return NotFound();
             }
 
-            var agendamento = await _context.Agendamentos.FindAsync(id);
+            var agendamento = await _context.Agendamentos
+                .Include(a => a.Sala)
+                .Include(a => a.Usuario)
+                .FirstOrDefaultAsync(a => a.Id == id);
             if (agendamento == null)
             {
                 return NotFound();
@@ -118,7 +120,7 @@ namespace NewSIGASE.Controllers
 
             var agendamentoDuplicado = _context.Agendamentos.AsNoTracking().FirstOrDefault(a => a.SalaId == dto.SalaId && a.Periodo == dto.Periodo);
 
-            if (agendamentoEditar.UsuarioId != agendamentoDuplicado.UsuarioId)
+            if (agendamentoDuplicado != null && agendamentoEditar.UsuarioId != agendamentoDuplicado.UsuarioId)
             {
                 //Mensagem Já existe esse agendamento para outro usuario.
                 return View(dto);

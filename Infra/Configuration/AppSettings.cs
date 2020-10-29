@@ -1,4 +1,6 @@
 ﻿
+using System;
+
 namespace NewSIGASE.Infra.Configuration
 {
     public class AppSettings
@@ -7,6 +9,7 @@ namespace NewSIGASE.Infra.Configuration
         public StringConexaoOptions StringConexao { get; set; }
 
         static string PerfilUsuario;
+        static Guid UsuarioId;
         public static string Perfil
         {
             get
@@ -16,6 +19,17 @@ namespace NewSIGASE.Infra.Configuration
             set
             {
                 PerfilUsuario = value;
+            }
+        }
+        public static Guid Usuario
+        {
+            get
+            {
+                return UsuarioId;
+            }
+            set
+            {
+                UsuarioId = value;
             }
         }
     }

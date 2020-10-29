@@ -17,7 +17,7 @@ namespace NewSIGASE.Dto.Response
         {
             Id = agendamento.Id;
             DataCriacao = agendamento.DataCriacao;
-            DataAgendada = agendamento.DataAgendada;
+            DataAgendada = agendamento.DataAgendada.Date;
             Periodo = agendamento.Periodo.ToString();
             Status = agendamento.Status;
             Sala = agendamento.Sala.IdentificadorSala;
