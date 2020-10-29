@@ -30,10 +30,10 @@ namespace NewSIGASE.Controllers
                 AppSettings.Perfil = HttpContext.Session.GetString("Perfil");
                 if(retorno.Senha == retorno.Matricula)
                 {
-                    return RedirectToAction("CriarSenha", "Usuario", retorno.Id);
+                    return Json(new { erro = false, url = "Usuarios/AlterarSenha?id=" + retorno.Id });
                 }
 
-                return Json(new { erro = false, strErro = "" });
+                return Json(new { erro = false, strErro = "", url = "Home/Index" });
             }
             return Json(new { erro = true, strErro = mesangem });
         }

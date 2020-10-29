@@ -19,7 +19,7 @@ login = function () {
                 $("#msgRetorno").html(data.strErro);
             } else {
                 debugger;
-                window.location.href = "Home/Index";
+                window.location.href = data.url;
             }
         }
     });
