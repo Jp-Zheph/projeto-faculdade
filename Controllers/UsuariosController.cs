@@ -105,13 +105,13 @@ namespace NewSIGASE.Controllers {
         // POST: Usuarios/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(Guid id)
+        public IActionResult DeleteConfirmed(Guid id)
         {
             return RedirectToAction(nameof(Index));
         }
 
         // GET: Usuarios/CriarSenha
-        public async Task<IActionResult> AlterarSenha(Guid id)
+        public IActionResult AlterarSenha(Guid id)
         {
             ViewBag.UsuarioId = id;
 
@@ -122,16 +122,17 @@ namespace NewSIGASE.Controllers {
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AlterarSenha(SenhaCriarDto senhaDto)
         {
+            ViewBag.UsuarioId = senhaDto.Id;
             senhaDto.Validate();
             if (senhaDto.Invalid)
             {
-                return RedirectToAction(nameof(AlterarSenha));
+                return View(senhaDto);
             }
 
             await _usuarioService.CriarSenha(senhaDto);
             if (_usuarioService.Invalid)
             {
-                return RedirectToAction(nameof(AlterarSenha));
+                return View(senhaDto);
             }
 
             return RedirectToAction(nameof(Index), "Home");
