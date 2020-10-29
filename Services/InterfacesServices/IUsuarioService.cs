@@ -12,7 +12,7 @@ namespace NewSIGASE.Services.InterfacesServices
         Task<Usuario> Obter(Guid id);
         Task Criar(UsuarioDto usuarioDto);
         Task Editar(UsuarioDto dto);
-        Task CriarSenha(Guid usuarioId, string senha);
+        Task CriarSenha(SenhaCriarDto senhaDto);
         Usuario ValidarLogin(string email, string password, out string mesangem);
     }
 }

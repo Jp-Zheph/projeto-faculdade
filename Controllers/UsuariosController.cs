@@ -111,22 +111,28 @@ namespace NewSIGASE.Controllers {
         }
 
         // GET: Usuarios/CriarSenha
-        public async Task<IActionResult> CriarSenha()
+        public async Task<IActionResult> AlterarSenha(Guid id)
         {
+            ViewBag.UsuarioId = id;
+
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CriarSenha(SenhaCriarDto senhaDto)
+        public async Task<IActionResult> AlterarSenha(SenhaCriarDto senhaDto)
         {
             senhaDto.Validate();
             if (senhaDto.Invalid)
             {
-                return RedirectToAction(nameof(CriarSenha));
+                return RedirectToAction(nameof(AlterarSenha));
             }
 
-            await _usuarioService.CriarSenha(Guid.NewGuid(), senhaDto.Senha);
+            await _usuarioService.CriarSenha(senhaDto);
+            if (_usuarioService.Invalid)
+            {
+                return RedirectToAction(nameof(AlterarSenha));
+            }
 
             return RedirectToAction(nameof(Index), "Home");
         }
