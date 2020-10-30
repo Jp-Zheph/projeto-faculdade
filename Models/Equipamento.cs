@@ -38,6 +38,14 @@ namespace NewSIGASE.Models
 			SalaId = salaId;
 		}
 
+		public string NomeModelo
+        {
+            get
+            {
+				return this.Nome + "-" + this.Modelo;
+            }
+        }
+
 		public Equipamento()
 		{ }
 	}

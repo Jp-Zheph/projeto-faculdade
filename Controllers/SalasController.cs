@@ -23,7 +23,7 @@ namespace NewSIGASE.Controllers
         // GET: Salas
         public IActionResult Index()
         {
-            var lista = _context.Salas.AsNoTracking();
+            var lista = _context.Salas.Include(s => s.Equipamentos).AsNoTracking();
             if (lista == null)
             {
                 lista = Array.Empty<Sala>().AsQueryable();
@@ -37,16 +37,8 @@ namespace NewSIGASE.Controllers
         public IActionResult Create()
         {
             ViewBag.TipoSala = Combos.retornarOpcoesSala();
-            var lista = _context.Equipamentos.AsNoTracking().Where(e => e.SalaId == null);
-            if (lista != null)
-            {
-                ViewBag.Equipamentos = lista.Select(x => new SelectListItem() { Text = x.Nome + " " + x.Modelo, Value = x.Id.ToString() });
-            }
-            else
-            {
-                ViewBag.Equipamentos = null;
-            }
-            
+            ViewBag.Equipamentos = new SelectList(_context.Equipamentos.AsNoTracking().Where(e => e.SalaId == null), "Id", "NomeModelo");
+
             return View();
         }
 
@@ -57,19 +49,13 @@ namespace NewSIGASE.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Create(SalaDto salaDto)
         {
+            ViewBag.TipoSala = Combos.retornarOpcoesSala();
+            ViewBag.Equipamentos = new SelectList(_context.Equipamentos.AsNoTracking().Where(e => e.SalaId == null), "Id", "NomeModelo");
+
             salaDto.Validate();
             if (salaDto.Invalid)
             {
-                ViewBag.TipoSala = Combos.retornarOpcoesSala();
-                var lista = _context.Equipamentos.AsNoTracking().Where(e => e.SalaId == null);
-                if (lista != null)
-                {
-                    ViewBag.Equipamentos = lista.Select(x => new SelectListItem() { Text = x.Nome + " " + x.Modelo, Value = x.Id.ToString() });
-                }
-                else
-                {
-                    ViewBag.Equipamentos = null;
-                }
+
                 return View(salaDto);
             }
 
@@ -81,18 +67,19 @@ namespace NewSIGASE.Controllers
             {
                 return View(salaDto);
             }
+
             List<Equipamento> listaEquips = salaDto.EquipamentoId == null ? null : _context.Equipamentos.Where(e => salaDto.EquipamentoId.Contains(e.Id)).ToList();
-            var sala = new Sala(salaDto.Tipo, salaDto.IdentificadorSala, salaDto.Observacao, salaDto.CapacidadeAlunos, listaEquips);
-            try
+            var sala = new Sala(salaDto.Tipo, salaDto.IdentificadorSala, salaDto.Observacao, salaDto.CapacidadeAlunos);
+
+            foreach (var e in listaEquips)
             {
-                _context.Salas.Add(sala);
-                _context.SaveChangesAsync();
-            }catch(Exception ex)
-            {
-                var msg = ex.Message;
+                e.SalaId = sala.Id;
+                _context.Equipamentos.Update(e);
             }
-            
-            return View(salaDto);
+            _context.Salas.Add(sala);
+            _context.SaveChanges();
+
+            return RedirectToAction("Index");
         }
 
         // GET: Salas/Edit/5

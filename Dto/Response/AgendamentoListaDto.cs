@@ -1,4 +1,5 @@
 ﻿using NewSIGASE.Models;
+using NewSIGASE.Models.Enum;
 using System;
 
 namespace NewSIGASE.Dto.Response
@@ -12,6 +13,7 @@ namespace NewSIGASE.Dto.Response
         public bool Status { get; set; }
         public string Sala { get; set; }
         public string Usuario { get; set; }
+        public string TipoSala { get; set;  }
 
         public AgendamentoListaDto(Agendamento agendamento)
         {
@@ -22,6 +24,7 @@ namespace NewSIGASE.Dto.Response
             Status = agendamento.Status;
             Sala = agendamento.Sala.IdentificadorSala;
             Usuario = agendamento.Usuario.Nome;
+            TipoSala = agendamento.Sala.Tipo == EnumTipoSala.Laboratorio ? agendamento.Sala.Tipo.ToString() : "Sala de Aula";
         }
     }
 }

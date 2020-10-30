@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -6,7 +7,9 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using NewSIGASE.Dto.Request;
 using NewSIGASE.Dto.Response;
+using NewSIGASE.Infra.Configuration;
 using NewSIGASE.Models;
+using NewSIGASE.Models.Enum;
 
 namespace NewSIGASE.Controllers
 {
@@ -22,7 +25,15 @@ namespace NewSIGASE.Controllers
         // GET: Agendamentos
         public IActionResult Index()
         {
-            var agendamentos = _context.Agendamentos.Include(a => a.Sala).Include(a => a.Usuario).AsNoTracking();
+            List<Agendamento> agendamentos ;
+            if (AppSettings.Perfil == EnumTipoPerfil.Administrador.ToString())
+            {
+                agendamentos = _context.Agendamentos.Include(a => a.Sala).Include(a => a.Usuario).AsNoTracking().ToList();
+            }else
+            {
+                agendamentos = _context.Agendamentos.Include(a => a.Sala).Include(a => a.Usuario).AsNoTracking().Where(a => a.UsuarioId == AppSettings.Usuario).ToList();
+            }
+            
 
             return View(agendamentos.Select(a => new AgendamentoListaDto(a)));
         }
@@ -34,6 +45,12 @@ namespace NewSIGASE.Controllers
             ViewBag.Salas = new SelectList(_context.Salas.AsNoTracking(), "Id", "IdentificadorSala");
 
             return View();
+        }
+
+        public JsonResult RetornarSalas(EnumTipoSala tipoSala)
+        {
+            var salas = _context.Salas.AsNoTracking().Where(s => s.Tipo == tipoSala).ToList();
+            return Json(salas);
         }
 
         // POST: Agendamentos/Create

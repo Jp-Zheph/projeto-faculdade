@@ -3,10 +3,31 @@
 @{
     ViewData["Title"] = "Create";
 }
-
-<h1>Create</h1>
-
-<h4>Agendamento</h4>
+<script>
+    $(document).ready(function () {
+        $("#selectTipoSala").change(function () {
+            $.ajax({
+                type: "get",
+                url: "/Agendamentos/RetornarSalas",
+                data: { tipoSala: $("#selectTipoSala").val() },
+                dataType: 'json',
+                contentType: "application/json; charset=utf-8",
+                success: function (obj) {
+                    debugger;
+                    if (obj != null) {
+                        var selectbox = $('#SelectSala');
+                        selectbox.find('option').remove();
+                        $.each(obj, function (i, d) {
+                            $('<option>').val(d.id).text(d.identificadorSala).appendTo(selectbox);
+                        });
+                    }
+                }
+            });
+        })
+        
+    });
+</script>
+<h4>Cadastro Agendamento</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -24,8 +45,13 @@
                 <span asp-validation-for="Periodo" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label class="control-label">Tipo de Sala</label>
+                <select id="selectTipoSala" class="form-control" asp-items="Combos.retornarOpcoesSala()"></select>
+                <span class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label asp-for="SalaId" class="control-label">Sala</label>
-                <select asp-for="SalaId" class="form-control" asp-items="ViewBag.Salas"></select>
+                <select id="SelectSala" asp-for="SalaId" class="form-control"></select>
                 <span asp-validation-for="SalaId" class="text-danger"></span>
             </div>
             <div class="form-group">

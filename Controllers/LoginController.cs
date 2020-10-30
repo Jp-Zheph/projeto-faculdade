@@ -40,5 +40,15 @@ namespace NewSIGASE.Controllers
             }
             return Json(new { erro = true, strErro = mesangem });
         }
+
+        public IActionResult LogOut()
+        {
+            AppSettings.Perfil = "";
+            AppSettings.Usuario = new Guid();
+
+            HttpContext.Session.Clear();
+            return RedirectToAction("Index");
+
+        }
     }
 }
