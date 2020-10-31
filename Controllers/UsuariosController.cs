@@ -7,8 +7,10 @@ using NewSIGASE.Dto.Response;
 using NewSIGASE.Services.InterfacesServices;
 using NewSIGASE.Models;
 
-namespace NewSIGASE.Controllers {
-    public class UsuariosController : Controller {
+namespace NewSIGASE.Controllers
+{
+    public class UsuariosController : Controller
+    {
 
         private readonly IUsuarioService _usuarioService;
 
@@ -69,6 +71,7 @@ namespace NewSIGASE.Controllers {
             }
 
             ViewBag.Perfil = Combos.retornarOpcoesPerfil();
+            ViewBag.Status = Combos.retornarOpcoesStatusUsuario();
 
             return View(new UsuarioDto(usuario));
         }
@@ -81,9 +84,9 @@ namespace NewSIGASE.Controllers {
         public async Task<IActionResult> Edit(UsuarioDto usuarioDto)
         {
             ViewBag.Perfil = Combos.retornarOpcoesPerfil();
-
+            ViewBag.Status = Combos.retornarOpcoesStatusUsuario();
             if (usuarioDto.Id == null)
-            {                
+            {
                 return NotFound();
             }
 
@@ -100,22 +103,25 @@ namespace NewSIGASE.Controllers {
                 TempData["Notificacao"] = new BadRequestDto(_usuarioService.Notifications);
                 return View(usuarioDto);
             }
-           
+
             return RedirectToAction(nameof(Index));
         }
 
         // GET: Usuarios/Delete/5
-        public async Task<IActionResult> Delete(Guid? id)
-        {         
-
-            return View();
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            var usuario = await _usuarioService.Obter(id);
+            return View(usuario);
         }
 
         // POST: Usuarios/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public IActionResult DeleteConfirmed(Guid id)
+        public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
+            var usuario =  await _usuarioService.Obter(id);
+            await _usuarioService.Deletar(usuario);
+
             return RedirectToAction(nameof(Index));
         }
 

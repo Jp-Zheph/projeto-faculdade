@@ -20,5 +20,7 @@ namespace NewSIGASE.Data.Repositories.InterfacesRepositories
 
         Usuario ObterPorEmail(string email);
 
+        Task Deletar(Usuario usuario);
+
     }
 }

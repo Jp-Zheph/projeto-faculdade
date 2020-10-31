@@ -36,7 +36,7 @@ namespace NewSIGASE.Controllers
                     return Json(new { erro = false, url = "Usuarios/AlterarSenha?id=" + retorno.Id });
                 }
 
-                return Json(new { erro = false, strErro = "", url = "Home/Index" });
+                return Json(new { erro = false, strErro = "", url = "Agendamentos/Index" });
             }
             return Json(new { erro = true, strErro = mesangem });
         }

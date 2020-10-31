@@ -58,6 +58,11 @@ namespace NewSIGASE.Services
             await _emailService.EnviarEmailCadastroUsuario(usuario);
         }
 
+        public async Task Deletar(Usuario usuario)
+        {
+            await _usuarioRepository.Deletar(usuario);
+        }
+
         public void ValidarUsuarioCadastrado(UsuarioDto usuarioDto, Usuario usuarioCadastrado)
         {
             AddNotifications(new Contract()

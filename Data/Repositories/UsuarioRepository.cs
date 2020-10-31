@@ -48,6 +48,19 @@ namespace NewSIGASE.Data.Repositories
             await _context.SaveChangesAsync();
         }
 
+        public async Task Deletar(Usuario usuario)
+        {
+            try
+            {
+                _context.Usuarios.Remove(usuario);
+                await _context.SaveChangesAsync();
+            }catch(Exception ex)
+            {
+                throw ex;
+            }
+            
+        }
+
         public async Task<Usuario> Editar(Usuario usuario)
         {
             _context.Update(usuario);

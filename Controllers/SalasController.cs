@@ -70,12 +70,15 @@ namespace NewSIGASE.Controllers
 
             List<Equipamento> listaEquips = salaDto.EquipamentoId == null ? null : _context.Equipamentos.Where(e => salaDto.EquipamentoId.Contains(e.Id)).ToList();
             var sala = new Sala(salaDto.Tipo, salaDto.IdentificadorSala, salaDto.Observacao, salaDto.CapacidadeAlunos);
-
-            foreach (var e in listaEquips)
+            if(listaEquips != null)
             {
-                e.SalaId = sala.Id;
-                _context.Equipamentos.Update(e);
+                foreach (var e in listaEquips)
+                {
+                    e.SalaId = sala.Id;
+                    _context.Equipamentos.Update(e);
+                }
             }
+            
             _context.Salas.Add(sala);
             _context.SaveChanges();
 
@@ -156,7 +159,7 @@ namespace NewSIGASE.Controllers
                 return NotFound();
             }
 
-            return View(sala);
+            return RedirectToAction(nameof(Index));
         }
     }
 }

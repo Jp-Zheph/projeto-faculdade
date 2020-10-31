@@ -16,6 +16,17 @@ namespace NewSIGASE.Models
             return cadastroOptions;
         }
 
+        static public List<SelectListItem> retornarOpcoesStatusUsuario()
+        {
+            List<SelectListItem> cadastroOptions = new List<SelectListItem>()
+            {
+                new SelectListItem() { Text="Selecione", Value=""},
+                new SelectListItem() { Text="Ativo", Value="True"},
+                new SelectListItem() { Text="Inativo", Value="False"}
+            };
+            return cadastroOptions;
+        }
+
         static public List<SelectListItem> retornarOpcoesSala()
         {
             List<SelectListItem> cadastroOptions = new List<SelectListItem>()
