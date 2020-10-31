@@ -25,6 +25,7 @@ namespace NewSIGASE.Data.Repositories
         public async Task<Usuario> Obter(Guid id)
         {
             return await _context.Usuarios
+                .Include(u => u.Agendamentos)
                 .FirstOrDefaultAsync(u => u.Id == id);
         }
 
