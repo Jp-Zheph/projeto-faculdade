@@ -13,7 +13,7 @@ a {
 }
 
 .formulario{
-    padding: 0 0 0 26% !important;
+    padding: 0 0 0 24%;
 }
 
 .btn-primary {
@@ -40,7 +40,7 @@ html {
 }
 .corpo {
     background-color: #fff;
-    width: 60%;
+    width: 70%;
     border-radius: 10px;
     margin-bottom: 5% !important;
     padding: 1% 1% 1% 1%;

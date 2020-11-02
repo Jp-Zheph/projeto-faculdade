@@ -12,36 +12,36 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
             <div class="form-group row">
-                <label class="col-sm-2 col-form-label">Nome</label>
-                <div class="col-sm-10">
+                <label class="col-sm-3 col-form-label">Nome</label>
+                <div class="col-sm-9">
                     <input asp-for="Nome" class="form-control" />
                 </div>
                 <span asp-validation-for="Nome" class="text-danger"></span>
             </div>
             <div class="form-group row">
-                <label class="col-sm-2 col-form-label">Matricula</label>
-                <div class="col-sm-10">
+                <label class="col-sm-3 col-form-label">Matricula</label>
+                <div class="col-sm-9">
                     <input asp-for="Matricula" class="form-control" />
                 </div>
                 <span asp-validation-for="Matricula" class="text-danger"></span>
             </div>
             <div class="form-group row">
-                <label class="col-sm-2 col-form-label">E-mail</label>
-                <div class="col-sm-10">
+                <label class="col-sm-3 col-form-label">E-mail</label>
+                <div class="col-sm-9">
                     <input asp-for="Email" class="form-control" />
                 </div>
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
             <div class="form-group row">
-                <label class="col-sm-2 col-form-label">Perfil</label>
-                <div class="col-sm-10">
+                <label class="col-sm-3 col-form-label">Perfil</label>
+                <div class="col-sm-9">
                     <select asp-for="Perfil" class="form-control" asp-items="@ViewBag.Perfil"></select>
                 </div>
                 <span asp-validation-for="Perfil" class="text-danger"></span>
             </div>
             <div class="form-group row">
-                <label class="col-sm-2 col-form-label">Situação</label>
-                <div class="col-sm-10">
+                <label class="col-sm-3 col-form-label">Situação</label>
+                <div class="col-sm-9">
                     <select class="form-control" asp-for="Ativo" asp-items="@ViewBag.Status"> </select>
                 </div>
                 <span asp-validation-for="Ativo" class="text-danger"></span>

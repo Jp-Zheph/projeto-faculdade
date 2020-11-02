@@ -4,12 +4,9 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Equipamentos Cadastrados</h1>
+<h3>Equipamentos</h3>
 
-<p>
-    <a asp-action="Create">Cadastar novo</a>
-</p>
-<table class="table">
+<table class="table table-striped">
     <thead>
         <tr>
             <th>
@@ -21,11 +18,12 @@
             <th>
                 @Html.DisplayNameFor(model => model.Modelo)
             </th>
-            <th></th>
+            <th style="padding-left: 20%">Ações</th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+        @foreach (var item in Model)
+        {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Serial)
@@ -36,11 +34,16 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Modelo)
             </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Editar</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Deletar</a>
+            <td  style="text-align:right">
+                <a class="btn btn-outline-dark" asp-action="Edit" asp-route-id="@item.Id">Editar</a>
+                <a class="btn btn-outline-danger" asp-action="Delete" asp-route-id="@item.Id">Remover</a>
             </td>
         </tr>
-}
+        }
     </tbody>
 </table>
+<hr />
+<div>
+    <a class="btn btn-outline-success" style="margin-left: 83%" asp-action="Create">Novo Equipamento</a>
+</div>
+

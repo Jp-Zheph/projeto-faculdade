@@ -24,45 +24,53 @@
                 }
             });
         })
-        
     });
 </script>
-<h4>Cadastro Agendamento</h4>
+<h3>Cadastro Agendamento</h3>
 <hr />
-<div class="row">
-    <div class="col-md-4">
+<div class="row formulario">
+    <div class="col-md-8">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="UsuarioId" value="@NewSIGASE.Infra.Configuration.AppSettings.Usuario" />
-            <div class="form-group">
-                <label asp-for="DataAgendada" class="control-label">Data do Agendamento</label>
-                <input asp-for="DataAgendada" type="date" class="form-control" />
+            <div class="form-group row">
+                <label class="col-sm-6 col-form-label">Data do Agendamento</label>
+                <div class="col-sm-6">
+                    <input asp-for="DataAgendada" type="date" class="form-control" />
+                </div>
                 <span asp-validation-for="DataAgendada" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Periodo" class="control-label">Período do Dia</label>
-                <select asp-for="Periodo" class="form-control" asp-items="ViewBag.Periodo"></select>
+            <div class="form-group row">
+                <label class="col-sm-4 col-form-label">Período do Dia</label>
+                <div class="col-sm-8">
+                    <select asp-for="Periodo" class="form-control" asp-items="ViewBag.Periodo"></select>
+                </div>
                 <span asp-validation-for="Periodo" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label class="control-label">Tipo de Sala</label>
-                <select id="selectTipoSala" class="form-control" asp-items="Combos.retornarOpcoesSala()"></select>
+            <div class="form-group row">
+                <label class="col-sm-4 col-form-label">Tipo de Sala</label>
+                <div class="col-sm-8">
+                    <select id="selectTipoSala" class="form-control" asp-items="Combos.retornarOpcoesSala()"></select>
+                </div>
                 <span class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="SalaId" class="control-label">Sala</label>
-                <select id="SelectSala" asp-for="SalaId" class="form-control"></select>
+            <div class="form-group row">
+                <label class="col-sm-4 col-form-label">Sala</label>
+                <div class="col-sm-8">
+                    <select id="SelectSala" asp-for="SalaId" class="form-control"></select>
+                </div>
                 <span asp-validation-for="SalaId" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+            <div class="class=" btn-toolbar"" role="group">
+                <div class="btn-group mr-lg-2">
+                    <input class="btn btn-outline-success" type="submit" value="Salvar" />
+                </div>
+                <div class="btn-group">
+                    <a class="btn btn-outline-info" asp-action="Index">Retornar</a>
+                </div>
             </div>
         </form>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {

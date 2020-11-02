@@ -4,11 +4,8 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Agendamentos</h1>
+<h3>Agendamentos</h3>
 
-<p>
-    <a asp-action="Create">Agendar Local</a>
-</p>
 <table class="table table-striped">
     <thead>
         <tr>
@@ -30,35 +27,44 @@
             <th>
                 @Html.DisplayName("Usuário")
             </th>
-            <th></th>
+            <th style="padding-left: 12%" colspan="3">Ações</th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.DataCriacao)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DataAgendada)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Periodo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Sala)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TipoSala)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Usuario)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DataCriacao)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DataAgendada)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Periodo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Sala)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TipoSala)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Usuario)
+                </td>
+                <td style="text-align:right">
+                    <a class="btn btn-outline-dark" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                    <a class="btn btn-outline-danger" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    @if (NewSIGASE.Infra.Configuration.AppSettings.Perfil == "Administrador")
+                    {
+                        <a class="btn btn-outline-warning">Aprovar</a>
+                    }
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+<hr />
+<div>
+    <a class="btn btn-outline-success" style="margin-left: 83%" asp-action="Create">Novo Agendamento</a>
+</div>

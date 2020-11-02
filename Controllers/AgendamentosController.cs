@@ -33,7 +33,14 @@ namespace NewSIGASE.Controllers
             {
                 agendamentos = _context.Agendamentos.Include(a => a.Sala).Include(a => a.Usuario).AsNoTracking().Where(a => a.UsuarioId == AppSettings.Usuario).ToList();
             }
-            
+
+            //tratamento para exibição na grid, mostrar apenas nome e sobrenome. 
+            foreach(var a in agendamentos)
+            {
+                var nome = a.Usuario.Nome.Split(" ");
+                if(nome.Length > 1)
+                a.Usuario.Nome = nome[0] + " " + nome[1];
+            }
 
             return View(agendamentos.Select(a => new AgendamentoListaDto(a)));
         }
@@ -108,6 +115,8 @@ namespace NewSIGASE.Controllers
             {
                 return NotFound();
             }
+            ViewBag.TipoSala = (int)agendamento.Sala.Tipo;
+            ViewBag.Sala = agendamento.SalaId;
 
             ViewBag.Periodo = Combos.retornarOpcoesPeriodo();
             ViewBag.Salas = new SelectList(_context.Salas.AsNoTracking(), "Id", "IdentificadorSala", agendamento.SalaId);

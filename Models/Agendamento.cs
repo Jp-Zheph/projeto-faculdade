@@ -11,7 +11,10 @@ namespace NewSIGASE.Models
 		public Guid Id { get; set; }
 		public DateTime DataCriacao { get; set; }
 		public DateTime DataAgendada { get; set; }
-        public EnumPeriodo Periodo { get; set; }
+		public DateTime DataAtualizacaoStatus { get; set; }
+		public Guid AprovadorId { get; set; }
+		public string Justificativa { get; set; }
+		public EnumPeriodo Periodo { get; set; }
         public bool Status { get; set; }
 
 		public Sala Sala { get; set; }
@@ -29,7 +32,7 @@ namespace NewSIGASE.Models
 			DataCriacao = DateTime.UtcNow;
 			DataAgendada = dataAgendada;
             Periodo = periodo;
-            Status = true;
+            Status = false;
             SalaId = salaId;
             UsuarioId = usuarioId;
         }
