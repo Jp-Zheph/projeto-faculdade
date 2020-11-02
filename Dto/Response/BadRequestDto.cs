@@ -5,11 +5,13 @@ namespace NewSIGASE.Dto.Response
 {
     public sealed class BadRequestDto
     {
-        public IReadOnlyCollection<Notification> Erros { get; }
+        public IEnumerable<Notification> Mensagens { get; }
+        public string Tipo { get; }
 
-        public BadRequestDto(IReadOnlyCollection<Notification> erros)
+        public BadRequestDto(IEnumerable<Notification> mensagens, string tipo)
         {
-            Erros = erros;
+            Tipo = tipo;
+            Mensagens = mensagens;
         }
     }
 }

@@ -6,6 +6,8 @@ using NewSIGASE.Dto.Request;
 using NewSIGASE.Dto.Response;
 using NewSIGASE.Services.InterfacesServices;
 using NewSIGASE.Models;
+using System.Collections.Generic;
+using Flunt.Notifications;
 
 namespace NewSIGASE.Controllers
 {
@@ -46,18 +48,20 @@ namespace NewSIGASE.Controllers
             usuarioDto.Validate();
             if (usuarioDto.Invalid)
             {
-                TempData["Notificacao"] = new BadRequestDto(usuarioDto.Notifications);
+                TempData["Notificacao"] = new BadRequestDto(usuarioDto.Notifications, "warning");
                 return View(usuarioDto);
             }
 
             await _usuarioService.Criar(usuarioDto);
             if (_usuarioService.Invalid)
             {
-                TempData["Notificacao"] = new BadRequestDto(_usuarioService.Notifications);
+                TempData["Notificacao"] = new BadRequestDto(_usuarioService.Notifications, "warning");
                 return View(usuarioDto);
             }
 
-            return RedirectToAction(nameof(Index));
+            TempData["Notificacao"] = new BadRequestDto(new List<Notification>() { new Notification("CadastrarUsuario", "Usuário cadastrado com sucesso.") }, "success");
+            ViewBag.Controller = "Usuarios";
+            return View("_Confirmacao");
         }
 
         // GET: Usuarios/Edit/5
@@ -66,7 +70,7 @@ namespace NewSIGASE.Controllers
             var usuario = await _usuarioService.Obter(id);
             if (_usuarioService.Invalid)
             {
-                TempData["Notificacao"] = new BadRequestDto(_usuarioService.Notifications);
+                TempData["Notificacao"] = new BadRequestDto(_usuarioService.Notifications, "warning");
                 return RedirectToAction(nameof(Index));
             }
 
@@ -93,36 +97,38 @@ namespace NewSIGASE.Controllers
             usuarioDto.Validate();
             if (usuarioDto.Invalid)
             {
-                TempData["Notificacao"] = new BadRequestDto(usuarioDto.Notifications);
+                TempData["Notificacao"] = new BadRequestDto(usuarioDto.Notifications, "warning");
                 return View(usuarioDto);
             }
 
             await _usuarioService.Editar(usuarioDto);
             if (_usuarioService.Invalid)
             {
-                TempData["Notificacao"] = new BadRequestDto(_usuarioService.Notifications);
+                TempData["Notificacao"] = new BadRequestDto(_usuarioService.Notifications, "warning");
                 return View(usuarioDto);
             }
 
-            return RedirectToAction(nameof(Index));
-        }
-
-        // GET: Usuarios/Delete/5
-        public async Task<IActionResult> Delete(Guid id)
-        {
-            var usuario = await _usuarioService.Obter(id);
-            return View(usuario);
+            TempData["Notificacao"] = new BadRequestDto(new List<Notification>() { new Notification("EditarUsuario", "Usuário editado com sucesso.") }, "success");
+            ViewBag.Controller = "Usuarios";
+            return View("_Confirmacao");
         }
 
         // POST: Usuarios/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(Guid id)
+        public async Task<IActionResult> Delete(Guid id)
         {
-            var usuario =  await _usuarioService.Obter(id);
-            await _usuarioService.Deletar(usuario);
+            ViewBag.Controller = "Usuarios";
 
-            return RedirectToAction(nameof(Index));
+            await _usuarioService.Deletar(id);
+            if (_usuarioService.Invalid)
+            {
+                TempData["Notificacao"] = new BadRequestDto(_usuarioService.Notifications, "warning");
+                return View("_Confirmacao");
+            }
+
+            TempData["Notificacao"] = new BadRequestDto(new List<Notification>() { new Notification("ExcluirUsuario", "Usuário excluído com sucesso.") }, "success");
+            return View("_Confirmacao");
         }
 
         // GET: Usuarios/CriarSenha
@@ -141,18 +147,20 @@ namespace NewSIGASE.Controllers
             senhaDto.Validate();
             if (senhaDto.Invalid)
             {
-                TempData["Notificacao"] = new BadRequestDto(senhaDto.Notifications);
+                TempData["Notificacao"] = new BadRequestDto(senhaDto.Notifications, "warning");
                 return View(senhaDto);
             }
 
             await _usuarioService.CriarSenha(senhaDto);
             if (_usuarioService.Invalid)
             {
-                TempData["Notificacao"] = new BadRequestDto(_usuarioService.Notifications);
+                TempData["Notificacao"] = new BadRequestDto(_usuarioService.Notifications, "warning");
                 return View(senhaDto);
             }
 
-            return RedirectToAction(nameof(Index), "Home");
+            TempData["Notificacao"] = new BadRequestDto(new List<Notification>() { new Notification("AlterarSenha", "Senha alterada com sucesso.") }, "success");
+            ViewBag.Controller = "Agendamentos";
+            return View("_Confirmacao");
         }
     }
 }

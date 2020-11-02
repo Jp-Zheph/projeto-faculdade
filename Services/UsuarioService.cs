@@ -58,8 +58,20 @@ namespace NewSIGASE.Services
             await _emailService.EnviarEmailCadastroUsuario(usuario);
         }
 
-        public async Task Deletar(Usuario usuario)
+        public async Task Deletar(Guid id)
         {
+            var usuario = await _usuarioRepository.Obter(id);
+
+            AddNotifications(new Contract()
+                .IsNotNull(usuario, "ExcluirUsuario", MensagemValidacaoService.Usuario.NaoExiste)
+                .IfNotNull(usuario, x => x.IsNull(usuario.Agendamentos, "ExcluirUsuario", "Não é possivel excluir, pois usuário possui agendamentos vinculados a ele."))
+            );
+
+            if (Invalid)
+            {
+                return;
+            }
+
             await _usuarioRepository.Deletar(usuario);
         }
 

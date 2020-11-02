@@ -13,7 +13,8 @@
     <script type="text/javascript">
 
         function Notificacao(titulo, mensagem, tipo) {
-            $('#alert_container').append('<div id="alert_div" class="alert alert-warning"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><strong>' + titulo + '!</strong> <span>' + mensagem + '</span></div>');
+            debugger;
+            $('#alert_container').append('<div id="alert_div" class="alert alert-' + tipo +'"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><strong>' + titulo + '!</strong> <span>' + mensagem + '</span></div>');
         }
 
     </script>
@@ -68,10 +69,10 @@
             {
                 var notificacao = TempData["Notificacao"] as NewSIGASE.Dto.Response.BadRequestDto;
 
-                foreach (var item in notificacao.Erros)
+                foreach (var item in notificacao.Mensagens)
                 {
                     <script type="text/javascript">
-                        Notificacao("@item.Property", "@item.Message", "warning");
+                        Notificacao("@item.Property", "@item.Message", "@notificacao.Tipo");
                     </script>
                 }
             }

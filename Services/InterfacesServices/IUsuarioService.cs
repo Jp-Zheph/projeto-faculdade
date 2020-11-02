@@ -14,6 +14,6 @@ namespace NewSIGASE.Services.InterfacesServices
         Task Editar(UsuarioDto dto);
         Task CriarSenha(SenhaCriarDto senhaDto);
         Usuario ValidarLogin(string email, string password, out string mesangem);
-        Task Deletar(Usuario usuario);
+        Task Deletar(Guid id);
     }
 }

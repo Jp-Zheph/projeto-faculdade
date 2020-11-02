@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
+using Flunt.Notifications;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NewSIGASE.Dto.Request;
@@ -42,14 +44,15 @@ namespace NewSIGASE.Controllers
             equipamentoDto.Validate();
             if (equipamentoDto.Invalid)
             {
-                TempData["Notificacao"] = new BadRequestDto(equipamentoDto.Notifications);
+                TempData["Notificacao"] = new BadRequestDto(equipamentoDto.Notifications, "warning");
                 return View(equipamentoDto);
             }
 
             var serialDuplicado = await _context.Equipamentos.FirstOrDefaultAsync(e => e.Serial == equipamentoDto.Serial);
             if (serialDuplicado != null)
             {
-                return View(equipamentoDto); //TODO - mensagem validação serial ja existe
+                TempData["Notificacao"] = new BadRequestDto(new List<Notification>() { new Notification("CadastrarEquipamento", "Serial já cadastrado.") }, "warning");
+                return View(equipamentoDto);
             }
 
             var equipamento = new Equipamento(equipamentoDto.Serial, equipamentoDto.Nome, equipamentoDto.Modelo, null);
@@ -57,21 +60,20 @@ namespace NewSIGASE.Controllers
             _context.Equipamentos.Add(equipamento);
             await _context.SaveChangesAsync();
 
-            return RedirectToAction(nameof(Index));
+            TempData["Notificacao"] = new BadRequestDto(new List<Notification>() { new Notification("CadastrarEquipamento", "Equipamento cadastrado com sucesso.") }, "success");
+            ViewBag.Controller = "Equipamentos";
+            return View("_Confirmacao");
         }
 
         // GET: Equipamentos/Edit/5
-        public async Task<IActionResult> Edit(Guid? id)
+        public async Task<IActionResult> Edit(Guid id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
             var equipamento = await _context.Equipamentos.FindAsync(id);
             if (equipamento == null)
             {
-                return NotFound();
+                TempData["Notificacao"] = new BadRequestDto(new List<Notification>() { new Notification("EditarEquipamento", "Equipamento não encontrado.") }, "warning");
+                ViewBag.Controller = "Equipamentos";
+                return View("_Confirmacao");
             }
 
             return View(new EquipamentoDto(equipamento));
@@ -87,14 +89,15 @@ namespace NewSIGASE.Controllers
             equipamentoDto.Validate();
             if (equipamentoDto.Invalid)
             {
-                TempData["Notificacao"] = new BadRequestDto(equipamentoDto.Notifications);
+                TempData["Notificacao"] = new BadRequestDto(equipamentoDto.Notifications, "warning");
                 return View(equipamentoDto);
             }
 
             var equipamento = await _context.Equipamentos.FirstOrDefaultAsync(u => u.Id == equipamentoDto.Id);
             if (equipamento == null)
             {
-                return View(equipamentoDto); //TODO - msg validação equipamento não existe.
+                TempData["Notificacao"] = new BadRequestDto(new List<Notification>() { new Notification("EditarEquipamento", "Equipamento não encontrado.") }, "warning");
+                return View(equipamentoDto);
             }
 
             var serialDuplicado = _context.Equipamentos
@@ -104,7 +107,8 @@ namespace NewSIGASE.Controllers
 
             if (serialDuplicado != null && serialDuplicado.Id != equipamento.Id)
             {
-                return View(equipamentoDto); // TODO - msg validação serial já cadastrado em outro equipamento.
+                TempData["Notificacao"] = new BadRequestDto(new List<Notification>() { new Notification("EditarEquipamento", "Serial já cadastrado.") }, "warning");
+                return View(equipamentoDto);
             }
 
             equipamento.Modelo = equipamentoDto.Modelo;
@@ -114,36 +118,36 @@ namespace NewSIGASE.Controllers
             _context.Entry<Equipamento>(equipamento).State = EntityState.Modified;
             _context.SaveChanges();
 
-            return RedirectToAction(nameof(Index));
+            TempData["Notificacao"] = new BadRequestDto(new List<Notification>() { new Notification("EditarEquipamento", "Equipamento editado com sucesso.") }, "success");
+            ViewBag.Controller = "Equipamentos";
+            return View("_Confirmacao");
         }
 
         // GET: Equipamentos/Delete/5
-        public async Task<IActionResult> Delete(Guid? id)
+        public async Task<IActionResult> Delete(Guid id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            ViewBag.Controller = "Equipamentos";
 
             var equipamento = await _context.Equipamentos
                 .FirstOrDefaultAsync(m => m.Id == id);
 
             if (equipamento == null)
             {
-                return NotFound();
+                TempData["Notificacao"] = new BadRequestDto(new List<Notification>() { new Notification("ExcluirEquipamento", "Equipamento não encontrado.") }, "warning");
+                return View("_Confirmacao");
             }
 
-            if (equipamento == null) //TODO verificar se equipamento tem sala: equipamento.sala
+            if (equipamento.Sala != null)
             {
-                //TODO - msg validação o equipamento está vinculado a uma sala.
-            }
-            else
-            {
-                _context.Equipamentos.Remove(equipamento);
-                await _context.SaveChangesAsync();
+                TempData["Notificacao"] = new BadRequestDto(new List<Notification>() { new Notification("ExcluirEquipamento", "Não é possivel excluir pois equipamento está vinculado a uma sala.") }, "warning");
+                return View("_Confirmacao");
             }
 
-            return RedirectToAction(nameof(Index));
+            _context.Equipamentos.Remove(equipamento);
+            await _context.SaveChangesAsync();
+
+            TempData["Notificacao"] = new BadRequestDto(new List<Notification>() { new Notification("ExcluirEquipamento", "Equipamento excluido com sucesso.") }, "success");
+            return View("_Confirmacao");
         }
     }
 }
