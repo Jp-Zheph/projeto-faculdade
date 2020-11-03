@@ -26,7 +26,14 @@ namespace NewSIGASE.Models
 		public Sala Sala { get; set; }
 		public Guid? SalaId { get; set; }
 
-		public Equipamento(string serial, 
+        public DateTime DataCriacao { get; set; }
+        public decimal Peso { get; set; }
+        public string Cor { get; set; }
+        public decimal Comprimento { get; set; }
+        public decimal Largura { get; set; }
+        public decimal Altura { get; set; }
+
+        public Equipamento(string serial, 
 			string nome, 
 			string modelo,
 			Guid? salaId)
@@ -36,6 +43,7 @@ namespace NewSIGASE.Models
 			Nome = nome;
 			Modelo = modelo;
 			SalaId = salaId;
+			DataCriacao = DateTime.Now;
 		}
 
 		public string NomeModelo

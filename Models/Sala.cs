@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using NewSIGASE.Models.Enum;
 
 namespace NewSIGASE.Models
 {
 	public class Sala
-	{
-		
+	{		
 		[Required]
 		[Key]
 		public Guid Id { get; set; }
@@ -22,7 +22,12 @@ namespace NewSIGASE.Models
 		[Required]
 		public int CapacidadeAlunos { get; set; }
 
-		public List<Equipamento> Equipamentos { get; set; }
+        public DateTime DataCriacao { get; set; }
+        public bool Ativo { get; set; }
+        public decimal Area { get; set; }
+        public int Andar { get; set; }		
+
+        public List<Equipamento> Equipamentos { get; set; }
 		public List<Agendamento> Agendamentos { get; set; }
 
 		public Sala(EnumTipoSala tipo, 
@@ -35,6 +40,8 @@ namespace NewSIGASE.Models
 			IdentificadorSala = identificadorSala;
 			Observacao = observacao;
 			CapacidadeAlunos = capacidadeAlunos;
+			DataCriacao = DateTime.Now;
+			Ativo = true;
 		}
 
 		public Sala()
@@ -61,5 +68,10 @@ namespace NewSIGASE.Models
 				}
 			}
 		}
+
+		public bool PermissaoDesativar()
+        {
+			return Agendamentos.All(a => a.DataAgendada.Date < DateTime.Now.Date);
+        }
 	}
 }

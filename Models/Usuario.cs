@@ -33,8 +33,15 @@ namespace NewSIGASE.Models
 		public EnumTipoPerfil Perfil { get; set; }
 
         public bool Ativo { get; set; }
+        public DateTime DataCriacao { get; set; }
+        public string Telefone { get; set; }
+        public DateTime DataNascimento { get; set; }
+        public string Documento { get; set; }
 
-		public List<Agendamento> Agendamentos { get; set; }
+        public Endereco Endereco { get; set; }
+        public Guid EnderecoId { get; set; }
+
+        public List<Agendamento> Agendamentos { get; set; }
 
 		public Usuario(string matricula, 
 			string email, 
@@ -49,6 +56,7 @@ namespace NewSIGASE.Models
 			Senha = matricula;
 			Perfil = perfil;
 			Ativo = ativo;
+			DataCriacao = DateTime.Now;
 		}
 
 		public Usuario()

@@ -1,5 +1,4 @@
 ﻿using NewSIGASE.Models.Enum;
-using NewSIGASE.Models;
 using System;
 using System.ComponentModel.DataAnnotations;
 
@@ -11,11 +10,11 @@ namespace NewSIGASE.Models
 		public Guid Id { get; set; }
 		public DateTime DataCriacao { get; set; }
 		public DateTime DataAgendada { get; set; }
-		public DateTime DataAtualizacaoStatus { get; set; }
-		public Guid AprovadorId { get; set; }
+		public DateTime? DataAtualizacaoStatus { get; set; }
+		public Guid? AprovadorId { get; set; }
 		public string Justificativa { get; set; }
 		public EnumPeriodo Periodo { get; set; }
-        public bool Status { get; set; }
+        public EnumStatusAgendamento Status { get; set; }
 
 		public Sala Sala { get; set; }
 		public Guid SalaId { get; set; }
@@ -32,9 +31,11 @@ namespace NewSIGASE.Models
 			DataCriacao = DateTime.UtcNow;
 			DataAgendada = dataAgendada;
             Periodo = periodo;
-            Status = false;
+			Status = EnumStatusAgendamento.Pendente;
             SalaId = salaId;
             UsuarioId = usuarioId;
+			DataAtualizacaoStatus = null;
+			AprovadorId = null;
         }
 
 		public Agendamento()
@@ -48,5 +49,14 @@ namespace NewSIGASE.Models
 			Periodo = periodo;
 			SalaId = salaId;
 		}
+
+		public void AtualizarAgendamento(DateTime dataAtualizacao,
+			Guid aprovadorId,
+			EnumStatusAgendamento status)
+        {
+			DataAtualizacaoStatus = dataAtualizacao;
+			AprovadorId = aprovadorId;
+			Status = status;
+        }
 	}
 }

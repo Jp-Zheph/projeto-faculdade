@@ -1,0 +1,144 @@
+﻿@model IEnumerable<NewSIGASE.Dto.Response.AgendamentoRelatorioDto>
+
+@{
+    ViewData["Title"] = "Relatório";
+}
+
+<style>
+    .table thead > tr > th {
+        position: sticky;
+        top: 0;
+        vertical-align: middle;
+    }
+
+    .table td, .table th {
+        vertical-align: middle;
+    }
+
+    .table thead > tr > th,
+    .table tbody > tr > th,
+    .table thead > tr > td,
+    .table tbody > tr > td {
+        white-space: nowrap;
+    }
+</style>
+
+<h3>Relatório de Agendamentos</h3>
+
+<table class="table table-responsive table-striped">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayName("Data Criação")
+            </th>
+            <th>
+                @Html.DisplayName("Agendada Por")
+            </th>
+            <th>
+                @Html.DisplayName("Matrícula")
+            </th>
+            <th>
+                @Html.DisplayName("Email")
+            </th>
+            <th>
+                @Html.DisplayName("Perfil")
+            </th>
+            <th>
+                @Html.DisplayName("Data Agendada")
+            </th>
+            <th>
+                @Html.DisplayName("Período")
+            </th>
+            <th>
+                @Html.DisplayName("Sala")
+            </th>
+            <th>
+                @Html.DisplayName("Tipo Local")
+            </th>
+            <th>
+                @Html.DisplayName("Capacidade de Alunos")
+            </th>
+            <th>
+                @Html.DisplayName("Quant de Equipamentos")
+            </th>
+            <th>
+                @Html.DisplayName("Data Aprovação")
+            </th>
+            <th>
+                @Html.DisplayName("Aprovada Por")
+            </th>
+            <th>
+                @Html.DisplayName("Matrícula")
+            </th>
+            <th>
+                @Html.DisplayName("Email")
+            </th>
+            <th>
+                @Html.DisplayName("Perfil")
+            </th>
+            <th>
+                @Html.DisplayName("Status")
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DataCriacao)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AgendadaPor)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MatriculaUsuario)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EmailUsuario)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PerfilUsuario)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DataAgendada)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Periodo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Sala)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TipoSala)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CapacidadeAlunos)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.QuantidadeEquipamentos)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DataAprovacao)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AprovadaPor)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MatriculaAprovador)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EmailAprovador)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PerfilAprovador)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Status)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<hr />

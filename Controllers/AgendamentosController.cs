@@ -194,5 +194,26 @@ namespace NewSIGASE.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        public async Task<IActionResult> GerarRelatorio()
+        {
+            var agendamentos = _context.Agendamentos
+                .Include(a => a.Usuario)
+                .Include(a => a.Sala)
+                    .ThenInclude(s => s.Equipamentos)
+                .AsNoTracking();
+
+            var usuariosAprovadores = await _context.Usuarios.AsNoTracking().Where(u => u.Perfil == EnumTipoPerfil.Administrador).ToListAsync();
+
+            var retorno = new List<AgendamentoRelatorioDto>();
+
+            foreach (var agendamento in agendamentos)
+            {
+                var aprovador = usuariosAprovadores.Where(u => u.Id == agendamento.AprovadorId).FirstOrDefault();
+
+                retorno.Add(new AgendamentoRelatorioDto(agendamento, aprovador));
+            }
+
+            return View("Relatorio", retorno);
+        }
     }
 }

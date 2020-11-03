@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NewSIGASE.Models;
 
 namespace NewSIGASE.Migrations
 {
     [DbContext(typeof(SIGASEContext))]
-    partial class SIGASEContextModelSnapshot : ModelSnapshot
+    [Migration("20201103003549_Altera_Agendamento")]
+    partial class Altera_Agendamento
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -46,8 +48,8 @@ namespace NewSIGASE.Migrations
                     b.Property<Guid>("SalaId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
+                    b.Property<bool>("Status")
+                        .HasColumnType("bit");
 
                     b.Property<Guid>("UsuarioId")
                         .HasColumnType("uniqueidentifier");

@@ -18,7 +18,7 @@ namespace NewSIGASE.Dto.Request
         public EnumPeriodo Periodo { get; set; }
 
         [Required]
-        public bool Status { get; set; }
+        public EnumStatusAgendamento Status { get; set; }
 
         [Required]
         public Guid SalaId { get; set; }
@@ -36,7 +36,7 @@ namespace NewSIGASE.Dto.Request
 
             AddNotifications(new Contract()
                 .IsTrue(DataAgendada.Date > DateTime.Now.Date, nameof(DataAgendada), "A data do agendamento deve ser maior que a data atual.")
-                .IsTrue(periodoExiste, nameof(Periodo), "A data do agendamento deve bla bnla.")
+                .IsTrue(periodoExiste, nameof(Periodo), MensagemValidacaoDto.CampoTipoInvalido(nameof(Periodo)))
             );
         }
 

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NewSIGASE.Models;
 
 namespace NewSIGASE.Migrations
 {
     [DbContext(typeof(SIGASEContext))]
-    partial class SIGASEContextModelSnapshot : ModelSnapshot
+    [Migration("20201103001356_Add_Endereco")]
+    partial class Add_Endereco
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -25,13 +27,13 @@ namespace NewSIGASE.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("AprovadorId")
+                    b.Property<Guid>("AprovadorId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("DataAgendada")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime?>("DataAtualizacaoStatus")
+                    b.Property<DateTime>("DataAtualizacaoStatus")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime>("DataCriacao")
@@ -46,8 +48,8 @@ namespace NewSIGASE.Migrations
                     b.Property<Guid>("SalaId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
+                    b.Property<bool>("Status")
+                        .HasColumnType("bit");
 
                     b.Property<Guid>("UsuarioId")
                         .HasColumnType("uniqueidentifier");
@@ -206,9 +208,6 @@ namespace NewSIGASE.Migrations
                         .IsRequired()
                         .HasColumnType("VARCHAR(255)");
 
-                    b.Property<Guid>("EnderecoId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("Matricula")
                         .IsRequired()
                         .HasColumnType("VARCHAR(50)");
@@ -228,8 +227,6 @@ namespace NewSIGASE.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("EnderecoId");
 
                     b.ToTable("Usuarios");
                 });
@@ -254,15 +251,6 @@ namespace NewSIGASE.Migrations
                     b.HasOne("NewSIGASE.Models.Sala", "Sala")
                         .WithMany("Equipamentos")
                         .HasForeignKey("SalaId");
-                });
-
-            modelBuilder.Entity("NewSIGASE.Models.Usuario", b =>
-                {
-                    b.HasOne("NewSIGASE.Models.Endereco", "Endereco")
-                        .WithMany()
-                        .HasForeignKey("EnderecoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }
