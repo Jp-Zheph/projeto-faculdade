@@ -72,6 +72,8 @@ namespace NewSIGASE.Controllers
 
             List<Equipamento> listaEquips = salaDto.EquipamentoId == null ? null : _context.Equipamentos.Where(e => salaDto.EquipamentoId.Contains(e.Id)).ToList();
             var sala = new Sala(salaDto.Tipo, salaDto.IdentificadorSala, salaDto.Observacao, salaDto.CapacidadeAlunos);
+            sala.Area = 10;
+            sala.Area = 3;
             if(listaEquips != null)
             {
                 foreach (var e in listaEquips)

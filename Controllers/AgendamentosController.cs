@@ -47,6 +47,14 @@ namespace NewSIGASE.Controllers
             return View(agendamentos.Select(a => new AgendamentoListaDto(a)));
         }
 
+        // GET: Agendamentos/ObterDados
+        [HttpGet]
+        public JsonResult ObterAgendamento(Guid id)
+        {
+            var retorno = _context.Agendamentos.Include(a => a.Sala).Include(a => a.Usuario).AsNoTracking().FirstOrDefault(a => a.Id == id);
+            return Json(new AgendamentoListaDto(retorno));
+        }
+
         // GET: Agendamentos/Create
         public IActionResult Create()
         {
