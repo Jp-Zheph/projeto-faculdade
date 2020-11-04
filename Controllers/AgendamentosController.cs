@@ -56,6 +56,12 @@ namespace NewSIGASE.Controllers
             return Json(new AgendamentoListaDto(retorno));
         }
 
+        [HttpPost]
+        public IActionResult AprovacaoAgendamento()
+        {
+
+            return RedirectToAction("Index");
+        }
         // GET: Agendamentos/Create
         public IActionResult Create()
         {
