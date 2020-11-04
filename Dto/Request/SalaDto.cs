@@ -27,12 +27,16 @@ namespace NewSIGASE.Dto.Request
 
         [Required]
         public int CapacidadeAlunos { get; set; }
+        public decimal Area { get; set; }
+        public int Andar { get; set; }
 
         public SalaDto(Sala sala)
         {
             Tipo = sala.Tipo;
             IdentificadorSala = sala.IdentificadorSala;
             CapacidadeAlunos = sala.CapacidadeAlunos;
+            Area = sala.Area;
+            Andar = sala.Andar;
         }
 
         public SalaDto()

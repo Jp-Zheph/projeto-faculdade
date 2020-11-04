@@ -54,7 +54,7 @@ namespace NewSIGASE.Controllers
                 return View(equipamentoDto);
             }
 
-            var equipamento = new Equipamento(equipamentoDto.Serial, equipamentoDto.Nome, equipamentoDto.Modelo, null);
+            var equipamento = new Equipamento(equipamentoDto.Serial, equipamentoDto.Nome, equipamentoDto.Modelo, equipamentoDto.Cor,equipamentoDto.Comprimento,equipamentoDto.Largura,equipamentoDto.Altura,null);
 
             _context.Equipamentos.Add(equipamento);
             await _context.SaveChangesAsync();
@@ -113,6 +113,10 @@ namespace NewSIGASE.Controllers
             equipamento.Modelo = equipamentoDto.Modelo;
             equipamento.Nome = equipamentoDto.Nome;
             equipamento.Serial = equipamentoDto.Serial;
+            equipamento.Largura = equipamentoDto.Largura;
+            equipamento.Comprimento = equipamentoDto.Comprimento;
+            equipamento.Altura = equipamentoDto.Altura;
+            equipamento.Cor = equipamentoDto.Cor;
 
             _context.Entry<Equipamento>(equipamento).State = EntityState.Modified;
             _context.SaveChanges();

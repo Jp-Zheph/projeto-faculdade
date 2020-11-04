@@ -71,9 +71,7 @@ namespace NewSIGASE.Controllers
             }
 
             List<Equipamento> listaEquips = salaDto.EquipamentoId == null ? null : _context.Equipamentos.Where(e => salaDto.EquipamentoId.Contains(e.Id)).ToList();
-            var sala = new Sala(salaDto.Tipo, salaDto.IdentificadorSala, salaDto.Observacao, salaDto.CapacidadeAlunos);
-            sala.Area = 10;
-            sala.Area = 3;
+            var sala = new Sala(salaDto.Tipo, salaDto.IdentificadorSala, salaDto.Observacao, salaDto.Area, salaDto.Andar, salaDto.CapacidadeAlunos);
             if(listaEquips != null)
             {
                 foreach (var e in listaEquips)
@@ -148,7 +146,7 @@ namespace NewSIGASE.Controllers
                 return View(salaDto);
             }
 
-            salaEditar.Editar(salaDto.Tipo, salaDto.IdentificadorSala, salaDto.Observacao, salaDto.CapacidadeAlunos);
+            salaEditar.Editar(salaDto.Tipo, salaDto.IdentificadorSala, salaDto.Observacao, salaDto.Area, salaDto.Andar,salaDto.CapacidadeAlunos  );
 
             _context.Entry<Sala>(salaEditar).State = EntityState.Modified;
             _context.SaveChanges();

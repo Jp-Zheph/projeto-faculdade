@@ -18,27 +18,51 @@
             <th>
                 @Html.DisplayNameFor(model => model.Modelo)
             </th>
-            <th>Ações</th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cor)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Comprimento)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Altura)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Largura)
+            </th>
+            <th style="text-align: center;">Ações</th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
         {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Serial)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Nome)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Modelo)
-            </td>
-            <td  style="text-align:right">
-                <a class="btn btn-outline-dark" asp-action="Edit" asp-route-id="@item.Id">Editar</a>
-                <a class="btn btn-outline-danger" asp-action="Delete" asp-route-id="@item.Id">Remover</a>
-            </td>
-        </tr>
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Serial)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nome)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Modelo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Cor)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Comprimento)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Altura)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Largura)
+                </td>
+                <td style="text-align:right">
+                    <a class="btn btn-outline-dark" asp-action="Edit" asp-route-id="@item.Id">Editar</a>
+                    <a class="btn btn-outline-danger" asp-action="Delete" asp-route-id="@item.Id">Remover</a>
+                </td>
+            </tr>
         }
     </tbody>
 </table>

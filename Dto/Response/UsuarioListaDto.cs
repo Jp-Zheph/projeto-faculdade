@@ -11,14 +11,20 @@ namespace NewSIGASE.Dto.Response
         public string Matricula { get; }
         public string Email { get; }
         public EnumTipoPerfil Perfil { get; }
+        public Endereco Endereco { get; set; }
 
-        public UsuarioListaDto(Usuario usuario)
+		public UsuarioListaDto()
+		{
+		}
+
+		public UsuarioListaDto(Usuario usuario)
         {
             Id = usuario.Id;
             Nome = usuario.Nome;
             Matricula = usuario.Matricula;
             Email = usuario.Email;
             Perfil = usuario.Perfil;
+            Endereco = usuario.Endereco;
         }
     }
 }
