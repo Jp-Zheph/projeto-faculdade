@@ -22,54 +22,30 @@
             <th>
                 @Html.DisplayNameFor(model => model.Perfil)
             </th>
-            <th>Ações</th>
+            <th style="text-align:center">Ações</th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
         {
-		<tr>
-			<td>
-				@Html.DisplayFor(modelItem => item.Matricula)
-			</td>
-			<td>
-				@Html.DisplayFor(modelItem => item.Nome)
-			</td>
-			<td>
-				@Html.DisplayFor(modelItem => item.Email)
-			</td>
-			<td>
-				@Html.DisplayFor(modelItem => item.Perfil)
-			</td>
-			<td>
-				@Html.DisplayFor(modelItem => item.Endereco.Logradouro)
-			</td>
-			<td>
-				@Html.DisplayFor(modelItem => item.Endereco.Numero)
-			</td>
-			<td>
-				@Html.DisplayFor(modelItem => item.Endereco.Complemento)
-			</td>
-			<td>
-				@Html.DisplayFor(modelItem => item.Endereco.Bairro)
-			</td>
-			<td>
-				@Html.DisplayFor(modelItem => item.Endereco.Cep)
-			</td>
-			<td>
-				@Html.DisplayFor(modelItem => item.Endereco.Cidade)
-			</td>
-			<td>
-				@Html.DisplayFor(modelItem => item.Endereco.UF)
-			</td>
-			<td>
-				@Html.DisplayFor(modelItem => item.Endereco.Pais)
-			</td>
-			<td style="text-align:right">
-				<a class="btn btn-outline-dark" asp-action="Edit" asp-route-id="@item.Id">Editar</a>
-				<a class="btn btn-outline-danger" asp-action="Delete" asp-route-id="@item.Id">Remover</a>
-			</td>
-		</tr>
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Matricula)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nome)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Perfil)
+                </td>
+                <td style="text-align:right">
+                    <a class="btn btn-outline-dark" asp-action="Edit" asp-route-id="@item.Id">Editar</a>
+                    <a class="btn btn-outline-danger" asp-action="Delete" asp-route-id="@item.Id">Remover</a>
+                </td>
+            </tr>
         }
     </tbody>
 </table>
