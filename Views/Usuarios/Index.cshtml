@@ -9,45 +9,21 @@
 
 <table class="table table-striped">
     <thead>
-		<tr>
-			<th>
-				@Html.DisplayNameFor(model => model.Matricula)
-			</th>
-			<th>
-				@Html.DisplayNameFor(model => model.Nome)
-			</th>
-			<th>
-				@Html.DisplayNameFor(model => model.Email)
-			</th>
-			<th>
-				@Html.DisplayNameFor(model => model.Perfil)
-			</th>
-			<th>
-				@Html.DisplayNameFor(model => model.Endereco.Logradouro)
-			</th>
-			<th>
-				@Html.DisplayNameFor(model => model.Endereco.Numero)
-			</th>
-			<th>
-				@Html.DisplayNameFor(model => model.Endereco.Complemento)
-			</th>
-			<th>
-				@Html.DisplayNameFor(model => model.Endereco.Bairro)
-			</th>
-			<th>
-				@Html.DisplayNameFor(model => model.Endereco.Cep)
-			</th>
-			<th>
-				@Html.DisplayNameFor(model => model.Endereco.Cidade)
-			</th>
-			<th>
-				@Html.DisplayNameFor(model => model.Endereco.UF)
-			</th>
-			<th>
-				@Html.DisplayNameFor(model => model.Endereco.Pais)
-			</th>
-			<th style="padding-left: 10%">Ações</th>
-		</tr>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Matricula)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Nome)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Perfil)
+            </th>
+            <th>Ações</th>
+        </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)

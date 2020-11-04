@@ -4,9 +4,37 @@
     ViewData["Title"] = "Index";
 }
 
+<script>
+    $(document).ready(function () {
+        $("#selectAprovar").change(function () {
+            var situacao = $("#selectAprovar").val();
+            if (situacao == 2) {
+                $("#divJustificativa").css("display", "block");
+            } else {
+                $("#divJustificativa").css("display", "none");
+            }
+        });
+    });
+
+    abriModalAprovacao = function (id) {
+        $.get('@Url.Action("ObterAgendamento","Agendamentos")',
+            { id: id },
+            function (data) {
+                $("#Data").val("Data: " + data.dataAgendada);
+                $("#Sala").val("Sala: " + data.sala);
+                $("#Periodo").val("Periodo: " + data.periodo);
+                $("#Usuario").val("Usuario: " + data.usuario);
+        });
+
+        $("#linkAbriModal").click();
+    }
+
+
+</script>
+
 <h3>Agendamentos</h3>
 
-<table class="table table-responsive table-striped">
+<table class="table table-striped">
     <thead>
         <tr>
             <th>
@@ -27,7 +55,7 @@
             <th>
                 @Html.DisplayName("Usuário")
             </th>
-            <th style="padding-left: 12%" colspan="3">Ações</th>
+            <th style="text-align: center;">Ações</th>
         </tr>
     </thead>
     <tbody>
@@ -53,18 +81,94 @@
                     @Html.DisplayFor(modelItem => item.Usuario)
                 </td>
                 <td style="text-align:right">
-                    <a class="btn btn-outline-dark" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
-                    <a class="btn btn-outline-danger" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    <a class="btn btn-info" asp-action="Edit" asp-route-id="@item.Id">
+                        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-pencil-square" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456l-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                            <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
+                        </svg>
+                    </a>
                     @if (NewSIGASE.Infra.Configuration.AppSettings.Perfil == "Administrador")
                     {
-                        <a class="btn btn-outline-warning">Aprovar</a>
+                        <a class="btn btn-warning" onclick="abriModalAprovacao('@item.Id');">
+                            <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-check2-square" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" d="M15.354 2.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3-3a.5.5 0 1 1 .708-.708L8 9.293l6.646-6.647a.5.5 0 0 1 .708 0z" />
+                                <path fill-rule="evenodd" d="M1.5 13A1.5 1.5 0 0 0 3 14.5h10a1.5 1.5 0 0 0 1.5-1.5V8a.5.5 0 0 0-1 0v5a.5.5 0 0 1-.5.5H3a.5.5 0 0 1-.5-.5V3a.5.5 0 0 1 .5-.5h8a.5.5 0 0 0 0-1H3A1.5 1.5 0 0 0 1.5 3v10z" />
+                            </svg>
+                        </a>
                     }
+                    <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">
+                        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-x-square" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" d="M14 1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z" />
+                            <path fill-rule="evenodd" d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
+                        </svg>
+                    </a>
                 </td>
             </tr>
         }
     </tbody>
 </table>
 <hr />
+
+<a id="linkAbriModal" data-toggle="modal" data-target="#ModalAprovacao"></a>
+
+<div class="modal fade" id="ModalAprovacao" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header alert-primary">
+                <h6 id="exampleModalLongTitle">PAINEL DE APROVAÇÃO</h6>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                @* Dados Agendamento *@
+                <div class="formulario">
+                    <input type="text" readonly id="Data" class="form-control col-md-8" />
+                    <input type="text" readonly id="Periodo" class="form-control col-md-8" />
+                    <input type="text" readonly id="Sala" class="form-control col-md-8" />
+                    <input type="text" readonly id="Usuario" class="form-control col-md-8" />
+                </div>
+
+                <br />
+                @* Formulario aprovar *@
+                <div class="row" style="padding: 0 0 0 15%;">
+                    <div class="col-md-10">
+                        <form>
+                            <div class="form-group row">
+                                <label class="col-sm-4 col-form-label">SITUAÇÃO</label>
+                                <div class="col-md-8">
+                                    <select id="selectAprovar" class="form-control">
+                                        <option value="1">Aprovar</option>
+                                        <option value="2">Reprovar</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div id="divJustificativa" class="form-group row" style="display:none;">
+                                <label class="col-sm-4 col-form-label">JUSTIFICATIVA</label>
+                                <div class="col-sm-12">
+                                    <textarea rows="3" class="form-control"></textarea>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer alert-primary">
+                <div class="class=" btn-toolbar"" role="group">
+                    <div class="btn-group mr-lg-2">
+                        <button type="button" class="btn btn-success" data-dismiss="modal">Salvar</button>
+                    </div>
+                    <div class="btn-group mr-lg-2">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Fechar</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
 <div>
-    <a class="btn btn-outline-success" style="margin-left: 83%" asp-action="Create">Novo Agendamento</a>
+    <a class="btn btn-success" style="margin-left: 92.5%" asp-action="Create">Novo</a>
 </div>
