@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using EllipticCurve.Utils;
 using Flunt.Notifications;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -202,13 +203,41 @@ namespace NewSIGASE.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        public async Task<IActionResult> GerarRelatorio()
+        public async Task<IActionResult> GerarRelatorio(AgendamentoRelatorioFiltroDto filtro)
         {
+            ViewBag.DataInicio = filtro.DataInicio?.ToString("yyyy-MM-dd") ?? DateTime.Now.Date.ToString("yyyy-MM-dd");
+            ViewBag.DataFim = filtro.DataFim?.ToString("yyyy-MM-dd") ?? DateTime.Now.AddDays(10).Date.ToString("yyyy-MM-dd");
+            ViewBag.Sala = filtro.Sala ?? string.Empty;
+            ViewBag.Usuario = filtro.Usuario ?? string.Empty;
+            ViewBag.Perfil = new SelectList(Combos.retornarOpcoesPerfil(), "Value", "Text", (int)filtro.PerfilUsuario);
+            ViewBag.TipoLocal = new SelectList(Combos.retornarOpcoesSala(), "Value", "Text", (int)filtro.TipoLocal);
+
             var agendamentos = _context.Agendamentos
                 .Include(a => a.Usuario)
                 .Include(a => a.Sala)
                     .ThenInclude(s => s.Equipamentos)
+                .Where(a => a.DataAgendada >= filtro.DataInicio && a.DataAgendada <= filtro.DataFim)
                 .AsNoTracking();
+
+            if (filtro.TipoLocal != EnumTipoSala.Nenhum)
+            {
+                agendamentos = agendamentos.Where(a => a.Sala.Tipo == filtro.TipoLocal);
+            }
+
+            if (!string.IsNullOrEmpty(filtro.Sala))
+            {
+                agendamentos = agendamentos.Where(a => a.Sala.IdentificadorSala.ToLower().Contains(filtro.Sala.ToLower()));
+            }
+
+            if (filtro.PerfilUsuario != EnumTipoPerfil.Nenhum)
+            {
+                agendamentos = agendamentos.Where(a => a.Usuario.Perfil == filtro.PerfilUsuario);
+            }
+
+            if (!string.IsNullOrEmpty(filtro.Usuario))
+            {
+                agendamentos = agendamentos.Where(a => a.Usuario.Nome.ToLower().Contains(filtro.Usuario.ToLower()));
+            }
 
             var usuariosAprovadores = await _context.Usuarios.AsNoTracking().Where(u => u.Perfil == EnumTipoPerfil.Administrador).ToListAsync();
 

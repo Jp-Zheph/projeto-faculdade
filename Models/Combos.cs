@@ -9,9 +9,9 @@ namespace NewSIGASE.Models
         {
             List<SelectListItem> cadastroOptions = new List<SelectListItem>()
             {
-                new SelectListItem() { Text="Selecione", Value=""},
-                new SelectListItem() { Text="Administrador", Value="0"},
-                new SelectListItem() { Text="Professor", Value="1"}
+                new SelectListItem() { Text="Selecione", Value="0"},
+                new SelectListItem() { Text="Administrador", Value="1"},
+                new SelectListItem() { Text="Professor", Value="2"}
             };
             return cadastroOptions;
         }
@@ -31,9 +31,9 @@ namespace NewSIGASE.Models
         {
             List<SelectListItem> cadastroOptions = new List<SelectListItem>()
             {
-                new SelectListItem() { Text="Selecione", Value=""},
-                new SelectListItem() { Text="Sala de Aula", Value="0"},
-                new SelectListItem() { Text="Laboratório", Value="1"}
+                new SelectListItem() { Text="Selecione", Value="0"},
+                new SelectListItem() { Text="Sala de Aula", Value="1"},
+                new SelectListItem() { Text="Laboratório", Value="2"}
             };
             return cadastroOptions;
         }
