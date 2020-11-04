@@ -32,7 +32,9 @@ namespace NewSIGASE.Models
 
 		public Sala(EnumTipoSala tipo, 
 			string identificadorSala, 
-			string observacao, 
+			string observacao,
+			decimal area,
+			int andar,
 			int capacidadeAlunos)
 		{
 			Id = Guid.NewGuid();
@@ -42,6 +44,9 @@ namespace NewSIGASE.Models
 			CapacidadeAlunos = capacidadeAlunos;
 			DataCriacao = DateTime.Now;
 			Ativo = true;
+			Area = area;
+			Andar = andar;
+			
 		}
 
 		public Sala()
@@ -50,12 +55,16 @@ namespace NewSIGASE.Models
 		public void Editar(EnumTipoSala tipo,
 			string identificadorSala,
 			string observacao,
+			decimal area,
+			int andar,
 			int capacidadeAlunos)
         {
 			Tipo = tipo;
 			IdentificadorSala = identificadorSala;
 			Observacao = observacao;
 			CapacidadeAlunos = capacidadeAlunos;
+			Area = area;
+			Andar = andar;
 		}
 
 		public void AdicionarEquipamentos(IEnumerable<Equipamento> equipamentosId)

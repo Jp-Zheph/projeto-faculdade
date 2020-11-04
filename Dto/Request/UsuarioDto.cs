@@ -25,21 +25,43 @@ namespace NewSIGASE.Dto.Request
 
         [Required]
         public bool Ativo { get; set; }
+        public Endereco Endereco { get; set; }
+		public Usuario Usuario { get; }
 
-        public UsuarioDto(Usuario usuario)
-        {
-            Id = usuario.Id;
-            Nome = usuario.Nome;
-            Matricula = usuario.Matricula;
-            Email = usuario.Email;
-            Perfil = usuario.Perfil;
-            Ativo = usuario.Ativo;
-        }
+		public UsuarioDto(Guid? id, string nome, string matricula, string email, EnumTipoPerfil perfil, bool ativo, Endereco endereco)
+		{
+			Id = id;
+			Nome = nome;
+			Matricula = matricula;
+			Email = email;
+			Perfil = perfil;
+			Ativo = ativo;
+			Endereco = endereco;
+		}
 
-        public UsuarioDto()
+
+		/*
+				public UsuarioDto(Usuario usuario)
+				{
+					Id = usuario.Id;
+					Nome = usuario.Nome;
+					Matricula = usuario.Matricula;
+					Email = usuario.Email;
+					Perfil = usuario.Perfil;
+					Ativo = usuario.Ativo;
+					Endereco = usuario.Endereco;
+				}*/
+
+
+		public UsuarioDto()
         { }
 
-        public void Validate()
+		public UsuarioDto(Usuario usuario)
+		{
+			Usuario = usuario;
+		}
+
+		public void Validate()
         {
             var perfilExiste = Enum.IsDefined(typeof(EnumTipoPerfil), Perfil);
 

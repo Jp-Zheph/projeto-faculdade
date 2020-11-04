@@ -37,7 +37,8 @@ namespace NewSIGASE.Models
         [Column(TypeName = "VARCHAR(50)")]
         public string PontoReferencia { get; set; }
 
-        protected Endereco(
+
+        public Endereco(
             string logradouro,
             string numero,
             string bairro,
@@ -61,7 +62,7 @@ namespace NewSIGASE.Models
             PontoReferencia = pontoReferencia;
         }
 
-        protected Endereco()
+        public Endereco()
         { }
     }
 }

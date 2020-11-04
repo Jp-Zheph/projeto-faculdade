@@ -8,43 +8,55 @@
 
 <table class="table table-striped">
     <thead>
-        <tr>
-            <th>
-                @Html.DisplayName("Tipo de Sala")
-            </th>
-            <th>
-                @Html.DisplayName("Nº Sala")
-            </th>
-            <th>
-                @Html.DisplayName("Capacidade")
-            </th>
-            <th>
-                @Html.DisplayName("Quantidade Equipamentos")
-            </th>
-            <th colspan="2" style="padding-left: 15%">Ações</th>
-        </tr>
+		<tr>
+			<th>
+				@Html.DisplayName("Tipo de Sala")
+			</th>
+			<th>
+				@Html.DisplayName("Nº Sala")
+			</th>
+			<th>
+				@Html.DisplayName("Capacidade")
+			</th>
+			<th>
+				@Html.DisplayName("Quantidade Equipamentos")
+			</th>
+			<th>
+				@Html.DisplayName("Área")
+			</th>
+			<th>
+				@Html.DisplayName("Andar")
+			</th>
+			<th colspan="2" style="padding-left: 15%">Ações</th>
+		</tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Tipo)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.IdentificadorSala)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CapacidadeAlunos)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.QuantidadeEquipamentos)
-                </td>
-                <td style="text-align:right">
-                    <a class="btn btn-outline-dark" asp-action="Edit" asp-route-id="@item.Id">Editar</a>
-                    <a class="btn btn-outline-danger" asp-action="Delete" asp-route-id="@item.Id">Remover</a>
-                </td>
-            </tr>
+		<tr>
+			<td>
+				@Html.DisplayFor(modelItem => item.Tipo)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.IdentificadorSala)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.CapacidadeAlunos)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.QuantidadeEquipamentos)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.Area)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.Andar)
+			</td>
+			<td style="text-align:right">
+				<a class="btn btn-outline-dark" asp-action="Edit" asp-route-id="@item.Id">Editar</a>
+				<a class="btn btn-outline-danger" asp-action="Delete" asp-route-id="@item.Id">Remover</a>
+			</td>
+		</tr>
         }
     </tbody>
 </table>

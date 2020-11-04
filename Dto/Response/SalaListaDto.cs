@@ -13,6 +13,8 @@ namespace NewSIGASE.Dto.Response
 		public string IdentificadorSala { get; set; }
 		public int CapacidadeAlunos { get; set; }
 		public int QuantidadeEquipamentos { get; set; }
+		public decimal Area { get; set; }
+		public int Andar { get; set; }
 
 		public SalaListaDto(Sala sala)
 		{
@@ -21,6 +23,8 @@ namespace NewSIGASE.Dto.Response
 			IdentificadorSala = sala.IdentificadorSala;
 			CapacidadeAlunos = sala.CapacidadeAlunos;
 			QuantidadeEquipamentos = sala.Equipamentos?.Count() ?? 0;
+			Area = sala.Area;
+			Andar = sala.Andar;
 		}
 	}
 	

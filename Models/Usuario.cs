@@ -47,6 +47,7 @@ namespace NewSIGASE.Models
 			string email, 
 			string nome,  
 			EnumTipoPerfil perfil,
+			Endereco endereco,
 			bool ativo)
 		{
 			Id = Guid.NewGuid();
@@ -57,6 +58,7 @@ namespace NewSIGASE.Models
 			Perfil = perfil;
 			Ativo = ativo;
 			DataCriacao = DateTime.Now;
+			Endereco = endereco;
 		}
 
 		public Usuario()

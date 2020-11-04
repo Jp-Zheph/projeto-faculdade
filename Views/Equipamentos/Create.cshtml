@@ -9,38 +9,66 @@
 <hr />
 <div class="row" style="width:80%; padding: 0 0 0 35%">
     <div class="col-md-8">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group row">
-                <label class="col-sm-4 col-form-label">Serial</label>
-                <div class="col-sm-8">
-                    <input asp-for="Serial" class="form-control" />
-                </div>
-                <span asp-validation-for="Serial" class="text-danger"></span>
-            </div>
-            <div class="form-group row">
-                <label class="col-sm-4 col-form-label">Nome</label>
-                <div class="col-sm-8">
-                    <input asp-for="Nome" class="form-control" />
-                </div>
-                <span asp-validation-for="Nome" class="text-danger"></span>
-            </div>
-            <div class="form-group row">
-                <label class="col-sm-4 col-form-label">Modelo</label>
-                <div class="col-sm-8">
-                    <input asp-for="Modelo" class="form-control" />
-                </div>
-                <span asp-validation-for="Modelo" class="text-danger"></span>
-            </div>
-            <div class="class=" btn-toolbar"" role="group">
-                <div class="btn-group mr-lg-2">
-                    <input class="btn btn-outline-success" type="submit" value="Salvar" />
-                </div>
-                <div class="btn-group">
-                    <a class="btn btn-outline-info" asp-action="Index">Retornar</a>
-                </div>
-            </div>
-        </form>
+		<form asp-action="Create">
+			<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+			<div class="form-group row">
+				<label class="col-sm-4 col-form-label">Serial</label>
+				<div class="col-sm-8">
+					<input asp-for="Serial" class="form-control" />
+				</div>
+				<span asp-validation-for="Serial" class="text-danger"></span>
+			</div>
+			<div class="form-group row">
+				<label class="col-sm-4 col-form-label">Nome</label>
+				<div class="col-sm-8">
+					<input asp-for="Nome" class="form-control" />
+				</div>
+				<span asp-validation-for="Nome" class="text-danger"></span>
+			</div>
+			<div class="form-group row">
+				<label class="col-sm-4 col-form-label">Modelo</label>
+				<div class="col-sm-8">
+					<input asp-for="Modelo" class="form-control" />
+				</div>
+				<span asp-validation-for="Modelo" class="text-danger"></span>
+			</div>
+			<div class="form-group row">
+				<label class="col-sm-4 col-form-label">Cor</label>
+				<div class="col-sm-8">
+					<input asp-for="Cor" class="form-control" />
+				</div>
+				<span asp-validation-for="Cor" class="text-danger"></span>
+			</div>
+			<div class="form-group row">
+				<label class="col-sm-4 col-form-label">Comprimento</label>
+				<div class="col-sm-8">
+					<input asp-for="Comprimento" class="form-control" />
+				</div>
+				<span asp-validation-for="Comprimento" class="text-danger"></span>
+			</div>
+			<div class="form-group row">
+				<label class="col-sm-4 col-form-label">Largura</label>
+				<div class="col-sm-8">
+					<input asp-for="Largura" class="form-control" />
+				</div>
+				<span asp-validation-for="Largura" class="text-danger"></span>
+			</div>
+			<div class="form-group row">
+				<label class="col-sm-4 col-form-label">Altura</label>
+				<div class="col-sm-8">
+					<input asp-for="Altura" class="form-control" />
+				</div>
+				<span asp-validation-for="Altura" class="text-danger"></span>
+			</div>
+			<div class="class=" btn-toolbar"" role="group">
+				<div class="btn-group mr-lg-2">
+					<input class="btn btn-outline-success" type="submit" value="Salvar" />
+				</div>
+				<div class="btn-group">
+					<a class="btn btn-outline-info" asp-action="Index">Retornar</a>
+				</div>
+			</div>
+		</form>
     </div>
 </div>  
 

@@ -50,7 +50,7 @@ namespace NewSIGASE.Services
                 return;
             }
 
-            var usuario = new Usuario(usuarioDto.Matricula, usuarioDto.Email, usuarioDto.Nome, usuarioDto.Perfil, false);
+            var usuario = new Usuario(usuarioDto.Matricula, usuarioDto.Email, usuarioDto.Nome, usuarioDto.Perfil,usuarioDto.Endereco ,false);
 
             await _usuarioRepository.Criar(usuario);
 

@@ -33,18 +33,52 @@ namespace NewSIGASE.Models
         public decimal Largura { get; set; }
         public decimal Altura { get; set; }
 
-        public Equipamento(string serial, 
-			string nome, 
+		public Equipamento(
+			 string serial,
+			string nome,
 			string modelo,
-			Guid? salaId)
+			Guid? salaId
+			, DateTime dataCriacao
+			, decimal peso
+			, string cor
+			, decimal comprimento
+			, decimal largura
+			, decimal altura)
 		{
-			Id = Guid.NewGuid();
+			
 			Serial = serial;
 			Nome = nome;
 			Modelo = modelo;
+			
 			SalaId = salaId;
 			DataCriacao = DateTime.Now;
+			Peso = peso;
+			Cor = cor;
+			Comprimento = comprimento;
+			Largura = largura;
+			Altura = altura;
 		}
+
+
+		/*
+				public Equipamento(string serial, 
+					string nome, 
+					string modelo,
+					Guid? salaId,
+					decimal Peso,
+					string Cor,
+					decimal Comprimento,
+					decimal Largura,
+					decimal Altura)
+
+				{
+					Id = Guid.NewGuid();
+					Serial = serial;
+					Nome = nome;
+					Modelo = modelo;
+					SalaId = salaId;
+					DataCriacao = DateTime.Now;
+				}*/
 
 		public string NomeModelo
         {
@@ -56,5 +90,16 @@ namespace NewSIGASE.Models
 
 		public Equipamento()
 		{ }
+
+		public Equipamento(string serial, string nome, string modelo, object p)
+		{
+			Serial = serial;
+			Nome = nome;
+			Modelo = modelo;
+		}
+
+		public Equipamento(string serial, string nome, string modelo, object p, decimal comprimento, decimal altura, decimal largura, object p1) : this(serial, nome, modelo, p)
+		{
+		}
 	}
 }

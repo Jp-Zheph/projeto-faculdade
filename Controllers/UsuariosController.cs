@@ -8,6 +8,7 @@ using NewSIGASE.Services.InterfacesServices;
 using NewSIGASE.Models;
 using System.Collections.Generic;
 using Flunt.Notifications;
+using Microsoft.EntityFrameworkCore;
 
 namespace NewSIGASE.Controllers
 {
@@ -26,7 +27,7 @@ namespace NewSIGASE.Controllers
         {
             var usuarios = _usuarioService.Obter();
 
-            return View(usuarios?.Select(u => new UsuarioListaDto(u)));
+            return View(usuarios?.Include(a => a.Endereco).Select(u => new UsuarioListaDto(u)));
         }
 
         // GET: Usuarios/Create
