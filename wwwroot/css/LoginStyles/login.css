@@ -4,10 +4,27 @@
     color: #fff;
 }
 
-.simple-login-container {
-    width: 400px;
+.container {
+    display: flex;
+}
+
+.container > div {
+   flex: 1; /*grow*/
+}
+.imagen{
+    width:700px;
+}
+
+.logo {
+    width: 380px;
     max-width: 100%;
-    margin: 150px auto !important;
+    margin: 10% 8% 0% -20% !important;
+}
+
+.simple-login-container {
+    width: 380px;
+    max-width: 100%;
+    margin: 15% 5% 31% 12% !important;
 }
 
 .simple-login-container h2 {
