@@ -1,6 +1,8 @@
 ﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
 for details on configuring this project to bundle and minify static web assets. */
 
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@500&display=swap');
+
 a.navbar-brand {
   white-space: normal;
   text-align: center;
@@ -46,8 +48,9 @@ html {
     padding: 1% 1% 1% 1%;
 }
 
-h1, h3{
+h1, h3 {
     text-align: center;
+    margin-bottom: 25px;
 }
 
 .border-top {
@@ -55,6 +58,10 @@ h1, h3{
 }
 .border-bottom {
   border-bottom: 1px solid #e5e5e5;
+}
+
+header {
+    background-color: #5286F3 !important;
 }
 
 .box-shadow {
@@ -77,6 +84,7 @@ body {
     /* Margin bottom by footer height */
     margin-bottom: 60px;
     background-color: #5286F3;
+    font-family: 'Noto Sans JP', sans-serif !important;
 }
 .footer {
   position: absolute;
