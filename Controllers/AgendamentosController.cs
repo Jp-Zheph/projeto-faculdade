@@ -90,7 +90,7 @@ namespace NewSIGASE.Controllers
                 strErro = ex.Message;
             }
 
-            return Json(new { erro = erro.ToString(), strErro = strErro.ToString()});
+            return Json(new { erro = erro, strErro = strErro.ToString()});
         }
         // GET: Agendamentos/Create
         public IActionResult Create()

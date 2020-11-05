@@ -6,7 +6,7 @@
     <title>@ViewData["Title"] - SIGASE</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
-   @* <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">*@
+    @* <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">*@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
@@ -14,25 +14,25 @@
 
         function Notificacao(titulo, mensagem, tipo) {
             debugger;
-            $('#alert_container').append('<div id="alert_div" class="alert alert-' + tipo +'"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><strong>' + titulo + '!</strong> <span>' + mensagem + '</span></div>');
+            $('#alert_container').append('<div id="alert_div" class="alert alert-' + tipo + '"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><strong>' + titulo + '!</strong> <span>' + mensagem + '</span></div>');
         }
 
     </script>
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"><h2>SIGASE</h2></a>
+    <header >
+        <nav style="background-color:#5286F3 !important;" class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container" style="background-color:#fff; border-radius: 5px;">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"><h2>SIGAS<span style="color:#f5b951">e</span></h2></a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                     <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
+                        @*<li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            </li>*@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Agendamentos" asp-action="Index">Agendamentos</a>
                         </li>
@@ -57,12 +57,18 @@
                                 </div>
                             </li>
                         }
-                        <li id="logOut" class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Login" asp-action="LogOut">Sair</a>
-                        </li>
                     </ul>
                 </div>
+                <div class="navbar-toggler-right">
+                    <a title="Sair" class="nav-link text-dark" asp-area="" asp-controller="Login" asp-action="LogOut">
+                        <svg width="1.7em" @*height="2em"*@ viewBox="0 0 16 16" class="bi bi-box-arrow-right" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0v2z" />
+                            <path fill-rule="evenodd" d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z" />
+                        </svg>
+                    </a>
+                </div>
             </div>
+
         </nav>
     </header>
     <div class="container corpo">
@@ -88,8 +94,8 @@
     </div>
 
     <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2020 - SIGASE Por Glads, Jota e Juan - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        <div class="container" style="color: #fff">
+            &copy; 2020 - Sistema de Agendamento e Gerenciamento de Salas e Equipamentos Por Glads, Jota e Juan
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

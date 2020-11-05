@@ -143,7 +143,8 @@ namespace NewSIGASE.Controllers
                 return View(salaDto);
             }
 
-            salaEditar.Editar(salaDto.Tipo, salaDto.IdentificadorSala, salaDto.Observacao, salaDto.Area, salaDto.Andar,salaDto.CapacidadeAlunos  );
+            List<Equipamento> listaEquips = salaDto.EquipamentoId == null ? null : _context.Equipamentos.Where(e => salaDto.EquipamentoId.Contains(e.Id)).ToList();
+            salaEditar.Editar(salaDto.Tipo, salaDto.IdentificadorSala, salaDto.Observacao, salaDto.Area, salaDto.Andar,salaDto.CapacidadeAlunos, listaEquips);
 
             _context.Entry<Sala>(salaEditar).State = EntityState.Modified;
             _context.SaveChanges();

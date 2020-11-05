@@ -25,7 +25,7 @@
                             $("#SelectSala").val(s).change();
                         }
 
-                        if (status == "Cancelado") {
+                        if (status == "Cancelado" || status == "Aprovado") {
                             $("input, select, textarea").each(function () {
                                 $(this).attr('readonly', true);
                             });
