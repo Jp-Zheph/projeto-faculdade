@@ -20,7 +20,6 @@ namespace NewSIGASE.Models
         {
             List<SelectListItem> cadastroOptions = new List<SelectListItem>()
             {
-                new SelectListItem() { Text="Selecione", Value=""},
                 new SelectListItem() { Text="Ativo", Value="True"},
                 new SelectListItem() { Text="Inativo", Value="False"}
             };

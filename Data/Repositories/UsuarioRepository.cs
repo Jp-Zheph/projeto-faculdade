@@ -26,6 +26,7 @@ namespace NewSIGASE.Data.Repositories
         {
             return await _context.Usuarios
                 .Include(u => u.Agendamentos)
+                .Include(u => u.Endereco)
                 .FirstOrDefaultAsync(u => u.Id == id);
         }
 
@@ -68,6 +69,12 @@ namespace NewSIGASE.Data.Repositories
             await _context.SaveChangesAsync();
 
             return usuario;
+        }
+
+        public async Task EditarEndereco(Endereco endereco)
+        {
+            _context.Update(endereco);
+            await _context.SaveChangesAsync();
         }
     }
 }

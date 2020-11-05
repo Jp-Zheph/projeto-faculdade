@@ -50,7 +50,10 @@ namespace NewSIGASE.Services
                 return;
             }
 
-            var usuario = new Usuario(usuarioDto.Matricula, usuarioDto.Email, usuarioDto.Nome, usuarioDto.Perfil,usuarioDto.Endereco ,false);
+            var endereco = new Endereco(usuarioDto.Endereco.Logradouro, usuarioDto.Endereco.Numero, usuarioDto.Endereco.Bairro, usuarioDto.Endereco.Cep, 
+                usuarioDto.Endereco.Cidade, usuarioDto.Endereco.UF, usuarioDto.Endereco.Complemento, usuarioDto.Endereco.PontoReferencia);
+
+            var usuario = new Usuario(usuarioDto.Matricula, usuarioDto.Email, usuarioDto.Nome, usuarioDto.Perfil, endereco.Id, false, usuarioDto.Telefone, usuarioDto.DataNascimento, usuarioDto.Documento);
 
             await _usuarioRepository.Criar(usuario);
 
@@ -93,12 +96,11 @@ namespace NewSIGASE.Services
                 return;
             }
 
-            usuarioEditar.Nome = dto.Nome;
-            usuarioEditar.Email = dto.Email;
-            usuarioEditar.Matricula = dto.Matricula;
-            usuarioEditar.Perfil = dto.Perfil;
-            usuarioEditar.Ativo = dto.Ativo;
+            usuarioEditar.Editar(dto.Matricula, dto.Email, dto.Nome, dto.Perfil, dto.Ativo, dto.Telefone, dto.DataNascimento, dto.Documento);
+            usuarioEditar.Endereco.Editar(dto.Endereco.Logradouro, dto.Endereco.Numero, dto.Endereco.Bairro, dto.Endereco.Cep, dto.Endereco.Cidade, 
+                dto.Endereco.UF, dto.Endereco.Complemento, dto.Endereco.PontoReferencia);
 
+            await _usuarioRepository.EditarEndereco(usuarioEditar.Endereco);
             await _usuarioRepository.Editar(usuarioEditar);
         }
 

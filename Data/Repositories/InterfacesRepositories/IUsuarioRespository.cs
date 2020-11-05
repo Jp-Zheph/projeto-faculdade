@@ -22,5 +22,6 @@ namespace NewSIGASE.Data.Repositories.InterfacesRepositories
 
         Task Deletar(Usuario usuario);
 
+        Task EditarEndereco(Endereco endereco);
     }
 }
