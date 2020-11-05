@@ -72,7 +72,8 @@ namespace NewSIGASE.Controllers
             if (_usuarioService.Invalid)
             {
                 TempData["Notificacao"] = new BadRequestDto(_usuarioService.Notifications, "warning");
-                return RedirectToAction(nameof(Index));
+                ViewBag.Controller = "Usuarios";
+                return View("_Confirmacao");
             }
 
             ViewBag.Perfil = Combos.retornarOpcoesPerfil();

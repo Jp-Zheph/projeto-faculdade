@@ -1,8 +1,5 @@
 ﻿using NewSIGASE.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace NewSIGASE.Dto.Response
 {
@@ -13,9 +10,10 @@ namespace NewSIGASE.Dto.Response
         public string Nome { get; set; }
         public string Modelo { get; set; }
         public string Cor { get; set; }
-        public decimal Comprimento { get; set; }
-        public decimal Largura { get; set; }
-        public decimal Altura { get; set; }
+        public decimal? Peso { get; set; }
+        public decimal? Comprimento { get; set; }
+        public decimal? Largura { get; set; }
+        public decimal? Altura { get; set; }
 
 		public EquipamentoListaDto(Equipamento equipamento)
         { 
@@ -24,11 +22,11 @@ namespace NewSIGASE.Dto.Response
 			Nome = equipamento.Nome;
 			Modelo = equipamento.Modelo;
 			Cor = equipamento.Cor;
+			Peso = equipamento.Peso;
 			Comprimento = equipamento.Comprimento;
 			Largura = equipamento.Largura;
 			Altura = equipamento.Altura;
 		}
-
 	
     }
 }

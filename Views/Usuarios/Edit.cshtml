@@ -98,14 +98,14 @@
                 <span asp-validation-for="Endereco.Bairro" class="text-danger"></span>
             </div>
             <div class="col-4">
-                <label for="Endereco.Complemento">Complemento <small style="color:#acabab">(opcional)</small></label>
+                <label for="Endereco.Complemento">Complemento <small style="color:#acabab">opcional</small></label>
                 <input asp-for="Endereco.Complemento" class="form-control" />
                 <span asp-validation-for="Endereco.Complemento" class="text-danger"></span>
             </div>
         </div>
         <div class="row justify-content-center no-gutter">
             <div class="col-8">
-                <label for="Endereco.PontoReferencia">Ponto de Referência <small style="color:#acabab">(opcional)</small></label>
+                <label for="Endereco.PontoReferencia">Ponto de Referência <small style="color:#acabab">opcional</small></label>
                 <input asp-for="Endereco.PontoReferencia" class="form-control" />
             </div>
         </div>
@@ -119,10 +119,10 @@
         </div>
         <div class="row justify-content-center no-gutter">
             <div class="col-1">
-                <input class="btn btn-outline-success" type="submit" value="Salvar" />
+                <input class="btn btn-success" type="submit" value="Salvar" />
             </div>
             <div class="col-1">
-                <a class="btn btn-outline-info" asp-action="Index">Retornar</a>
+                <a class="btn btn-info" asp-action="Index">Retornar</a>
             </div>
         </div>
     </form>
