@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Toolbelt.ComponentModel.DataAnnotations.Schema;
@@ -24,16 +25,15 @@ namespace NewSIGASE.Models
         public string Modelo { get; set; }
 
         public Sala Sala { get; set; }
-        public Guid? SalaId { get; set; }
-
         public DateTime DataCriacao { get; set; }
         public decimal? Peso { get; set; }
         public string Cor { get; set; }
         public decimal? Comprimento { get; set; }
         public decimal? Largura { get; set; }
         public decimal? Altura { get; set; }
+		public List<SalaEquipamento> SalaEquipamentos { get; set; }
 
-        public Equipamento(string serial,
+		public Equipamento(string serial,
             string nome,
             string modelo,
             Guid? salaId,
@@ -46,7 +46,6 @@ namespace NewSIGASE.Models
             Serial = serial;
             Nome = nome;
             Modelo = modelo;
-            SalaId = salaId;
             DataCriacao = DateTime.Now;
             Peso = peso;
             Cor = cor;

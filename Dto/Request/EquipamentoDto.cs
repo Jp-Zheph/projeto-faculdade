@@ -2,6 +2,7 @@
 using Flunt.Validations;
 using NewSIGASE.Models;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace NewSIGASE.Dto.Request
@@ -25,20 +26,23 @@ namespace NewSIGASE.Dto.Request
         public decimal? Comprimento { get; set; }
         public decimal? Largura { get; set; }
         public decimal? Altura { get; set; }
+        public List<SalaEquipamento> SalaEquipamentos { get; set; }
 
+		public EquipamentoDto(Equipamento equipamento)
+		{
+			Id = equipamento.Id;
+			Serial = equipamento.Serial;
+			Nome = equipamento.Nome;
+			Modelo = equipamento.Modelo;
+			DataCriacao = equipamento.DataCriacao;
+			Peso = equipamento.Peso;
+			Cor = equipamento.Cor;
+			Comprimento = equipamento.Comprimento;
+			Largura = equipamento.Largura;
+			Altura = equipamento.Altura;
+			SalaEquipamentos = equipamento.SalaEquipamentos;
+		}
 
-        public EquipamentoDto(Equipamento equipamento)
-        {
-            Id = equipamento.Id;
-            Serial = equipamento.Serial;
-            Nome = equipamento.Nome;
-            Modelo = equipamento.Modelo;
-            Cor = equipamento.Cor;
-            Peso = equipamento.Peso;
-            Comprimento = equipamento.Comprimento;
-            Largura = equipamento.Largura;
-            Altura = equipamento.Altura;
-        }
 
         public EquipamentoDto()
         { }

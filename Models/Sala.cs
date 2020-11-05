@@ -25,9 +25,10 @@ namespace NewSIGASE.Models
         public DateTime DataCriacao { get; set; }
         public bool Ativo { get; set; }
         public decimal Area { get; set; }
-        public int Andar { get; set; }		
+        public int Andar { get; set; }
 
-        public List<Equipamento> Equipamentos { get; set; }
+		public List<SalaEquipamento> SalaEquipamentos { get; set; }	
+		
 		public List<Agendamento> Agendamentos { get; set; }
 
 		public Sala(EnumTipoSala tipo, 
@@ -67,15 +68,10 @@ namespace NewSIGASE.Models
 			Andar = andar;
 		}
 
-		public void AdicionarEquipamentos(IEnumerable<Equipamento> equipamentosId)
+		public void AdicionarSalaEquipamento(List<SalaEquipamento> salaEquipamentos)
 		{
-			foreach (var equipamento in equipamentosId)
-			{
-				if (!Equipamentos.Contains(equipamento))
-				{
-					Equipamentos.Add(equipamento);
-				}
-			}
+			SalaEquipamentos = salaEquipamentos;
+
 		}
 
 		public bool PermissaoDesativar()

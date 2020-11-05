@@ -256,7 +256,7 @@ namespace NewSIGASE.Controllers
             var agendamentos = _context.Agendamentos
                 .Include(a => a.Usuario)
                 .Include(a => a.Sala)
-                    .ThenInclude(s => s.Equipamentos)
+                    .ThenInclude(s => s.SalaEquipamentos)
                 .Where(a => a.DataAgendada >= filtro.DataInicio && a.DataAgendada <= filtro.DataFim)
                 .AsNoTracking();
 

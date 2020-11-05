@@ -29,7 +29,7 @@ namespace NewSIGASE.Dto.Request
         public int CapacidadeAlunos { get; set; }
         public decimal Area { get; set; }
         public int Andar { get; set; }
-
+        public List<SalaEquipamento> SalaEquipamentos { get; set; }
         public SalaDto(Sala sala)
         {
             Tipo = sala.Tipo;
@@ -37,7 +37,10 @@ namespace NewSIGASE.Dto.Request
             CapacidadeAlunos = sala.CapacidadeAlunos;
             Area = sala.Area;
             Andar = sala.Andar;
+            SalaEquipamentos = sala.SalaEquipamentos;
         }
+
+
 
         public SalaDto()
         { }
