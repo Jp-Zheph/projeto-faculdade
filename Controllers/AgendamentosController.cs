@@ -31,21 +31,30 @@ namespace NewSIGASE.Controllers
         public IActionResult Index()
         {
             List<Agendamento> agendamentos;
-            if (AppSettings.Perfil == EnumTipoPerfil.Administrador.ToString())
+            if (AppSettings.Perfil == EnumTipoPerfil.Professor.ToString())
             {
-                agendamentos = _context.Agendamentos.Include(a => a.Sala).Include(a => a.Usuario).AsNoTracking().ToList();
+                agendamentos = _context.Agendamentos
+                    .Include(a => a.Sala)
+                    .Include(a => a.Usuario)
+                    .AsNoTracking()
+                    .Where(a => a.UsuarioId == AppSettings.Usuario)
+                    .ToList();
             }
             else
             {
-                agendamentos = _context.Agendamentos.Include(a => a.Sala).Include(a => a.Usuario).AsNoTracking().Where(a => a.UsuarioId == AppSettings.Usuario).ToList();
+                agendamentos = _context.Agendamentos
+                    .Include(a => a.Sala)
+                    .Include(a => a.Usuario)
+                    .AsNoTracking()
+                    .ToList();
             }
 
             //tratamento para exibição na grid, mostrar apenas nome e sobrenome. 
-            foreach(var a in agendamentos)
+            foreach (var a in agendamentos)
             {
                 var nome = a.Usuario.Nome.Split(" ");
-                if(nome.Length > 1)
-                a.Usuario.Nome = nome[0] + " " + nome[1];
+                if (nome.Length > 1)
+                    a.Usuario.Nome = nome[0] + " " + nome[1];
             }
 
             return View(agendamentos.Select(a => new AgendamentoListaDto(a)));
@@ -146,6 +155,7 @@ namespace NewSIGASE.Controllers
             var agendamento = await _context.Agendamentos
                 .Include(a => a.Sala)
                 .Include(a => a.Usuario)
+                    .ThenInclude(u => u.Endereco)
                 .FirstOrDefaultAsync(a => a.Id == id);
 
             if (agendamento == null)
@@ -154,6 +164,7 @@ namespace NewSIGASE.Controllers
                 ViewBag.Controller = "Agendamentos";
                 return View("_Confirmacao");
             }
+
             ViewBag.TipoSala = (int)agendamento.Sala.Tipo;
             ViewBag.Sala = agendamento.SalaId;
 

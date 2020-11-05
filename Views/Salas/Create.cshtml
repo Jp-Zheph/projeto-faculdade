@@ -39,14 +39,14 @@
 				<span asp-validation-for="CapacidadeAlunos" class="text-danger"></span>
 			</div>
 			<div class="form-group row">
-				<label class="col-sm-4 col-form-label">Observação</label>
+                <label class="col-sm-4 col-form-label">Observação <small style="color:#acabab">opcional</small></label>
 				<div class="col-sm-12">
 					<textarea rows="3" asp-for="Observacao" class="form-control"></textarea>
 				</div>
 				<span asp-validation-for="Observacao" class="text-danger"></span>
 			</div>
 			<div class="form-group row">
-				<label class="col-sm-6 col-form-label">Area</label>
+                <label class="col-sm-6 col-form-label">Área m² <small style="color:#acabab">opcional</small></label>
 				<div class="col-sm-6">
 					<input asp-for="Area" class="form-control" />
 				</div>
@@ -67,10 +67,10 @@
 			</div>
 			<div class="class=" btn-toolbar"" role="group">
 				<div class="btn-group mr-lg-2">
-					<input class="btn btn-outline-success" type="submit" value="Salvar" />
+					<input class="btn btn-success" type="submit" value="Salvar" />
 				</div>
 				<div class="btn-group">
-					<a class="btn btn-outline-info" asp-action="Index">Retornar</a>
+					<a class="btn btn-info" asp-action="Index">Retornar</a>
 				</div>
 			</div>
 		</form>

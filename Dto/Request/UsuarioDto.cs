@@ -18,48 +18,38 @@ namespace NewSIGASE.Dto.Request
         public string Matricula { get; set; }
 
         [Required]
+        public string Documento { get; set; }
+
+        [Required]
+        public string Telefone { get; set; }
+
+        [Required]
+        public DateTime DataNascimento { get; set; }
+
+        [Required]
         public string Email { get; set; }
 
         [Required]
         public EnumTipoPerfil Perfil { get; set; }
 
-        [Required]
         public bool Ativo { get; set; }
-        public Endereco Endereco { get; set; }
-		public Usuario Usuario { get; }
 
-		public UsuarioDto(Guid? id, string nome, string matricula, string email, EnumTipoPerfil perfil, bool ativo, Endereco endereco)
-		{
-			Id = id;
-			Nome = nome;
-			Matricula = matricula;
-			Email = email;
-			Perfil = perfil;
-			Ativo = ativo;
-			Endereco = endereco;
-		}
-
-
-		/*
-				public UsuarioDto(Usuario usuario)
-				{
-					Id = usuario.Id;
-					Nome = usuario.Nome;
-					Matricula = usuario.Matricula;
-					Email = usuario.Email;
-					Perfil = usuario.Perfil;
-					Ativo = usuario.Ativo;
-					Endereco = usuario.Endereco;
-				}*/
-
-
-		public UsuarioDto()
-        { }
+        [Required]
+        public EnderecoDto Endereco { get; set; }
 
 		public UsuarioDto(Usuario usuario)
 		{
-			Usuario = usuario;
+            Id = usuario.Id;
+            Nome = usuario.Nome;
+            Matricula = usuario.Matricula;
+            Email = usuario.Email;
+            Perfil = usuario.Perfil;
+            Ativo = usuario.Ativo;
+            Endereco = new EnderecoDto(usuario.Endereco);
 		}
+
+		public UsuarioDto()
+        { }
 
 		public void Validate()
         {

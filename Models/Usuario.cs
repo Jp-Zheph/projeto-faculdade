@@ -47,8 +47,11 @@ namespace NewSIGASE.Models
 			string email, 
 			string nome,  
 			EnumTipoPerfil perfil,
-			Endereco endereco,
-			bool ativo)
+			Guid enderecoId,
+			bool ativo,
+			string telefone,
+			DateTime dataNasc,
+			string documento)
 		{
 			Id = Guid.NewGuid();
 			Matricula = matricula;
@@ -58,7 +61,10 @@ namespace NewSIGASE.Models
 			Perfil = perfil;
 			Ativo = ativo;
 			DataCriacao = DateTime.Now;
-			Endereco = endereco;
+			EnderecoId = enderecoId;
+			Telefone = telefone;
+			DataNascimento = dataNasc;
+			Documento = documento;
 		}
 
 		public Usuario()
@@ -68,5 +74,24 @@ namespace NewSIGASE.Models
         {
 			Senha = senha;
         }
+
+		public void Editar(string matricula,
+			string email,
+			string nome,
+			EnumTipoPerfil perfil,
+			bool ativo,
+			string telefone,
+			DateTime dataNasc,
+			string documento)
+        {
+			Matricula = matricula;
+			Email = email;
+			Nome = nome;
+			Perfil = perfil;
+			Ativo = ativo;
+			Telefone = telefone;
+			DataNascimento = dataNasc;
+			Documento = documento;
+		}
 	}
 }

@@ -38,14 +38,12 @@ namespace NewSIGASE.Models
         public string PontoReferencia { get; set; }
 
 
-        public Endereco(
-            string logradouro,
+        public Endereco(string logradouro,
             string numero,
             string bairro,
             string cep,
             string cidade,
             string uf,
-            string pais,
             string complemento,
             string pontoReferencia)
         {
@@ -57,12 +55,31 @@ namespace NewSIGASE.Models
             Cep = cep;
             Cidade = cidade;
             UF = uf;
-            Pais = pais;
+            Pais = "BR";
             DataCriacao = DateTime.UtcNow;
             PontoReferencia = pontoReferencia;
         }
 
         public Endereco()
         { }
+
+        public void Editar(string logradouro,
+            string numero,
+            string bairro,
+            string cep,
+            string cidade,
+            string uf,
+            string complemento,
+            string pontoReferencia)
+        {
+            Logradouro = logradouro;
+            Numero = numero;
+            Complemento = complemento;
+            Bairro = bairro;
+            Cep = cep;
+            Cidade = cidade;
+            UF = uf;
+            PontoReferencia = pontoReferencia;
+        }
     }
 }

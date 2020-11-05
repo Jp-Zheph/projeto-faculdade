@@ -54,7 +54,7 @@ namespace NewSIGASE.Controllers
                 return View(equipamentoDto);
             }
 
-            var equipamento = new Equipamento(equipamentoDto.Serial, equipamentoDto.Nome, equipamentoDto.Modelo, equipamentoDto.Cor,equipamentoDto.Comprimento,equipamentoDto.Largura,equipamentoDto.Altura,null);
+            var equipamento = new Equipamento(equipamentoDto.Serial, equipamentoDto.Nome, equipamentoDto.Modelo, null, equipamentoDto.Peso, equipamentoDto.Cor, equipamentoDto.Comprimento, equipamentoDto.Largura, equipamentoDto.Altura);
 
             _context.Equipamentos.Add(equipamento);
             await _context.SaveChangesAsync();
@@ -67,7 +67,7 @@ namespace NewSIGASE.Controllers
         // GET: Equipamentos/Edit/5
         public async Task<IActionResult> Edit(Guid id)
         {
-            var equipamento = await _context.Equipamentos.FindAsync(id);
+            var equipamento = await _context.Equipamentos.FirstOrDefaultAsync(e => e.Id == id);
             if (equipamento == null)
             {
                 TempData["Notificacao"] = new BadRequestDto(new List<Notification>() { new Notification("EditarEquipamento", "Equipamento não encontrado.") }, "warning");
@@ -110,13 +110,7 @@ namespace NewSIGASE.Controllers
                 return View(equipamentoDto);
             }
 
-            equipamento.Modelo = equipamentoDto.Modelo;
-            equipamento.Nome = equipamentoDto.Nome;
-            equipamento.Serial = equipamentoDto.Serial;
-            equipamento.Largura = equipamentoDto.Largura;
-            equipamento.Comprimento = equipamentoDto.Comprimento;
-            equipamento.Altura = equipamentoDto.Altura;
-            equipamento.Cor = equipamentoDto.Cor;
+            equipamento.Editar(equipamento.Serial, equipamento.Nome, equipamento.Modelo, equipamento.Peso, equipamento.Cor, equipamento.Comprimento, equipamento.Largura, equipamento.Altura);
 
             _context.Entry<Equipamento>(equipamento).State = EntityState.Modified;
             _context.SaveChanges();
@@ -132,6 +126,7 @@ namespace NewSIGASE.Controllers
             ViewBag.Controller = "Equipamentos";
 
             var equipamento = await _context.Equipamentos
+                .Include(e => e.Sala)
                 .FirstOrDefaultAsync(m => m.Id == id);
 
             if (equipamento == null)
