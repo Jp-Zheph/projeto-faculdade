@@ -6,7 +6,7 @@
 
 <script>
     $(document).ready(function () {
-        
+
         $("#selectTipoSala").change(function () {
             $.ajax({
                 type: "get",
@@ -24,6 +24,12 @@
                         if (s != undefined) {
                             $("#SelectSala").val(s).change();
                         }
+
+                        if (status == "Cancelado") {
+                            $("input, select, textarea").each(function () {
+                                $(this).attr('readonly', true);
+                            });
+                        }
                     }
                 }
             });
@@ -31,30 +37,35 @@
 
         var a = $("#tipoHidden").val();
         var s = $("#salaHidden").val();
+        var status = $("#status").val();
         $("#selectTipoSala").val(a).change();
-        
+
     });
 </script>
+@{ 
+    var status = Model.Status.ToString();
+}
 <h3>Editar Agendamento</h3>
 <hr />
 <input type="hidden" id="tipoHidden" value="@ViewBag.TipoSala" />
 <input type="hidden" id="salaHidden" value="@ViewBag.Sala" />
+<input type="hidden" id="status" value="@status"/>
 <div class="row formulario">
     <div class="col-md-8">
-        <form asp-action="Create">
+        <form id="form" asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="UsuarioId" value="@NewSIGASE.Infra.Configuration.AppSettings.Usuario" />
             <div class="form-group row">
                 <label class="col-sm-6 col-form-label">Data do Agendamento</label>
                 <div class="col-sm-6">
-                    <input asp-for="DataAgendada" type="date" class="form-control" />
+                    <input asp-for="DataAgendada" type="date" class="form-control"/>
                 </div>
                 <span asp-validation-for="DataAgendada" class="text-danger"></span>
             </div>
             <div class="form-group row">
                 <label class="col-sm-4 col-form-label">Período do Dia</label>
                 <div class="col-sm-8">
-                    <select asp-for="Periodo" class="form-control" asp-items="ViewBag.Periodo"></select>
+                    <select  asp-for="Periodo" class="form-control disabled" asp-items="ViewBag.Periodo"></select>
                 </div>
                 <span asp-validation-for="Periodo" class="text-danger"></span>
             </div>
@@ -72,10 +83,22 @@
                 </div>
                 <span asp-validation-for="SalaId" class="text-danger"></span>
             </div>
-            <div class="class=" btn-toolbar"" role="group">
-                <div class="btn-group mr-lg-2">
-                    <input class="btn btn-outline-success" type="submit" value="Salvar" />
+            @if (status == "Reprovado")
+            {
+                <div class="form-group row">
+                    <label class="col-sm-8 col-form-label">Justificativa Reprovação</label>
+                    <div class="col-sm-12">
+                        <textarea readonly id="textJustificativa" rows="2" asp-for="Justificativa" class="form-control disabled"></textarea>
+                    </div>
                 </div>
+            }
+            <div class="class=" btn-toolbar"" role="group">
+                @if (status != "Cancelado")
+                {
+                    <div class="btn-group mr-lg-2">
+                        <input class="btn btn-outline-success" type="submit" value="Salvar" />
+                    </div>
+                }
                 <div class="btn-group">
                     <a class="btn btn-outline-info" asp-action="Index">Retornar</a>
                 </div>

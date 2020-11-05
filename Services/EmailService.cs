@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Options;
+using NewSIGASE.Dto.Request;
 using NewSIGASE.Infra.Configuration;
 using NewSIGASE.Models;
 using NewSIGASE.Services.Constantes;
@@ -51,6 +52,26 @@ namespace NewSIGASE.Services
             builder.Replace("{{SENHA_USUARIO}}", usuario.Senha);
 
             await EnviarAsync(AssuntosEmail.ConcluirCadastro, builder.ToString());
+        }
+
+        public async Task EnviarEmailAprovacaoAgendamento(Agendamento agendamento)
+        {
+            var caminhoTemplate = _caminhoPastaEmails + CaminhoArquivoEmail.AgendamentoAprovacao;
+
+            var builder = new StringBuilder();
+            builder.Append(File.ReadAllText(caminhoTemplate, Encoding.UTF8));
+
+            if (agendamento.Status.ToString() == "Reprovado")
+            {
+                builder.Replace("{{JUSTIFICATIVA}}", "Motivo: " + agendamento.Justificativa);
+            }
+            builder.Replace("{{TITULO}}", agendamento.Status.ToString() == "Reprovado" ? "Reprovação" : "Aprovação");
+            builder.Replace("{{STATUS}}", agendamento.Status.ToString());
+            builder.Replace("{{SALA}}", agendamento.Sala.IdentificadorSala);
+            builder.Replace("{{PERIODO}}", agendamento.Periodo.ToString());
+            builder.Replace("{{DATA}}", agendamento.DataAgendada.Date.ToString());
+
+            await EnviarAsync(AssuntosEmail.AgendamentoAprovacao + agendamento.Status.ToString()+"!", builder.ToString());
         }
 
         private async Task<bool> EnviarAsync(string assunto, string mensagem)

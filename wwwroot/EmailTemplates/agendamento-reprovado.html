@@ -6,12 +6,17 @@
     </thead>
     <tbody style="background-color: #F5F1F1">
         <tr>
-            <td style="padding: 3em 1em 1em; font-size: 1.3em; font-weight: bold; color: #585E65">Reprovação de Agendamento</td>
+            <td style="padding: 3em 1em 1em; font-size: 1.3em; font-weight: bold; color: #585E65">{{TITULO}} de Agendamento</td>
         </tr>
         <tr>
             <td style="padding: 1em; font-size: 1em; color: #585E65">
-                Seu agendamento foi reprovado! <br /><br />
-                Motivo: {{JUSTIFICATIVA}}
+                Seu agendamento foi {{STATUS}}! <br /><br />
+                Dados do agendamento: <br /><br />
+                Sala: {{SALA}} <br /><br />
+                Data: {{DATA}} <br /><br />
+                Periodo: {{PERIODO}} <br /><br />
+
+                {{JUSTIFICATIVA}}
             </td>
         </tr>
         <tr>

@@ -3,7 +3,15 @@
 @{
     ViewData["Title"] = "Index";
 }
-
+<style>
+    .isDisabled {
+        color: currentColor;
+        cursor: not-allowed;
+        pointer-events: none;
+        opacity: 0.5;
+        text-decoration: none;
+    }
+</style>
 <script>
     $(document).ready(function () {
         $("#selectAprovar").change(function () {
@@ -17,6 +25,7 @@
     });
 
     abriModalAprovacao = function (id) {
+        $("#idAgendamento").val(id);
         $.get('@Url.Action("ObterAgendamento","Agendamentos")',
             { id: id },
             function (data) {
@@ -24,9 +33,30 @@
                 $("#Sala").val("Sala: " + data.sala);
                 $("#Periodo").val("Periodo: " + data.periodo);
                 $("#Usuario").val("Usuario: " + data.usuario);
-        });
+                
+            }
+        );
 
         $("#linkAbriModal").click();
+    }
+
+    function abrirEditar(codigo) {
+        window.location = window.origin + "\\agendamentos\\edit\\" + codigo;
+    }
+
+    aprovarSolicitacao = function () {
+        $.post('@Url.Action("AprovarAgendamento", "Agendamentos")',
+            {
+                agendamentoId: $("#idAgendamento").val(),
+                status: $("#selectAprovar option:selected").val(),
+                justificativa: $("#justificativaReprovacao").val()
+            },
+            function (data) {
+                if (!data.erro) {
+                    $("#linkAbriModal").click();
+                }
+            }
+        );
     }
 
 
@@ -55,41 +85,42 @@
             <th>
                 @Html.DisplayName("Usuário")
             </th>
+            <th>
+                @Html.DisplayName("Status")
+            </th>
             <th style="text-align: center;">Ações</th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
+
+            <tr style="cursor: pointer">
+                <td onclick="abrirEditar('@item.Id')">
                     @Html.DisplayFor(modelItem => item.DataCriacao)
                 </td>
-                <td>
+                <td onclick="abrirEditar('@item.Id')">
                     @Html.DisplayFor(modelItem => item.DataAgendada)
                 </td>
-                <td>
+                <td onclick="abrirEditar('@item.Id')">
                     @Html.DisplayFor(modelItem => item.Periodo)
                 </td>
-                <td>
+                <td onclick="abrirEditar('@item.Id')">
                     @Html.DisplayFor(modelItem => item.Sala)
                 </td>
-                <td>
+                <td onclick="abrirEditar('@item.Id')">
                     @Html.DisplayFor(modelItem => item.TipoSala)
                 </td>
-                <td>
+                <td onclick="abrirEditar('@item.Id')">
                     @Html.DisplayFor(modelItem => item.Usuario)
                 </td>
+                <td onclick="abrirEditar('@item.Id')">
+                    @Html.DisplayFor(modelItem => item.Status)
+                </td>
                 <td style="text-align:right">
-                    <a class="btn btn-info" asp-action="Edit" asp-route-id="@item.Id">
-                        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-pencil-square" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456l-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
-                            <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
-                        </svg>
-                    </a>
                     @if (NewSIGASE.Infra.Configuration.AppSettings.Perfil == "Administrador")
                     {
-                        <a class="btn btn-warning" onclick="abriModalAprovacao('@item.Id');">
+                        <a class="btn btn-warning @(item.Status != "Pendente" ? "isDisabled" : "")" onclick="abriModalAprovacao('@item.Id');">
                             <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-check2-square" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                 <path fill-rule="evenodd" d="M15.354 2.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3-3a.5.5 0 1 1 .708-.708L8 9.293l6.646-6.647a.5.5 0 0 1 .708 0z" />
                                 <path fill-rule="evenodd" d="M1.5 13A1.5 1.5 0 0 0 3 14.5h10a1.5 1.5 0 0 0 1.5-1.5V8a.5.5 0 0 0-1 0v5a.5.5 0 0 1-.5.5H3a.5.5 0 0 1-.5-.5V3a.5.5 0 0 1 .5-.5h8a.5.5 0 0 0 0-1H3A1.5 1.5 0 0 0 1.5 3v10z" />
@@ -123,6 +154,7 @@
             <div class="modal-body">
                 @* Dados Agendamento *@
                 <div class="formulario">
+                    <input type="hidden" id="idAgendamento" />
                     <input type="text" readonly id="Data" class="form-control col-md-8" />
                     <input type="text" readonly id="Periodo" class="form-control col-md-8" />
                     <input type="text" readonly id="Sala" class="form-control col-md-8" />
@@ -146,7 +178,7 @@
                             <div id="divJustificativa" class="form-group row" style="display:none;">
                                 <label class="col-sm-4 col-form-label">JUSTIFICATIVA</label>
                                 <div class="col-sm-12">
-                                    <textarea rows="3" class="form-control"></textarea>
+                                    <textarea id="justificativaReprovacao" rows="3" class="form-control"></textarea>
                                 </div>
                             </div>
                         </form>
@@ -157,7 +189,7 @@
             <div class="modal-footer alert-primary">
                 <div class="class=" btn-toolbar"" role="group">
                     <div class="btn-group mr-lg-2">
-                        <button type="button" class="btn btn-success" data-dismiss="modal">Salvar</button>
+                        <button type="button" class="btn btn-success" onclick="aprovarSolicitacao()" data-dismiss="modal">Salvar</button>
                     </div>
                     <div class="btn-group mr-lg-2">
                         <button type="button" class="btn btn-danger" data-dismiss="modal">Fechar</button>
@@ -170,5 +202,5 @@
 </div>
 
 <div>
-    <a class="btn btn-success" style="margin-left: 92.5%" asp-action="Create">Novo</a>
+    <a class="btn btn-success" style="margin-left: 93.5%" asp-action="Create">Novo</a>
 </div>

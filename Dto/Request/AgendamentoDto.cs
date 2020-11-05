@@ -29,6 +29,7 @@ namespace NewSIGASE.Dto.Request
         public Guid UsuarioId { get; set; }
 
         public UsuarioDto Usuario { get; set; }
+        public string Justificativa { get; set; }
 
         public void Validate()
         {
@@ -50,6 +51,7 @@ namespace NewSIGASE.Dto.Request
             Sala = new SalaDto(agendamento.Sala);
             UsuarioId = agendamento.UsuarioId;
             Usuario = new UsuarioDto(agendamento.Usuario);
+            Justificativa = agendamento.Justificativa;
         }
 
         public AgendamentoDto()

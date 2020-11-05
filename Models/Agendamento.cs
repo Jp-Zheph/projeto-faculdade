@@ -50,13 +50,15 @@ namespace NewSIGASE.Models
 			SalaId = salaId;
 		}
 
-		public void AtualizarAgendamento(DateTime dataAtualizacao,
+		public void AtualizarAgendamento(
 			Guid aprovadorId,
-			EnumStatusAgendamento status)
+			EnumStatusAgendamento status,
+			string justificativa = null)
         {
-			DataAtualizacaoStatus = dataAtualizacao;
+			DataAtualizacaoStatus = DateTime.Now;
 			AprovadorId = aprovadorId;
 			Status = status;
+			Justificativa = justificativa;
         }
 	}
 }

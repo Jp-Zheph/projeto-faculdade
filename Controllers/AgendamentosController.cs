@@ -12,16 +12,19 @@ using NewSIGASE.Dto.Response;
 using NewSIGASE.Infra.Configuration;
 using NewSIGASE.Models;
 using NewSIGASE.Models.Enum;
+using NewSIGASE.Services;
+using NewSIGASE.Services.InterfacesServices;
 
 namespace NewSIGASE.Controllers
 {
     public class AgendamentosController : Controller
     {
         private readonly SIGASEContext _context;
-
-        public AgendamentosController(SIGASEContext context)
+        private readonly IEmailService _emailService;
+        public AgendamentosController(SIGASEContext context, IEmailService emailService)
         {
             _context = context;
+            _emailService = emailService;
         }
 
         // GET: Agendamentos
@@ -57,10 +60,28 @@ namespace NewSIGASE.Controllers
         }
 
         [HttpPost]
-        public IActionResult AprovacaoAgendamento()
+        public JsonResult AprovarAgendamento(AgendamentoAprovacao aprovacao)
         {
+            var retorno = _context.Agendamentos.Include(a => a.Usuario).Include(a => a.Sala).FirstOrDefault(a => a.Id == aprovacao.AgendamentoId);
+            retorno.AtualizarAgendamento(AppSettings.Usuario, aprovacao.Status, aprovacao.Justificativa);
+            string strErro = "";
+            bool erro = false;
+            try
+            {
+                _context.Entry<Agendamento>(retorno).State = EntityState.Modified;
+                _context.SaveChanges();
 
-            return RedirectToAction("Index");
+                _emailService.AdicionarDestinatario(retorno.Usuario.Email, retorno.Usuario.Nome);
+                _emailService.EnviarEmailAprovacaoAgendamento(retorno);
+                erro = false;
+            }
+            catch(Exception ex)
+            {
+                erro = true;
+                strErro = ex.Message;
+            }
+
+            return Json(new { erro = erro.ToString(), strErro = strErro.ToString()});
         }
         // GET: Agendamentos/Create
         public IActionResult Create()
@@ -203,7 +224,9 @@ namespace NewSIGASE.Controllers
                 return NotFound();
             }
 
-            _context.Agendamentos.Remove(agendamento);
+            agendamento.AtualizarAgendamento(AppSettings.Usuario, EnumStatusAgendamento.Cancelado);
+
+            _context.Entry<Agendamento>(agendamento).State = EntityState.Modified;
             await _context.SaveChangesAsync();
 
             return RedirectToAction(nameof(Index));

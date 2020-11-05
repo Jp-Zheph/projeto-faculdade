@@ -8,7 +8,8 @@ namespace NewSIGASE.Models
 {
     public class AgendamentoAprovacao
     {
-        public EnumStatusAgendamento status { get; set; }
-        public string justificativa { get; set; }
+        public Guid AgendamentoId { get; set; }
+        public EnumStatusAgendamento Status { get; set; }
+        public string Justificativa { get; set; }
     }
 }
