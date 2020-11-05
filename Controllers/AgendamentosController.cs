@@ -155,7 +155,7 @@ namespace NewSIGASE.Controllers
             var agendamento = await _context.Agendamentos
                 .Include(a => a.Sala)
                 .Include(a => a.Usuario)
-                    .ThenInclude(u => u.Endereco)
+                .ThenInclude(u => u.Endereco)
                 .FirstOrDefaultAsync(a => a.Id == id);
 
             if (agendamento == null)
@@ -212,6 +212,7 @@ namespace NewSIGASE.Controllers
             }
 
             agendamentoEditar.Editar(dto.DataAgendada, dto.Periodo, dto.SalaId);
+            agendamentoEditar.AtualizarAgendamento(Guid.Empty, EnumStatusAgendamento.Pendente, null);
 
             _context.Entry<Agendamento>(agendamentoEditar).State = EntityState.Modified;
             await _context.SaveChangesAsync();

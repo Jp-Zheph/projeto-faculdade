@@ -117,7 +117,7 @@
                 <td onclick="abrirEditar('@item.Id')">
                     @Html.DisplayFor(modelItem => item.Status)
                 </td>
-                <td style="text-align:right">
+                <td style="text-align:center">
                     @if (NewSIGASE.Infra.Configuration.AppSettings.Perfil == "Administrador")
                     {
                         <a class="btn btn-warning @(item.Status != "Pendente" ? "isDisabled" : "")" onclick="abriModalAprovacao('@item.Id');">
@@ -202,5 +202,5 @@
 </div>
 
 <div>
-    <a class="btn btn-success" style="margin-left: 93.5%" asp-action="Create">Novo</a>
+    <a class="btn btn-success" style="margin-left: 92%" asp-action="Create">Novo</a>
 </div>

@@ -55,7 +55,7 @@ namespace NewSIGASE.Models
 			EnumStatusAgendamento status,
 			string justificativa = null)
         {
-			DataAtualizacaoStatus = DateTime.Now;
+			this.DataAtualizacaoStatus = DateTime.Now;
 			AprovadorId = aprovadorId;
 			Status = status;
 			Justificativa = justificativa;
