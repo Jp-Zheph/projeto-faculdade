@@ -14,8 +14,7 @@ namespace NewSIGASE.Dto.Response
         public Endereco Endereco { get; set; }
 
 		public UsuarioListaDto()
-		{
-		}
+		{ }
 
 		public UsuarioListaDto(Usuario usuario)
         {

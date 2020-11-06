@@ -4,6 +4,8 @@ using NewSIGASE.Models.Enum;
 using NewSIGASE.Models;
 using System;
 using System.ComponentModel.DataAnnotations;
+using Flunt.Br.Extensions;
+using System.Text.RegularExpressions;
 
 namespace NewSIGASE.Dto.Request
 {
@@ -45,6 +47,9 @@ namespace NewSIGASE.Dto.Request
             Email = usuario.Email;
             Perfil = usuario.Perfil;
             Ativo = usuario.Ativo;
+            Documento = usuario.Documento;
+            Telefone = usuario.Telefone;
+            DataNascimento = usuario.DataNascimento;
             Endereco = new EnderecoDto(usuario.Endereco);
 		}
 
@@ -67,8 +72,13 @@ namespace NewSIGASE.Dto.Request
                 .IfNotNull(Email, x => x.IsEmail(Email, nameof(Email), MensagemValidacaoDto.CampoFormatoIncorreto))
 
                 .IsTrue(perfilExiste, nameof(Perfil), MensagemValidacaoDto.CampoTipoInvalido(nameof(Perfil)))
-            );
 
+                .IsNotNullOrEmpty(Documento, nameof(Documento), MensagemValidacaoDto.CampoObrigatorio)
+                .IfNotNull(Documento, x => x.IsCpf(Documento, nameof(Documento), MensagemValidacaoDto.CampoFormatoIncorreto))
+
+                .IsNotNullOrEmpty(Telefone, nameof(Telefone), MensagemValidacaoDto.CampoObrigatorio)
+                .IfNotNull(Telefone, x => x.IsTrue(Regex.IsMatch(Telefone, "^[0-9]*$"), nameof(Telefone), MensagemValidacaoDto.CampoFormatoIncorreto))
+            );
         }
     }
 }
