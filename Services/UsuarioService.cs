@@ -31,7 +31,7 @@ namespace NewSIGASE.Services
 
         public async Task<Usuario> Obter(Guid id)
         {
-            var usuario = await _usuarioRepository.Obter(id);
+            var usuario = await _usuarioRepository.ObterAsync(id);
             if (usuario == null)
             {
                 AddNotification("Usuario", MensagemValidacaoService.Usuario.NaoExiste);
@@ -42,7 +42,7 @@ namespace NewSIGASE.Services
 
         public async Task Criar(UsuarioDto usuarioDto)
         {
-            var usuarioCadastrado = _usuarioRepository.Obter(usuarioDto.Email, usuarioDto.Matricula);
+            var usuarioCadastrado = await _usuarioRepository.ObterAsync(usuarioDto.Email, usuarioDto.Matricula);
 
             ValidarUsuarioCadastrado(usuarioDto, usuarioCadastrado);
             if (Invalid)
@@ -55,7 +55,7 @@ namespace NewSIGASE.Services
 
             var usuario = new Usuario(usuarioDto.Matricula, usuarioDto.Email, usuarioDto.Nome, usuarioDto.Perfil, endereco.Id, false, usuarioDto.Telefone, usuarioDto.DataNascimento, usuarioDto.Documento);
 
-            await _usuarioRepository.Criar(usuario);
+            await _usuarioRepository.CriarAsync(usuario);
 
             _emailService.AdicionarDestinatario(usuario.Email, usuario.Nome);
             await _emailService.EnviarEmailCadastroUsuario(usuario);
@@ -63,7 +63,7 @@ namespace NewSIGASE.Services
 
         public async Task Deletar(Guid id)
         {
-            var usuario = await _usuarioRepository.Obter(id);
+            var usuario = await _usuarioRepository.ObterAsync(id);
 
             AddNotifications(new Contract()
                 .IsNotNull(usuario, "ExcluirUsuario", MensagemValidacaoService.Usuario.NaoExiste)
@@ -75,7 +75,7 @@ namespace NewSIGASE.Services
                 return;
             }
 
-            await _usuarioRepository.Deletar(usuario);
+            await _usuarioRepository.DeletarAsync(usuario);
         }
 
         public void ValidarUsuarioCadastrado(UsuarioDto usuarioDto, Usuario usuarioCadastrado)
@@ -88,9 +88,9 @@ namespace NewSIGASE.Services
 
         public async Task Editar(UsuarioDto dto)
         {
-            var usuarioEditar = await _usuarioRepository.Obter(dto.Id.Value);
+            var usuarioEditar = await _usuarioRepository.ObterAsync(dto.Id.Value);
 
-            ValidarUsuarioEditar(usuarioEditar, dto.Email, dto.Matricula);
+            await ValidarUsuarioEditar(usuarioEditar, dto.Email, dto.Matricula);
             if (Invalid)
             {
                 return;
@@ -100,11 +100,11 @@ namespace NewSIGASE.Services
             usuarioEditar.Endereco.Editar(dto.Endereco.Logradouro, dto.Endereco.Numero, dto.Endereco.Bairro, dto.Endereco.Cep, dto.Endereco.Cidade, 
                 dto.Endereco.UF, dto.Endereco.Complemento, dto.Endereco.PontoReferencia);
 
-            await _usuarioRepository.EditarEndereco(usuarioEditar.Endereco);
-            await _usuarioRepository.Editar(usuarioEditar);
+            await _usuarioRepository.EditarEnderecoAsync(usuarioEditar.Endereco);
+            await _usuarioRepository.EditarAsync(usuarioEditar);
         }
 
-        private void ValidarUsuarioEditar(Usuario usuarioEditar, string email, string matricula)
+        private async Task ValidarUsuarioEditar(Usuario usuarioEditar, string email, string matricula)
         {
             if (usuarioEditar == null)
             {
@@ -112,7 +112,7 @@ namespace NewSIGASE.Services
                 return;
             }
 
-            var usuarioDuplicado = _usuarioRepository.Obter(email, matricula);
+            var usuarioDuplicado = await _usuarioRepository.ObterAsync(email, matricula);
             if (usuarioDuplicado != null && usuarioDuplicado.Id != usuarioEditar.Id)
             {
                 AddNotification("UsuarioEditar", MensagemValidacaoService.Usuario.JaCadastrado("Usuário"));
@@ -122,7 +122,7 @@ namespace NewSIGASE.Services
 
         public async Task CriarSenha(SenhaCriarDto senhaDto)
         {
-            var usuario = await _usuarioRepository.Obter(senhaDto.Id);
+            var usuario = await _usuarioRepository.ObterAsync(senhaDto.Id);
             if (usuario == null)
             {
                 AddNotification("AlterarSenha", MensagemValidacaoService.Usuario.NaoExiste);
@@ -140,13 +140,13 @@ namespace NewSIGASE.Services
             }
 
             usuario.AlterarSenha(senhaDto.SenhaNova);
-            await _usuarioRepository.Editar(usuario);
+            await _usuarioRepository.EditarAsync(usuario);
         }
 
         public Usuario ValidarLogin(string email, string senha, out string mensagem)
         {
             mensagem = "";
-            var retorno = _usuarioRepository.ObterPorEmail(email);
+            var retorno = _usuarioRepository.ObterPorEmailAsync(email).GetAwaiter().GetResult();
             if (retorno != null && retorno.Senha == senha)
             {
                 return retorno;

@@ -76,8 +76,6 @@ namespace NewSIGASE.Controllers
      
             sala.AdicionarSalaEquipamento(listaEquips.Select(e => new SalaEquipamento(sala.Id, e.Id)).ToList());
 
-
-
             _context.Salas.Add(sala);
             _context.SaveChanges();
 
@@ -144,7 +142,7 @@ namespace NewSIGASE.Controllers
             }
 
             List<Equipamento> listaEquips = salaDto.EquipamentoId == null ? null : _context.Equipamentos.Where(e => salaDto.EquipamentoId.Contains(e.Id)).ToList();
-            salaEditar.Editar(salaDto.Tipo, salaDto.IdentificadorSala, salaDto.Observacao, salaDto.Area, salaDto.Andar,salaDto.CapacidadeAlunos, listaEquips);
+            salaEditar.Editar(salaDto.Tipo, salaDto.IdentificadorSala, salaDto.Observacao, salaDto.Area, salaDto.Andar,salaDto.CapacidadeAlunos);
 
             _context.Entry<Sala>(salaEditar).State = EntityState.Modified;
             _context.SaveChanges();

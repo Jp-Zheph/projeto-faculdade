@@ -27,7 +27,7 @@ namespace NewSIGASE.Controllers
         {
             var usuarios = _usuarioService.Obter();
 
-            return View(usuarios?.Include(a => a.Endereco).Select(u => new UsuarioListaDto(u)));
+            return View(usuarios.Select(u => new UsuarioListaDto(u)));
         }
 
         // GET: Usuarios/Create
