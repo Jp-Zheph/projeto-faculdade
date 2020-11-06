@@ -24,7 +24,7 @@ namespace NewSIGASE.Controllers
         // GET: Salas
         public IActionResult Index()
         {
-            var lista = _context.Salas.Include(s => s.Equipamentos).AsNoTracking();
+            var lista = _context.Salas.Include(s => s.SalaEquipamentos).AsNoTracking();
             if (lista == null)
             {
                 lista = Array.Empty<Sala>().AsQueryable();
@@ -38,7 +38,7 @@ namespace NewSIGASE.Controllers
         public IActionResult Create()
         {
             ViewBag.TipoSala = Combos.retornarOpcoesSala();
-            ViewBag.Equipamentos = new SelectList(_context.Equipamentos.AsNoTracking().Where(e => e.SalaId == null), "Id", "NomeModelo");
+            ViewBag.Equipamentos = new SelectList(_context.Equipamentos.Include(e => e.SalaEquipamentos).AsNoTracking().Where(e => e.SalaEquipamentos == null), "Id", "NomeModelo");
 
             return View();
         }
@@ -51,7 +51,7 @@ namespace NewSIGASE.Controllers
         public IActionResult Create(SalaDto salaDto)
         {
             ViewBag.TipoSala = Combos.retornarOpcoesSala();
-            ViewBag.Equipamentos = new SelectList(_context.Equipamentos.AsNoTracking().Where(e => e.SalaId == null), "Id", "NomeModelo");
+            ViewBag.Equipamentos = new SelectList(_context.SalaEquipamentos.AsNoTracking().Where(e => e.SalaId == null), "Id", "NomeModelo");
 
             salaDto.Validate();
             if (salaDto.Invalid)
@@ -71,8 +71,13 @@ namespace NewSIGASE.Controllers
             }
 
             List<Equipamento> listaEquips = salaDto.EquipamentoId == null ? null : _context.Equipamentos.Where(e => salaDto.EquipamentoId.Contains(e.Id)).ToList();
-            var sala = new Sala(salaDto.Tipo, salaDto.IdentificadorSala, salaDto.Observacao, salaDto.Area, salaDto.Andar, salaDto.CapacidadeAlunos, listaEquips);
             
+            var sala = new Sala(salaDto.Tipo, salaDto.IdentificadorSala, salaDto.Observacao, salaDto.Area, salaDto.Andar, salaDto.CapacidadeAlunos);
+     
+            sala.AdicionarSalaEquipamento(listaEquips.Select(e => new SalaEquipamento(sala.Id, e.Id)).ToList());
+
+
+
             _context.Salas.Add(sala);
             _context.SaveChanges();
 
@@ -93,7 +98,7 @@ namespace NewSIGASE.Controllers
             }
 
             ViewBag.TipoSala = Combos.retornarOpcoesSala();
-            ViewBag.Equipamentos = new SelectList(_context.Equipamentos.AsNoTracking().Where(e => e.SalaId == null), "Id", "NomeModelo");
+            ViewBag.Equipamentos = new SelectList(_context.Equipamentos.AsNoTracking().Where(e => e.SalaEquipamentos == null), "Id", "NomeModelo");
 
             return View(new SalaDto(sala));
         }
@@ -106,7 +111,7 @@ namespace NewSIGASE.Controllers
         public async Task<IActionResult> Edit(SalaDto salaDto)
         {
             ViewBag.TipoSala = Combos.retornarOpcoesSala();
-            ViewBag.Equipamentos = new SelectList(_context.Equipamentos.AsNoTracking().Where(e => e.SalaId == null), "Id", "NomeModelo");
+            ViewBag.Equipamentos = new SelectList(_context.Equipamentos.AsNoTracking().Where(e => e.SalaEquipamentos == null), "Id", "NomeModelo");
 
             if (salaDto.Id == null)
             {

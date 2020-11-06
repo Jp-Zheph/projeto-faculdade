@@ -1,9 +1,11 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace NewSIGASE.Models
 {
     public class RegistroAtividades
     {
+        [Key]
         public Guid Id { get; set; }
         public string Acao { get; set; }
         public string Entidade { get; set; }

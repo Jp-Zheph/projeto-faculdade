@@ -37,7 +37,7 @@ namespace NewSIGASE.Dto.Response
             Sala = agendamento.Sala.IdentificadorSala;
             TipoSala = agendamento.Sala.Tipo == EnumTipoSala.Laboratorio ? agendamento.Sala.Tipo.ToString() : "Sala de Aula";
             CapacidadeAlunos = agendamento.Sala.CapacidadeAlunos;
-			QuantidadeEquipamentos = agendamento.Sala.Equipamentos?.Count() ?? 0;
+			QuantidadeEquipamentos = agendamento.Sala.SalaEquipamentos?.Count() ?? 0;
             DataAprovacao = string.Format("{0:dd/MM/yyyy}", agendamento.DataAtualizacaoStatus);
             AprovadaPor = aprovador?.Nome ?? string.Empty;
             MatriculaAprovador = aprovador?.Matricula ?? string.Empty;
