@@ -2,6 +2,7 @@
 using NewSIGASE.Models;
 using NewSIGASE.Models.Enum;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -25,6 +26,6 @@ namespace NewSIGASE.Data.Repositories.Interfaces
 
         Task EditarEnderecoAsync(Endereco endereco);
 
-        IQueryable<Usuario> ObterPorPerfil(EnumTipoPerfil perfil);
+        IEnumerable<Usuario> ObterPorPerfil(EnumTipoPerfil perfil);
     }
 }

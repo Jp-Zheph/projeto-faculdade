@@ -12,6 +12,7 @@ namespace NewSIGASE.Dto.Response
         public string Email { get; }
         public EnumTipoPerfil Perfil { get; }
         public Endereco Endereco { get; }
+        public string Ativo { get; }
 
 		public UsuarioListaDto()
 		{ }
@@ -24,6 +25,7 @@ namespace NewSIGASE.Dto.Response
             Email = usuario.Email;
             Perfil = usuario.Perfil;
             Endereco = usuario.Endereco;
+            Ativo = usuario.Ativo ? "Ativo" : "Inativo";
         }
     }
 }

@@ -27,6 +27,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.Perfil)
             </th>
+            <th>
+                @Html.DisplayName("Status")
+            </th>
             <th style="text-align:center">Ações</th>
         </tr>
     </thead>
@@ -45,6 +48,9 @@
                 </td>
                 <td onclick="abrirEditar('@item.Id')">
                     @Html.DisplayFor(modelItem => item.Perfil)
+                </td>
+                <td onclick="abrirEditar('@item.Id')">
+                    @Html.DisplayFor(modelItem => item.Ativo)
                 </td>
                 <td style="text-align:center">
                     <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">

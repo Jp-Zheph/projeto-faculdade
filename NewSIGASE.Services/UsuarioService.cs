@@ -10,6 +10,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using NewSIGASE.Models.Enum;
+using System.Collections.Generic;
 
 namespace NewSIGASE.Services
 {
@@ -165,7 +166,7 @@ namespace NewSIGASE.Services
             return null;
         }
 
-        public IQueryable<Usuario> ObterPorPerfil(EnumTipoPerfil perfil)
+        public IEnumerable<Usuario> ObterPorPerfil(EnumTipoPerfil perfil)
         {
             return _usuarioRepository.ObterPorPerfil(perfil);
         }

@@ -2,18 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using EllipticCurve.Utils;
 using Flunt.Notifications;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
 using NewSIGASE.Comum;
 using NewSIGASE.Dto.Request;
 using NewSIGASE.Dto.Response;
 using NewSIGASE.Infra.Configuration;
-using NewSIGASE.Models;
 using NewSIGASE.Models.Enum;
-using NewSIGASE.Services;
 using NewSIGASE.Services.Interfaces;
 
 namespace NewSIGASE.Controllers
@@ -66,6 +62,56 @@ namespace NewSIGASE.Controllers
             //ViewBag.Salas = new SelectList(_context.Salas.AsNoTracking(), "Id", "IdentificadorSala");
 
             return View();
+        }
+
+        [HttpGet]
+        [Route("/Agendamentos/GerarRelatorio")]
+        public IActionResult GerarRelatorio(AgendamentoRelatorioFiltroDto filtro)
+        {
+            filtro.DataInicio ??= DateTime.Now.Date;
+            filtro.DataFim ??= DateTime.Now.Date.AddDays(10);
+
+            ViewBag.DataInicio = filtro.DataInicio.Value.Date.ToString("yyyy-MM-dd");
+            ViewBag.DataFim = filtro.DataFim.Value.Date.ToString("yyyy-MM-dd");
+            ViewBag.Sala = filtro.Sala ?? string.Empty;
+            ViewBag.Usuario = filtro.Usuario ?? string.Empty;
+            ViewBag.Perfil = new SelectList(Combos.retornarOpcoesPerfil(), "Value", "Text", (int)filtro.PerfilUsuario);
+            ViewBag.TipoLocal = new SelectList(Combos.retornarOpcoesSala(), "Value", "Text", (int)filtro.TipoLocal);
+
+            var agendamentos = _agendamentoService.GerarRelatorio(filtro.DataInicio.Value, filtro.DataFim.Value);
+
+            if (filtro.TipoLocal != EnumTipoSala.Nenhum)
+            {
+                agendamentos = agendamentos.Where(a => a.Sala.Tipo == filtro.TipoLocal);
+            }
+
+            if (!string.IsNullOrEmpty(filtro.Sala))
+            {
+                agendamentos = agendamentos.Where(a => a.Sala.IdentificadorSala.ToLower().Contains(filtro.Sala.ToLower()));
+            }
+
+            if (filtro.PerfilUsuario != EnumTipoPerfil.Nenhum)
+            {
+                agendamentos = agendamentos.Where(a => a.Usuario.Perfil == filtro.PerfilUsuario);
+            }
+
+            if (!string.IsNullOrEmpty(filtro.Usuario))
+            {
+                agendamentos = agendamentos.Where(a => a.Usuario.Nome.ToLower().Contains(filtro.Usuario.ToLower()));
+            }
+
+            var usuariosAprovadores = _usuarioService.ObterPorPerfil(EnumTipoPerfil.Administrador);
+
+            var retorno = new List<AgendamentoRelatorioDto>();
+
+            foreach (var agendamento in agendamentos)
+            {
+                var aprovador = usuariosAprovadores.Where(u => u.Id == agendamento.AprovadorId).FirstOrDefault();
+
+                retorno.Add(new AgendamentoRelatorioDto(agendamento, aprovador));
+            }
+
+            return View("Relatorio", retorno);
         }
 
         //public JsonResult RetornarSalas(EnumTipoSala tipoSala)
@@ -131,8 +177,8 @@ namespace NewSIGASE.Controllers
         // POST: Agendamentos/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
         //public async Task<IActionResult> Edit(AgendamentoDto dto)
         //{
         //    ViewBag.Periodo = Combos.retornarOpcoesPeriodo();
@@ -198,52 +244,6 @@ namespace NewSIGASE.Controllers
         //    return RedirectToAction(nameof(Index));
         //}
 
-        public IActionResult GerarRelatorio(AgendamentoRelatorioFiltroDto filtro)
-        {
-            filtro.DataInicio ??= DateTime.Now.Date;
-            filtro.DataFim ??= DateTime.Now.Date.AddDays(10);
 
-            ViewBag.DataInicio = filtro.DataInicio.Value.Date.ToString("yyyy-MM-dd");
-            ViewBag.DataFim = filtro.DataInicio.Value.Date.ToString("yyyy-MM-dd");
-            ViewBag.Sala = filtro.Sala ?? string.Empty;
-            ViewBag.Usuario = filtro.Usuario ?? string.Empty;
-            ViewBag.Perfil = new SelectList(Combos.retornarOpcoesPerfil(), "Value", "Text", (int)filtro.PerfilUsuario);
-            ViewBag.TipoLocal = new SelectList(Combos.retornarOpcoesSala(), "Value", "Text", (int)filtro.TipoLocal);
-
-            var agendamentos = _agendamentoService.GerarRelatorio(filtro.DataInicio.Value, filtro.DataFim.Value);
-
-            if (filtro.TipoLocal != EnumTipoSala.Nenhum)
-            {
-                agendamentos = agendamentos.Where(a => a.Sala.Tipo == filtro.TipoLocal);
-            }
-
-            if (!string.IsNullOrEmpty(filtro.Sala))
-            {
-                agendamentos = agendamentos.Where(a => a.Sala.IdentificadorSala.ToLower().Contains(filtro.Sala.ToLower()));
-            }
-
-            if (filtro.PerfilUsuario != EnumTipoPerfil.Nenhum)
-            {
-                agendamentos = agendamentos.Where(a => a.Usuario.Perfil == filtro.PerfilUsuario);
-            }
-
-            if (!string.IsNullOrEmpty(filtro.Usuario))
-            {
-                agendamentos = agendamentos.Where(a => a.Usuario.Nome.ToLower().Contains(filtro.Usuario.ToLower()));
-            }
-
-            var usuariosAprovadores = _usuarioService.ObterPorPerfil(EnumTipoPerfil.Administrador);
-
-            var retorno = new List<AgendamentoRelatorioDto>();
-
-            foreach (var agendamento in agendamentos)
-            {
-                var aprovador = usuariosAprovadores.Where(u => u.Id == agendamento.AprovadorId).FirstOrDefault();
-
-                retorno.Add(new AgendamentoRelatorioDto(agendamento, aprovador));
-            }
-
-            return View("Relatorio", retorno);
-        }
     }
 }

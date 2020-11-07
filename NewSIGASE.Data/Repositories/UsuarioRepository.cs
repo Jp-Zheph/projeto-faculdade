@@ -4,6 +4,7 @@ using NewSIGASE.Data.Repositories.Interfaces;
 using NewSIGASE.Models;
 using NewSIGASE.Models.Enum;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -32,16 +33,17 @@ namespace NewSIGASE.Data.Repositories
             return usuarios;
         }
 
-        public IQueryable<Usuario> ObterPorPerfil(EnumTipoPerfil perfil)
+        public IEnumerable<Usuario> ObterPorPerfil(EnumTipoPerfil perfil)
         {
             var usuarios = _context.Usuarios
                 .Include(u => u.Endereco)
                 .Where(u => u.Perfil == perfil)
-                .AsNoTracking();
+                .AsNoTracking()
+                .ToList();
 
             if (usuarios == null)
             {
-                return Array.Empty<Usuario>().AsQueryable();
+                return Array.Empty<Usuario>().ToList();
             }
 
             return usuarios;

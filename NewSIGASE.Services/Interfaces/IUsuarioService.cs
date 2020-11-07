@@ -2,6 +2,7 @@
 using NewSIGASE.Models;
 using NewSIGASE.Models.Enum;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -17,6 +18,6 @@ namespace NewSIGASE.Services.Interfaces
         Usuario ValidarLogin(string email, string password, out string mesangem);
         Task Deletar(Guid id);
 
-        IQueryable<Usuario> ObterPorPerfil(EnumTipoPerfil perfil);
+        IEnumerable<Usuario> ObterPorPerfil(EnumTipoPerfil perfil);
     }
 }

@@ -39,7 +39,7 @@
 <h3>Relatório de Agendamentos</h3>
 
 <div class="filtro">
-    <form asp-action="GerarRelatorio">
+    <form asp-controller="Agendamentos" asp-action="GerarRelatorio" method="get">
         <div class="row">
             <div class="form-group col-md-2 inputFiltro">
                 <label class="control-label">Data Início</label>
