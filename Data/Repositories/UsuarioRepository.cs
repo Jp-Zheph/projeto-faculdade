@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using NewSIGASE.Data.Repositories.InterfacesRepositories;
 using NewSIGASE.Models;
+using NewSIGASE.Models.Enum;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -19,10 +20,34 @@ namespace NewSIGASE.Data.Repositories
 
         public IQueryable<Usuario> Obter()
         {
-            return _context.Usuarios.AsNoTracking();
+            var usuarios = _context.Usuarios
+                .Include(u => u.Endereco)
+                .AsNoTracking();
+
+            if (usuarios == null)
+            {
+                return Array.Empty<Usuario>().AsQueryable();
+            }
+
+            return usuarios;
         }
 
-        public async Task<Usuario> Obter(Guid id)
+        public IQueryable<Usuario> ObterPorPerfil(EnumTipoPerfil perfil)
+        {
+            var usuarios = _context.Usuarios
+                .Include(u => u.Endereco)
+                .Where(u => u.Perfil == perfil)
+                .AsNoTracking();
+
+            if (usuarios == null)
+            {
+                return Array.Empty<Usuario>().AsQueryable();
+            }
+
+            return usuarios;
+        }
+
+        public async Task<Usuario> ObterAsync(Guid id)
         {
             return await _context.Usuarios
                 .Include(u => u.Agendamentos)
@@ -30,27 +55,29 @@ namespace NewSIGASE.Data.Repositories
                 .FirstOrDefaultAsync(u => u.Id == id);
         }
 
-        public Usuario Obter(string email, string matricula)
+        public async Task<Usuario> ObterAsync(string email, string matricula)
         {
-            return _context.Usuarios
+            return await _context.Usuarios
+                .Include(u => u.Endereco)
                 .AsNoTracking()
-                .FirstOrDefault(u => u.Email == email || u.Matricula == matricula);
+                .FirstOrDefaultAsync(u => u.Email == email || u.Matricula == matricula);
         }
 
-        public Usuario ObterPorEmail(string email)
+        public async Task<Usuario> ObterPorEmailAsync(string email)
         {
-            return _context.Usuarios
+            return await _context.Usuarios
+                .Include(u => u.Endereco)
                 .AsNoTracking()
-                .FirstOrDefault(u => u.Email == email);
+                .FirstOrDefaultAsync(u => u.Email == email);
         }
 
-        public async Task Criar(Usuario usuario)
+        public async Task CriarAsync(Usuario usuario)
         {
             _context.Usuarios.Add(usuario);
             await _context.SaveChangesAsync();
         }
 
-        public async Task Deletar(Usuario usuario)
+        public async Task DeletarAsync(Usuario usuario)
         {
             try
             {
@@ -59,11 +86,10 @@ namespace NewSIGASE.Data.Repositories
             }catch(Exception ex)
             {
                 throw ex;
-            }
-            
+            }            
         }
 
-        public async Task<Usuario> Editar(Usuario usuario)
+        public async Task<Usuario> EditarAsync(Usuario usuario)
         {
             _context.Update(usuario);
             await _context.SaveChangesAsync();
@@ -71,7 +97,7 @@ namespace NewSIGASE.Data.Repositories
             return usuario;
         }
 
-        public async Task EditarEndereco(Endereco endereco)
+        public async Task EditarEnderecoAsync(Endereco endereco)
         {
             _context.Update(endereco);
             await _context.SaveChangesAsync();

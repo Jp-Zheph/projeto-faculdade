@@ -1,5 +1,6 @@
 ﻿
 using NewSIGASE.Models;
+using NewSIGASE.Models.Enum;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,18 +11,20 @@ namespace NewSIGASE.Data.Repositories.InterfacesRepositories
     {
         IQueryable<Usuario> Obter();
 
-        Task<Usuario> Obter(Guid id);
+        Task<Usuario> ObterAsync(Guid id);
 
-        Usuario Obter(string email, string matricula);
+        Task<Usuario> ObterAsync(string email, string matricula);
 
-        Task Criar(Usuario usuario);
+        Task CriarAsync(Usuario usuario);
 
-         Task<Usuario> Editar(Usuario usuario);
+        Task<Usuario> EditarAsync(Usuario usuario);
 
-        Usuario ObterPorEmail(string email);
+        Task<Usuario> ObterPorEmailAsync(string email);
 
-        Task Deletar(Usuario usuario);
+        Task DeletarAsync(Usuario usuario);
 
-        Task EditarEndereco(Endereco endereco);
+        Task EditarEnderecoAsync(Endereco endereco);
+
+        IQueryable<Usuario> ObterPorPerfil(EnumTipoPerfil perfil);
     }
 }

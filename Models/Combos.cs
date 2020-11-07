@@ -42,9 +42,9 @@ namespace NewSIGASE.Models
             List<SelectListItem> cadastroOptions = new List<SelectListItem>()
             {
                 new SelectListItem() { Text="Selecione", Value=""},
-                new SelectListItem() { Text="Matutino", Value="0"},
-                new SelectListItem() { Text="Vespertino", Value="1"},
-                new SelectListItem() { Text="Noturno", Value="2"}
+                new SelectListItem() { Text="Matutino   - (08:00-12:00)", Value="0"},
+                new SelectListItem() { Text="Vespertino - (13:00-17:00)", Value="1"},
+                new SelectListItem() { Text="Noturno    - (19:00-22:00)", Value="2"}
             };
             return cadastroOptions;
         }

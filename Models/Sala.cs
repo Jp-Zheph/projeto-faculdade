@@ -36,8 +36,7 @@ namespace NewSIGASE.Models
 			string observacao,
 			decimal area,
 			int andar,
-			int capacidadeAlunos,
-			List<Equipamento> equipamentos)
+			int capacidadeAlunos)
 		{
 			Id = Guid.NewGuid();
 			Tipo = tipo;
@@ -48,7 +47,6 @@ namespace NewSIGASE.Models
 			Ativo = true;
 			Area = area;
 			Andar = andar;
-			Equipamentos = equipamentos;
 			
 		}
 
@@ -60,8 +58,7 @@ namespace NewSIGASE.Models
 			string observacao,
 			decimal area,
 			int andar,
-			int capacidadeAlunos,
-			List<Equipamento> equipamentos)
+			int capacidadeAlunos)
         {
 			Tipo = tipo;
 			IdentificadorSala = identificadorSala;
@@ -69,7 +66,6 @@ namespace NewSIGASE.Models
 			CapacidadeAlunos = capacidadeAlunos;
 			Area = area;
 			Andar = andar;
-			Equipamentos = equipamentos;
 		}
 
 		public void AdicionarSalaEquipamento(List<SalaEquipamento> salaEquipamentos)
