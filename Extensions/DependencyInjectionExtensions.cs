@@ -2,10 +2,10 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NewSIGASE.Data.Repositories;
-using NewSIGASE.Data.Repositories.InterfacesRepositories;
+using NewSIGASE.Data.Repositories.Interfaces;
 using NewSIGASE.Services;
-using NewSIGASE.Services.InterfacesServices;
-using NewSIGASE.Models;
+using NewSIGASE.Services.Interfaces;
+using NewSIGASE.Data;
 
 namespace NewSIGASE.Infra.Extensions
 {
@@ -19,6 +19,7 @@ namespace NewSIGASE.Infra.Extensions
             services.AddTransient<IEmailService, EmailService>();
 
             services.AddTransient<IUsuarioRespository, UsuarioRepository>();
+            services.AddTransient<IAgendamentoRepository, AgendamentoRepository>();
 
             return services;
         }

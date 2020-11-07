@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
 
-namespace NewSIGASE.Models
+namespace NewSIGASE.Comum
 {
     public class Combos
     {

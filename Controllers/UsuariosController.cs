@@ -4,11 +4,10 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using NewSIGASE.Dto.Request;
 using NewSIGASE.Dto.Response;
-using NewSIGASE.Services.InterfacesServices;
-using NewSIGASE.Models;
+using NewSIGASE.Services.Interfaces;
 using System.Collections.Generic;
 using Flunt.Notifications;
-using Microsoft.EntityFrameworkCore;
+using NewSIGASE.Comum;
 
 namespace NewSIGASE.Controllers
 {

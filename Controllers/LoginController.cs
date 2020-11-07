@@ -1,9 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using NewSIGASE.Services.InterfacesServices;
+using NewSIGASE.Services.Interfaces;
 using NewSIGASE.Models;
-using System.Web;
 using Microsoft.AspNetCore.Http;
-using NewSIGASE.Services;
 using NewSIGASE.Infra.Configuration;
 using System;
 

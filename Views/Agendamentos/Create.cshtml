@@ -50,7 +50,7 @@
             <div class="form-group row">
                 <label class="col-sm-4 col-form-label">Tipo de Sala</label>
                 <div class="col-sm-8">
-                    <select id="selectTipoSala" class="form-control" asp-items="Combos.retornarOpcoesSala()"></select>
+                    <select id="selectTipoSala" class="form-control" asp-items="@ViewBag.Sala"></select>
                 </div>
                 <span class="text-danger"></span>
             </div>
