@@ -46,7 +46,7 @@ html {
     background-color: #fff;
     width: 80%;
     border-radius: 10px;
-    margin-bottom: 5% !important;
+    margin-bottom: 8% !important;
     padding: 1% 1% 1% 1%;
 }
 
@@ -64,6 +64,7 @@ h1, h3 {
 
 header {
     background-color: #5286F3 !important;
+    margin-top: 2%;
 }
 
 .box-shadow {
