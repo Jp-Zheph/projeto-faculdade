@@ -18,5 +18,9 @@ namespace NewSIGASE.Services.Interfaces
         Task CriarAsync(AgendamentoDto dto);
 
         IQueryable<Agendamento> GerarRelatorio(DateTime dataInicio, DateTime dataFim);
+
+        Task EditarAsync(AgendamentoDto dto);
+
+        Task Cancelar(Guid id, Guid usuarioId);
     }
 }

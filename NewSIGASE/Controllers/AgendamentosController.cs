@@ -6,6 +6,7 @@ using Flunt.Notifications;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using NewSIGASE.Comum;
+using NewSIGASE.Dto;
 using NewSIGASE.Dto.Request;
 using NewSIGASE.Dto.Response;
 using NewSIGASE.Infra.Configuration;
@@ -149,100 +150,71 @@ namespace NewSIGASE.Controllers
             return View("_Confirmacao");
         }
 
-        // GET: Agendamentos/Edit/5
-        //public async Task<IActionResult> Edit(Guid id)
-        //{
-        //    var agendamento = await _context.Agendamentos
-        //        .Include(a => a.Sala)
-        //        .Include(a => a.Usuario)
-        //        .ThenInclude(u => u.Endereco)
-        //        .FirstOrDefaultAsync(a => a.Id == id);
+        //GET: Agendamentos/Edit/5
+        public async Task<IActionResult> Edit(Guid id)
+        {
+            var agendamento = await _agendamentoService.ObterAsync(id);
+            if (_agendamentoService.Invalid)
+            {
+                TempData["Notificacao"] = new BadRequestDto(_agendamentoService.Notifications, "warning");
+                ViewBag.Controller = "Agendamentos";
+                return View("_Confirmacao");
+            }
 
-        //    if (agendamento == null)
-        //    {
-        //        TempData["Notificacao"] = new BadRequestDto(new List<Notification>() { new Notification("EditarAgendamento", "Agendamento não encontrado.") }, "warning");
-        //        ViewBag.Controller = "Agendamentos";
-        //        return View("_Confirmacao");
-        //    }
+            ViewBag.TipoSala = (int)agendamento.Sala.Tipo;
+            ViewBag.Sala = agendamento.SalaId;
 
-        //    ViewBag.TipoSala = (int)agendamento.Sala.Tipo;
-        //    ViewBag.Sala = agendamento.SalaId;
+            ViewBag.Periodo = Combos.retornarOpcoesPeriodo();
+            //ViewBag.Salas = new SelectList(_context.Salas.AsNoTracking(), "Id", "IdentificadorSala", agendamento.SalaId);
 
-        //    ViewBag.Periodo = Combos.retornarOpcoesPeriodo();
-        //    ViewBag.Salas = new SelectList(_context.Salas.AsNoTracking(), "Id", "IdentificadorSala", agendamento.SalaId);
-
-        //    return View(new AgendamentoDto(agendamento));
-        //}
+            return View(new AgendamentoDto(agendamento));
+        }
 
         // POST: Agendamentos/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Edit(AgendamentoDto dto)
-        //{
-        //    ViewBag.Periodo = Combos.retornarOpcoesPeriodo();
-        //    ViewBag.Salas = new SelectList(_context.Salas.AsNoTracking(), "Id", "IdentificadorSala", dto.SalaId);
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(AgendamentoDto dto)
+        {
+            ViewBag.Periodo = Combos.retornarOpcoesPeriodo();
+            //ViewBag.Salas = new SelectList(_context.Salas.AsNoTracking(), "Id", "IdentificadorSala", dto.SalaId);
 
-        //    if (dto.Id == null)
-        //    {
-        //        return NotFound();
-        //    }
+            dto.Validate();
+            if (dto.Invalid)
+            {
+                TempData["Notificacao"] = new BadRequestDto(dto.Notifications, "warning");
+                return View(dto);
+            }
 
-        //    dto.Validate();
-        //    if (dto.Invalid)
-        //    {
-        //        TempData["Notificacao"] = new BadRequestDto(dto.Notifications, "warning");
-        //        return View(dto);
-        //    }
-
-        //    var agendamentoEditar = await _context.Agendamentos.FirstOrDefaultAsync(a => a.Id == dto.Id);
-        //    if (agendamentoEditar == null)
-        //    {
-        //        TempData["Notificacao"] = new BadRequestDto(new List<Notification>() { new Notification("EditarAgendamento", "Agendamento não encontrado.") }, "warning");
-        //        return View(dto);
-        //    }
-
-        //    var agendamentoDuplicado = _context.Agendamentos.AsNoTracking().FirstOrDefault(a => a.SalaId == dto.SalaId && a.Periodo == dto.Periodo && a.DataAgendada.Date == dto.DataAgendada.Date);
-
-        //    if (agendamentoDuplicado != null && agendamentoEditar.UsuarioId != agendamentoDuplicado.UsuarioId)
-        //    {
-        //        TempData["Notificacao"] = new BadRequestDto(new List<Notification>() { new Notification("EditarAgendamento", "Já existe esse agendamento para outro usuário.") }, "warning");
-        //        return View(dto);
-        //    }
-
-        //    agendamentoEditar.Editar(dto.DataAgendada, dto.Periodo, dto.SalaId);
-        //    agendamentoEditar.AtualizarAgendamento(Guid.Empty, EnumStatusAgendamento.Pendente, null);
-
-        //    _context.Entry<Agendamento>(agendamentoEditar).State = EntityState.Modified;
-        //    await _context.SaveChangesAsync();
-
-        //    TempData["Notificacao"] = new BadRequestDto(new List<Notification>() { new Notification("EditarAgendamento", "Agendamento Editado com sucesso.") }, "success");
-        //    ViewBag.Controller = "Agendamentos";
-        //    return View("_Confirmacao");
-        //}
+            await _agendamentoService.EditarAsync(dto);
+            if (_agendamentoService.Invalid)
+            {
+                TempData["Notificacao"] = new BadRequestDto(_agendamentoService.Notifications, TipoNotificacao.Warning);
+                return View(dto);
+            }
+            
+            TempData["Notificacao"] = new BadRequestDto(new List<Notification>() { new Notification("EditarAgendamento", "Agendamento Editado com sucesso.") }, TipoNotificacao.Success);
+            ViewBag.Controller = "Agendamentos";
+            return View("_Confirmacao");
+        }
 
         // GET: Agendamentos/Delete/5
-        //public async Task<IActionResult> Delete(Guid? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
+        public async Task<IActionResult> Cancelar(Guid id)
+        {
+            await _agendamentoService.Cancelar(id, AppSettings.Usuario);
+            if (_agendamentoService.Invalid)
+            {
+                TempData["Notificacao"] = new BadRequestDto(_agendamentoService.Notifications, TipoNotificacao.Warning);
+            }
+            else
+            {
+                TempData["Notificacao"] = new BadRequestDto(new List<Notification>() { new Notification("CancelarAgendamento", "Agendamento cancelado com sucesso.") }, TipoNotificacao.Success);
+            }
 
-        //    var agendamento = await _context.Agendamentos.FirstOrDefaultAsync(m => m.Id == id);
-        //    if (agendamento == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    agendamento.AtualizarAgendamento(AppSettings.Usuario, EnumStatusAgendamento.Cancelado);
-
-        //    _context.Entry<Agendamento>(agendamento).State = EntityState.Modified;
-        //    await _context.SaveChangesAsync();
-
-        //    return RedirectToAction(nameof(Index));
-        //}
+            ViewBag.Controller = "Agendamentos";
+            return View("_Confirmacao");
+        }
 
 
     }

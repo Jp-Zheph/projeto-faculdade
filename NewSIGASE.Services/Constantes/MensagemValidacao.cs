@@ -3,6 +3,8 @@ namespace NewSIGASE.Services.Constantes
 {
     public static class MensagemValidacao
     {
+        internal static readonly string CampoInvalido = "Campo Inválido";
+
         internal static class Usuario
         {            
             internal static readonly string Inativo = "Usuário inativo.";

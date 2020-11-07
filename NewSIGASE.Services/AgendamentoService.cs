@@ -54,7 +54,7 @@ namespace NewSIGASE.Services
         {
             var agendamento = await _agendamentoRepository.ObterAsync(aprovacaoDto.AgendamentoId);
             var aprovador = await _usuarioService.Obter(aprovadorId);
-            
+
             ValidarAprovadorAgendamento(agendamento, aprovador);
             if (Invalid)
             {
@@ -118,6 +118,48 @@ namespace NewSIGASE.Services
         public IQueryable<Agendamento> GerarRelatorio(DateTime dataInicio, DateTime dataFim)
         {
             return _agendamentoRepository.ObterPorData(dataInicio, dataFim);
+        }
+
+        public async Task EditarAsync(AgendamentoDto dto)
+        {
+            if (dto.Id == null)
+            {
+                AddNotification("EditarAgendamento", MensagemValidacao.CampoInvalido);
+                return;
+            }
+
+            var agendamentoEditar = await _agendamentoRepository.ObterAsync(dto.Id.Value);
+            if (agendamentoEditar == null)
+            {
+                AddNotification("EditarAgendamento", MensagemValidacao.Agendamento.NaoExiste);
+                return;
+            }
+
+            var agendamentoDuplicado = await _agendamentoRepository.ObterAsync(dto.SalaId, dto.Periodo, dto.DataAgendada);
+            if (agendamentoDuplicado != null && agendamentoEditar.UsuarioId != agendamentoDuplicado.UsuarioId)
+            {
+                AddNotification("EditarAgendamento", MensagemValidacao.Agendamento.JaExiste);
+                return;
+            }
+
+            agendamentoEditar.Editar(dto.DataAgendada, dto.Periodo, dto.SalaId);
+            agendamentoEditar.AtualizarAgendamento(Guid.Empty, EnumStatusAgendamento.Pendente, null);
+
+            await _agendamentoRepository.EditarAsync(agendamentoEditar);
+        }
+
+        public async Task Cancelar(Guid id, Guid usuarioId)
+        {
+            var agendamento = await _agendamentoRepository.ObterAsync(id);
+            if (agendamento == null)
+            {
+                AddNotification("EditarAgendamento", MensagemValidacao.Agendamento.NaoExiste);
+                return;
+            }
+
+            agendamento.AtualizarAgendamento(usuarioId, EnumStatusAgendamento.Cancelado);
+
+            await _agendamentoRepository.EditarAsync(agendamento);
         }
     }
 }
