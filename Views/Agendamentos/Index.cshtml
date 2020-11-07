@@ -147,7 +147,7 @@
                     @Html.DisplayFor(modelItem => item.Status)
                 </td>
                 <td style="text-align:center">
-                    @if (NewSIGASE.Infra.Configuration.AppSettings.Perfil == "Administrador")
+                    @if (NewSIGASE.Infra.Configuration.AppSettings.PerfisAutorizadosMenu.Contains(NewSIGASE.Infra.Configuration.AppSettings.Perfil))
                     {
                         <a title="Aprovar" class="btn btn-warning @(item.Status != "Pendente" ? "isDisabled" : "")" onclick="abriModalAprovacao('@item.Id');">
                             <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-calendar2-check" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
