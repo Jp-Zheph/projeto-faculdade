@@ -5,24 +5,24 @@ namespace NewSIGASE.Dto.Request
 {
     public class EnderecoDto
     {
-        [Required]
+        [Required(ErrorMessage = MensagemValidacao.CampoObrigatorio)]
         public string Logradouro { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = MensagemValidacao.CampoObrigatorio)]
         public string Numero { get; set; }
 
         public string Complemento { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = MensagemValidacao.CampoObrigatorio)]
         public string Bairro { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = MensagemValidacao.CampoObrigatorio)]
         public string Cep { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = MensagemValidacao.CampoObrigatorio)]
         public string Cidade { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = MensagemValidacao.CampoObrigatorio)]
         public string UF { get; set; }
 
         public string Pais { get; set; }

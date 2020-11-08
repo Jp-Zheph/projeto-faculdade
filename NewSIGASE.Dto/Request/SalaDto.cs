@@ -12,17 +12,17 @@ namespace NewSIGASE.Dto.Request
     {
         public Guid? Id { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = MensagemValidacao.CampoObrigatorio)]
         public EnumTipoSala Tipo { get; set; }
 
         public List<Guid> EquipamentoId { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = MensagemValidacao.CampoObrigatorio)]
         public string IdentificadorSala { get; set; }  // numero da sala
 
         public string Observacao { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = MensagemValidacao.CampoObrigatorio)]
         public int CapacidadeAlunos { get; set; }
         public decimal Area { get; set; }
         public int Andar { get; set; }

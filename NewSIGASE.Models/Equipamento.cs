@@ -24,7 +24,10 @@ namespace NewSIGASE.Models
         [Column(TypeName = "VARCHAR(255)")]
         public string Modelo { get; set; }
 
-        public Sala Sala { get; set; }
+        [Required]
+        [Column(TypeName = "VARCHAR(255)")]
+        public string Marca { get; set; }
+
         public DateTime DataCriacao { get; set; }
 
         [Column(TypeName = "DECIMAL(18,3)")]
@@ -39,17 +42,18 @@ namespace NewSIGASE.Models
 
         [Column(TypeName = "DECIMAL(18,3)")]
         public decimal? Altura { get; set; }
-		public List<SalaEquipamento> SalaEquipamentos { get; set; }
+
+		public SalaEquipamento SalaEquipamento { get; set; }
 
 		public Equipamento(string serial,
             string nome,
             string modelo,
-            Guid? salaId,
             decimal? peso,
             string cor,
             decimal? comprimento,
             decimal? largura,
-            decimal? altura)
+            decimal? altura,
+            string marca)
         {
             Serial = serial;
             Nome = nome;
@@ -60,6 +64,7 @@ namespace NewSIGASE.Models
             Comprimento = comprimento;
             Largura = largura;
             Altura = altura;
+            Marca = marca;
         }
 
         public Equipamento()
@@ -69,7 +74,7 @@ namespace NewSIGASE.Models
         {
             get
             {
-                return this.Nome + "-" + this.Modelo;
+                return $"{this.Nome} {this.Marca} - {this.Modelo}";
             }
         }
 
@@ -80,7 +85,8 @@ namespace NewSIGASE.Models
             string cor,
             decimal? comprimento,
             decimal? largura,
-            decimal? altura)
+            decimal? altura,
+            string marca)
         {
             Serial = serial;
             Nome = nome;
@@ -90,6 +96,7 @@ namespace NewSIGASE.Models
             Comprimento = comprimento;
             Largura = largura;
             Altura = altura;
+            Marca = marca;
         }
 
     }

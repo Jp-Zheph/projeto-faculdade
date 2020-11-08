@@ -13,34 +13,34 @@ namespace NewSIGASE.Dto.Request
     {
         public Guid? Id { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = MensagemValidacao.CampoObrigatorio)]
         public string Nome { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = MensagemValidacao.CampoObrigatorio)]
         public string Matricula { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = MensagemValidacao.CampoObrigatorio)]
         public string Documento { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = MensagemValidacao.CampoObrigatorio)]
         public string Telefone { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = MensagemValidacao.CampoObrigatorio)]
         public DateTime DataNascimento { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = MensagemValidacao.CampoObrigatorio)]
         public string Email { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = MensagemValidacao.CampoObrigatorio)]
         public EnumTipoPerfil Perfil { get; set; }
 
         public bool Ativo { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = MensagemValidacao.CampoObrigatorio)]
         public EnderecoDto Endereco { get; set; }
 
-		public UsuarioDto(Usuario usuario)
-		{
+        public UsuarioDto(Usuario usuario)
+        {
             Id = usuario.Id;
             Nome = usuario.Nome;
             Matricula = usuario.Matricula;
@@ -51,12 +51,12 @@ namespace NewSIGASE.Dto.Request
             Telefone = usuario.Telefone;
             DataNascimento = usuario.DataNascimento;
             Endereco = new EnderecoDto(usuario.Endereco);
-		}
+        }
 
-		public UsuarioDto()
+        public UsuarioDto()
         { }
 
-		public void Validate()
+        public void Validate()
         {
             var perfilExiste = Enum.IsDefined(typeof(EnumTipoPerfil), Perfil);
 

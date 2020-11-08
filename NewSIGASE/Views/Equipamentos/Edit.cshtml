@@ -35,7 +35,12 @@
             </div>
         </div>
         <div class="row justify-content-center no-gutter">
-            <div class="col-8">
+            <div class="col-4">
+                <label for="Marca">Marca</label>
+                <input asp-for="Marca" class="form-control" />
+                <span asp-validation-for="Marca" class="text-danger"></span>
+            </div>
+            <div class="col-4">
                 <label for="Modelo">Modelo</label>
                 <input asp-for="Modelo" class="form-control" />
                 <span asp-validation-for="Modelo" class="text-danger"></span>

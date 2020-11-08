@@ -8,13 +8,13 @@ namespace NewSIGASE.Dto.Request
 {
     public sealed class SenhaCriarDto : Notifiable, IValidatable
     {
-        [Required]
-        public Guid Id{ get; set; }
+        [Required(ErrorMessage = MensagemValidacao.CampoObrigatorio)]
+        public Guid Id { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = MensagemValidacao.CampoObrigatorio)]
         public string SenhaAtual { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = MensagemValidacao.CampoObrigatorio)]
         public string SenhaNova { get; set; }
 
         public void Validate()

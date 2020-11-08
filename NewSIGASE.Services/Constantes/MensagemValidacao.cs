@@ -25,7 +25,10 @@ namespace NewSIGASE.Services.Constantes
 
         internal static class Equipamento
         {
-
+            internal static readonly string NaoExiste = "Equipamento não encontrado.";
+            internal static readonly string SerialJaExiste = "Serial já cadastrado.";
+            internal static readonly string PossuiSala = "Não é possivel excluir pois equipamento está vinculado a uma sala.";
+            
         }
 
         internal static class Sala

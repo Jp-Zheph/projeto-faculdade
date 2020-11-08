@@ -11,21 +11,21 @@ namespace NewSIGASE.Dto.Request
     {
         public Guid? Id { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = MensagemValidacao.CampoObrigatorio)]
         public DateTime DataAgendada { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = MensagemValidacao.CampoObrigatorio)]
         public EnumPeriodo Periodo { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = MensagemValidacao.CampoObrigatorio)]
         public EnumStatusAgendamento Status { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = MensagemValidacao.CampoObrigatorio)]
         public Guid SalaId { get; set; }
 
         public SalaDto Sala { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = MensagemValidacao.CampoObrigatorio)]
         public Guid UsuarioId { get; set; }
 
         public UsuarioDto Usuario { get; set; }

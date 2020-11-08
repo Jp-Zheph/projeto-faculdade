@@ -2,7 +2,7 @@
 using Flunt.Validations;
 using NewSIGASE.Models;
 using System;
-using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace NewSIGASE.Dto.Request
@@ -11,22 +11,33 @@ namespace NewSIGASE.Dto.Request
     {
         public Guid? Id { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = MensagemValidacao.CampoObrigatorio)]
         public string Serial { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = MensagemValidacao.CampoObrigatorio)]
         public string Nome { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = MensagemValidacao.CampoObrigatorio)]
         public string Modelo { get; set; }
 
+        [Required(ErrorMessage = MensagemValidacao.CampoObrigatorio)]
+        public string Marca { get; set; }
+
         public DateTime DataCriacao { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:F3}")]
         public decimal? Peso { get; set; }
         public string Cor { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:F3}")]
         public decimal? Comprimento { get; set; }
+
+        [DataType(DataType.Currency)]
+        [DisplayFormat(DataFormatString = "{0:F3}")]
         public decimal? Largura { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:F3}")]
         public decimal? Altura { get; set; }
-        public List<SalaEquipamento> SalaEquipamentos { get; set; }
 
 		public EquipamentoDto(Equipamento equipamento)
 		{
@@ -34,13 +45,13 @@ namespace NewSIGASE.Dto.Request
 			Serial = equipamento.Serial;
 			Nome = equipamento.Nome;
 			Modelo = equipamento.Modelo;
+			Marca = equipamento.Marca;
 			DataCriacao = equipamento.DataCriacao;
 			Peso = equipamento.Peso;
 			Cor = equipamento.Cor;
 			Comprimento = equipamento.Comprimento;
 			Largura = equipamento.Largura;
 			Altura = equipamento.Altura;
-			SalaEquipamentos = equipamento.SalaEquipamentos;
 		}
 
 
@@ -58,6 +69,9 @@ namespace NewSIGASE.Dto.Request
 
                 .IsNotNullOrEmpty(Modelo, nameof(Modelo), MensagemValidacao.CampoObrigatorio)
                 .HasMaxLengthIfNotNullOrEmpty(Modelo, 255, nameof(Modelo), MensagemValidacao.CampoLimite255Caracteres)
+
+                .IsNotNullOrEmpty(Marca, nameof(Marca), MensagemValidacao.CampoObrigatorio)
+                .HasMaxLengthIfNotNullOrEmpty(Marca, 255, nameof(Marca), MensagemValidacao.CampoLimite255Caracteres)
             );
         }
     }
