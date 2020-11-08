@@ -147,19 +147,27 @@ namespace NewSIGASE.Services
         public Usuario ValidarLogin(string email, string senha, out string mensagem)
         {
             mensagem = "";
-            var retorno = _usuarioRepository.ObterPorEmailAsync(email).GetAwaiter().GetResult();
-            if (retorno != null && retorno.Senha == senha)
+            try
             {
-                return retorno;
-            }
-            else if (retorno != null && retorno.Senha != senha)
+                var retorno = _usuarioRepository.ObterPorEmailAsync(email).GetAwaiter().GetResult();
+                if (retorno != null && retorno.Senha == senha)
+                {
+                    return retorno;
+                }
+                else if (retorno != null && retorno.Senha != senha)
+                {
+                    mensagem = "Senha informada incorreta para o respectivo usuário";
+                    return null;
+                }
+                else if (retorno == null)
+                {
+                    mensagem = "Nenhum usuário foi encontrado para o E-mail informado.";
+                    return null;
+                }
+
+            }catch(Exception ex)
             {
-                mensagem = "Senha informada incorreta para o usuário informado";
-                return null;
-            }
-            else if (retorno == null)
-            {
-                mensagem = "Nenhum usuário encontrado para o E-mail informado.";
+                mensagem = "<strong>Erro ao conectar ao sistema contacte o suporte .</strong>";
                 return null;
             }
             return null;

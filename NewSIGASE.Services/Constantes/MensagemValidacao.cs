@@ -34,7 +34,7 @@ namespace NewSIGASE.Services.Constantes
 
         internal static class Sala
         {
-            internal static readonly string NaoExiste = "Sala não encontrado.";
+            internal static readonly string NaoExiste = "Sala não encontrada.";
         }
 
         internal static class Cep

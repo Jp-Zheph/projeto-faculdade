@@ -29,6 +29,7 @@ namespace NewSIGASE.Controllers
                 HttpContext.Session.SetString("UsuarioId", retorno.Id.ToString());
                 AppSettings.Perfil = HttpContext.Session.GetString("Perfil");
                 AppSettings.Usuario = Guid.Parse(HttpContext.Session.GetString("UsuarioId"));
+
                 if(retorno.Senha == retorno.Matricula)
                 {
                     return Json(new { erro = false, url = "Usuarios/AlterarSenha?id=" + retorno.Id });
