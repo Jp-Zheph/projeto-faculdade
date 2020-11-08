@@ -16,6 +16,10 @@
             padding-top: 5px;
         }
 </style>
+<script src="~/js/UsuarioJs/UsuarioJs.js"></script>
+
+<div class="messagealert" id="alert_container">
+</div>
 
 <div class="container">
     <form asp-action="Create">
@@ -64,24 +68,24 @@
         <div class="row justify-content-center no-gutter">
             <div class="col-2">
                 <label for="Endereco.Cep">Cep</label>
-                <input asp-for="Endereco.Cep" class="form-control" />
+                <input id="cep" asp-for="Endereco.Cep" class="form-control" />
                 <span asp-validation-for="Endereco.Cep" class="text-danger"></span>
             </div>
             <div class="col-4">
                 <label for="Endereco.Cidade">Cidade</label>
-                <input asp-for="Endereco.Cidade" class="form-control" />
+                <input id="cidade" asp-for="Endereco.Cidade" class="form-control" />
                 <span asp-validation-for="Endereco.Cidade" class="text-danger"></span>
             </div>
             <div class="col-2">
                 <label for="Endereco.UF">UF</label>
-                <input asp-for="Endereco.UF" class="form-control" />
+                <input id="uf" asp-for="Endereco.UF" class="form-control" />
                 <span asp-validation-for="Endereco.UF" class="text-danger"></span>
             </div>
         </div>
         <div class="row justify-content-center no-gutter">
             <div class="col-6">
                 <label for="Endereco.Logradouro">Logradouro</label>
-                <input asp-for="Endereco.Logradouro" class="form-control" />
+                <input id="logradouro" asp-for="Endereco.Logradouro" class="form-control" />
                 <span asp-validation-for="Endereco.Logradouro" class="text-danger"></span>
             </div>
             <div class="col-2">
@@ -93,19 +97,13 @@
         <div class="row justify-content-center no-gutter">
             <div class="col-4">
                 <label for="Endereco.Bairro">Bairro</label>
-                <input asp-for="Endereco.Bairro" class="form-control" />
+                <input id="bairro" asp-for="Endereco.Bairro" class="form-control" />
                 <span asp-validation-for="Endereco.Bairro" class="text-danger"></span>
             </div>
             <div class="col-4">
                 <label for="Endereco.Complemento">Complemento <small style="color:#acabab">opcional</small></label>
                 <input asp-for="Endereco.Complemento" class="form-control" />
                 <span asp-validation-for="Endereco.Complemento" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="row justify-content-center no-gutter">
-            <div class="col-8">
-                <label for="Endereco.PontoReferencia">Ponto de Referência <small style="color:#acabab">opcional</small></label>
-                <input asp-for="Endereco.PontoReferencia" class="form-control" />
             </div>
         </div>
         <div class="row justify-content-center no-gutter">

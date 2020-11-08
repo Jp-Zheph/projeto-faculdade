@@ -19,6 +19,7 @@ namespace NewSIGASE.Infra.Extensions
             services.AddTransient<IEmailService, EmailService>();
             services.AddTransient<IAgendamentoService, AgendamentoService>();
             services.AddTransient<IEquipamentoService, EquipamentoService>();
+            services.AddTransient<ICepService, CepService>();
 
             services.AddTransient<IUsuarioRespository, UsuarioRepository>();
             services.AddTransient<IAgendamentoRepository, AgendamentoRepository>();

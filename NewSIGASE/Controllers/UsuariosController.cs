@@ -8,6 +8,8 @@ using NewSIGASE.Services.Interfaces;
 using System.Collections.Generic;
 using Flunt.Notifications;
 using NewSIGASE.Comum;
+using NewSIGASE.Dto.Response.IntegracaoCorreios;
+using NewSIGASE.Dto;
 
 namespace NewSIGASE.Controllers
 {
@@ -15,10 +17,13 @@ namespace NewSIGASE.Controllers
     {
 
         private readonly IUsuarioService _usuarioService;
+        private readonly ICepService _cepService;
 
-        public UsuariosController(IUsuarioService usuarioService)
+        public UsuariosController(IUsuarioService usuarioService,
+            ICepService cepService)
         {
             _usuarioService = usuarioService;
+            _cepService = cepService;
         }
 
         // GET: Usuarios
@@ -162,6 +167,20 @@ namespace NewSIGASE.Controllers
             TempData["Notificacao"] = new BadRequestDto(new List<Notification>() { new Notification("AlterarSenha", "Senha alterada com sucesso.") }, "success");
             ViewBag.Controller = "Agendamentos";
             return View("_Confirmacao");
+        }
+
+        [HttpGet]
+        [Route("/Usuarios/ConsultarCep")]
+        public async Task<JsonResult> ConsultarCep(string cep)
+        {
+            var endereco = await _cepService.ConsultarCepAsync(cep);
+            if (_cepService.Invalid)
+            {
+                var strErro = new BadRequestDto(_cepService.Notifications, TipoNotificacao.Warning);
+                return Json(new { erro = true, strErro, endereco = "" });
+            }
+
+            return Json(new { erro = false, strErr = "", endereco });
         }
     }
 }

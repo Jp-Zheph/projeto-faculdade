@@ -4,6 +4,7 @@ namespace NewSIGASE.Services.Constantes
     public static class MensagemValidacao
     {
         internal static readonly string CampoInvalido = "Campo Inválido";
+        internal static readonly string CampoObrigatorio = "Campo Obrigatório";
 
         internal static class Usuario
         {            
@@ -34,6 +35,12 @@ namespace NewSIGASE.Services.Constantes
         internal static class Sala
         {
             internal static readonly string NaoExiste = "Sala não encontrado.";
+        }
+
+        internal static class Cep
+        {
+            internal static readonly string NaoEncontrado = "Endereço não encontrado.";
+            internal static readonly string ErrorService = "Não foi possível consultar o cep. Favor preencher manualmente.";
         }
 
     }

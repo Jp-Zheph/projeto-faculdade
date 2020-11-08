@@ -1,5 +1,4 @@
-﻿
-using Flunt.Notifications;
+﻿using Flunt.Notifications;
 using Flunt.Validations;
 using NewSIGASE.Data.Repositories.Interfaces;
 using NewSIGASE.Dto.Request;
@@ -170,5 +169,6 @@ namespace NewSIGASE.Services
         {
             return _usuarioRepository.ObterPorPerfil(perfil);
         }
+
     }
 }

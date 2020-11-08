@@ -1,4 +1,5 @@
 ﻿using NewSIGASE.Dto.Request;
+using NewSIGASE.Dto.Response.IntegracaoCorreios;
 using NewSIGASE.Models;
 using NewSIGASE.Models.Enum;
 using System;
@@ -19,5 +20,6 @@ namespace NewSIGASE.Services.Interfaces
         Task Deletar(Guid id);
 
         IEnumerable<Usuario> ObterPorPerfil(EnumTipoPerfil perfil);
+
     }
 }

@@ -11,6 +11,8 @@
 
     <script type="text/javascript">
 
+        $('#alert_container #alert_div').remove();
+
         function Notificacao(titulo, mensagem, tipo) {
             $('#alert_container').append('<div id="alert_div" class="alert alert-' + tipo + '"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><strong>' + titulo + '!</strong> <span>' + mensagem + '</span></div>');
         }
