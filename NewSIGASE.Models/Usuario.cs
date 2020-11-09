@@ -97,5 +97,10 @@ namespace NewSIGASE.Models
 			DataNascimento = dataNasc;
 			Documento = documento;
 		}
+
+		public void AlterarSenha()
+        {
+			Senha = Matricula;
+        }
 	}
 }

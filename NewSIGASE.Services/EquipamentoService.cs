@@ -27,6 +27,11 @@ namespace NewSIGASE.Services
             return _equipamentoRepository.Obter();
         }
 
+        public IQueryable<Equipamento> ObterSemSala()
+        {
+            return _equipamentoRepository.ObterSemSala();
+        }
+
         public async Task<Equipamento> ObterAsync(Guid id)
         {
             var equipamento = await _equipamentoRepository.ObterAsync(id);

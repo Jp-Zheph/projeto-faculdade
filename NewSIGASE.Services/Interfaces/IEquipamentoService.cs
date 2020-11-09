@@ -12,6 +12,8 @@ namespace NewSIGASE.Services.Interfaces
     {
         IQueryable<Equipamento> Obter();
 
+        IQueryable<Equipamento> ObterSemSala();
+
         Task<Equipamento> ObterAsync(Guid id);
 
         Task CriarAsync(EquipamentoDto dto);

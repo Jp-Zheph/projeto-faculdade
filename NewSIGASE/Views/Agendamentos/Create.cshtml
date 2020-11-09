@@ -3,6 +3,7 @@
 @{
     ViewData["Title"] = "Create";
 }
+
 <script>
     $(document).ready(function () {
         $("#selectTipoSala").change(function () {
@@ -26,8 +27,10 @@
         })
     });
 </script>
+
 <h3>Cadastro de Agendamento</h3>
 <hr />
+
 <div class="row formulario">
     <div class="col-md-8">
         <form asp-action="Create">

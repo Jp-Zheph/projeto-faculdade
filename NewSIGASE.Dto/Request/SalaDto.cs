@@ -15,18 +15,21 @@ namespace NewSIGASE.Dto.Request
         [Required(ErrorMessage = MensagemValidacao.CampoObrigatorio)]
         public EnumTipoSala Tipo { get; set; }
 
-        public List<Guid> EquipamentoId { get; set; }
-
         [Required(ErrorMessage = MensagemValidacao.CampoObrigatorio)]
         public string IdentificadorSala { get; set; }  // numero da sala
 
-        public string Observacao { get; set; }
-
         [Required(ErrorMessage = MensagemValidacao.CampoObrigatorio)]
         public int CapacidadeAlunos { get; set; }
+
         public decimal Area { get; set; }
         public int Andar { get; set; }
+        public string Observacao { get; set; }
+        public bool Ativo { get; set; }
+
         public List<SalaEquipamento> SalaEquipamentos { get; set; }
+        public List<Guid> EquipamentoId { get; set; }
+
+
         public SalaDto(Sala sala)
         {
             Tipo = sala.Tipo;
@@ -35,6 +38,7 @@ namespace NewSIGASE.Dto.Request
             Area = sala.Area;
             Andar = sala.Andar;
             SalaEquipamentos = sala.SalaEquipamentos;
+            Ativo = sala.Ativo;
         }
 
         public SalaDto()

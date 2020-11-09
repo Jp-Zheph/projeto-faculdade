@@ -9,6 +9,9 @@ namespace NewSIGASE.Services.Interfaces
         void AdicionarDestinatario(string email, string nome);
 
         Task EnviarEmailCadastroUsuario(Usuario usuario);
+
         Task EnviarEmailAprovacaoAgendamento(Agendamento agendamento);
+
+        Task EnviarEmailRecuperarSenha(Usuario usuario);
     }
 }

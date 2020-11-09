@@ -1,191 +1,142 @@
-﻿////using System;
-////using System.Collections.Generic;
-////using System.Linq;
-////using System.Threading.Tasks;
-////using Flunt.Notifications;
-////using Microsoft.AspNetCore.Mvc;
-////using Microsoft.AspNetCore.Mvc.Rendering;
-////using Microsoft.EntityFrameworkCore;
-////using NewSIGASE.Dto.Request;
-////using NewSIGASE.Dto.Response;
-////using NewSIGASE.Models;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Flunt.Notifications;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using NewSIGASE.Comum;
+using NewSIGASE.Dto;
+using NewSIGASE.Dto.Request;
+using NewSIGASE.Dto.Response;
+using NewSIGASE.Services.Interfaces;
 
-////namespace NewSIGASE.Controllers
-////{
-////    public class SalasController : Controller
-////    {
-////        private readonly SIGASEContext _context;
+namespace NewSIGASE.Controllers
+{
+    public class SalasController : Controller
+    {
+        private readonly ISalaService _salaService;
+        private readonly IEquipamentoService _equipamentoService;
 
-////        public SalasController(SIGASEContext context)
-////        {
-////            _context = context;
-////        }
+        public SalasController(ISalaService salaService,
+            IEquipamentoService equipamentoService)
+        {
+            _salaService = salaService;
+            _equipamentoService = equipamentoService;
+        }
 
-////        // GET: Salas
-////        public IActionResult Index()
-////        {
-////            var lista = _context.Salas.Include(s => s.SalaEquipamentos).AsNoTracking();
-////            if (lista == null)
-////            {
-////                lista = Array.Empty<Sala>().AsQueryable();
-////            }
+        // GET: Salas
+        public IActionResult Index()
+        {
+            var salas = _salaService.Obter();
 
-////            return View(lista.Select(x => new SalaListaDto(x)));
-////        }
+            return View(salas.Select(x => new SalaListaDto(x)));
+        }
 
+        //GET: Salas/Create
+        public IActionResult Create()
+        {
+            ViewBag.TipoSala = Combos.retornarOpcoesSala();
+            ViewBag.Equipamentos = new SelectList(_equipamentoService.ObterSemSala(), "Id", "NomeModelo");
+            
+            return View();
+        }
 
-//        // GET: Salas/Create
-//        public IActionResult Create()
-//        {
-//            ViewBag.TipoSala = Combos.retornarOpcoesSala();
-//            ViewBag.Equipamentos = new SelectList(_context.Equipamentos.Include(e => e.SalaEquipamentos).AsNoTracking().Where(e => e.SalaEquipamentos.Count == 0), "Id", "NomeModelo");
-//            return View();
-//        }
-//        [HttpGet]
-//        public JsonResult RetornaEquipamentos()
-//        {
-//            return Json(new SelectList(_context.Equipamentos.Include(e => e.SalaEquipamentos).AsNoTracking().Where(e => e.SalaEquipamentos.Count == 0), "Id", "NomeModelo").ToList());
-//        }
+        [HttpGet]
+        public JsonResult RetornaEquipamentos()
+        {
+            return Json(new SelectList(_equipamentoService.ObterSemSala(), "Id", "NomeModelo").ToList());
+        }
 
-//        // POST: Salas/Create
-//        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-//        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-//        [HttpPost]
-//        [ValidateAntiForgeryToken]
-//        public IActionResult Create(SalaDto salaDto)
-//        {
-//            ViewBag.TipoSala = Combos.retornarOpcoesSala();
-//            ViewBag.Equipamentos = new SelectList(_context.Equipamentos.Include(e => e.SalaEquipamentos).AsNoTracking().Where(e => e.SalaEquipamentos.Count == 0), "Id", "NomeModelo");
+        //POST: Salas/Create
+        //To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(SalaDto salaDto)
+        {
+            ViewBag.TipoSala = Combos.retornarOpcoesSala();
+            ViewBag.Equipamentos = new SelectList(_equipamentoService.ObterSemSala(), "Id", "NomeModelo");
 
-////            salaDto.Validate();
-////            if (salaDto.Invalid)
-////            {
-////                TempData["Notificacao"] = new BadRequestDto(salaDto.Notifications, "warning");
-////                return View(salaDto);
-////            }
+            salaDto.Validate();
+            if (salaDto.Invalid)
+            {
+                TempData["Notificacao"] = new BadRequestDto(salaDto.Notifications, TipoNotificacao.Warning);
+                return View(salaDto);
+            }
 
-////            var identificadorSala = _context.Salas
-////                .Where(x => x.IdentificadorSala == salaDto.IdentificadorSala)
-////                .FirstOrDefault();
+            await _salaService.CriarAsync(salaDto);
+            if (_salaService.Invalid)
+            {
+                TempData["Notificacao"] = new BadRequestDto(_salaService.Notifications, TipoNotificacao.Warning);
+                return View(salaDto);
+            }
 
-////            if (identificadorSala != null)
-////            {
-////                TempData["Notificacao"] = new BadRequestDto(new List<Notification>() { new Notification("CadastrarSala", "Identificador de Sala já cadastrado.") }, "warning");
-////                return View(salaDto);
-////            }
+            TempData["Notificacao"] = new BadRequestDto(new List<Notification>() { new Notification("CadastrarSala", "Sala cadastrada com sucesso.") }, TipoNotificacao.Success);
+            ViewBag.Controller = "Salas";
+            return View("_Confirmacao");
+        }
 
-//            List<Equipamento> listaEquips = salaDto.EquipamentoId == null ? null : _context.Equipamentos.Where(e => salaDto.EquipamentoId.Contains(e.Id)).ToList();
+        // GET: Salas/Edit/5
+        public async Task<IActionResult> Edit(Guid id)
+        {
+            var sala = await _salaService.ObterAsync(id);
+            if (_salaService.Invalid)
+            {
+                TempData["Notificacao"] = new BadRequestDto(_salaService.Notifications, TipoNotificacao.Warning);
+                ViewBag.Controller = "Salas";
+                return View("_Confirmacao");
+            }
 
-//            var sala = new Sala(salaDto.Tipo, salaDto.IdentificadorSala, salaDto.Observacao, salaDto.Area, salaDto.Andar, salaDto.CapacidadeAlunos);
-//            if(listaEquips != null)
-//            {
-//                sala.AdicionarSalaEquipamento(listaEquips.Select(e => new SalaEquipamento(sala.Id, e.Id)).ToList());
-//            }
+            ViewBag.TipoSala = new SelectList(Combos.retornarOpcoesSala(), "Value", "Text", sala.Tipo);
+            ViewBag.Equipamentos = new SelectList(_equipamentoService.ObterSemSala(), "Id", "NomeModelo", sala.SalaEquipamentos.Select(s => s.EquipamentoId));
 
-////            _context.Salas.Add(sala);
-////            _context.SaveChanges();
+            return View(new SalaDto(sala));
+        }
 
-////            TempData["Notificacao"] = new BadRequestDto(new List<Notification>() { new Notification("CadastrarSala", "Sala cadastrada com sucesso.") }, "success");
-////            ViewBag.Controller = "Salas";
-////            return View("_Confirmacao");
-////        }
+        // POST: Salas/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(SalaDto salaDto)
+        {
+            ViewBag.TipoSala = new SelectList(Combos.retornarOpcoesSala(), "Value", "Text", salaDto.Tipo);
+            ViewBag.Equipamentos = new SelectList(_equipamentoService.ObterSemSala(), "Id", "NomeModelo");
 
-////        // GET: Salas/Edit/5
-////        public async Task<IActionResult> Edit(Guid id)
-////        {
-////            var sala = await _context.Salas.FirstOrDefaultAsync(s => s.Id == id);
-////            if (sala == null)
-////            {
-////                TempData["Notificacao"] = new BadRequestDto(new List<Notification>() { new Notification("EditarSala", "Sala não encontrado.") }, "warning");
-////                ViewBag.Controller = "Salas";
-////                return View("_Confirmacao");
-////            }
+            salaDto.Validate();
+            if (salaDto.Invalid)
+            {
+                TempData["Notificacao"] = new BadRequestDto(salaDto.Notifications, TipoNotificacao.Warning);
+                return View(salaDto);
+            }
 
-////            ViewBag.TipoSala = Combos.retornarOpcoesSala();
-////            ViewBag.Equipamentos = new SelectList(_context.Equipamentos.AsNoTracking().Where(e => e.SalaEquipamentos == null), "Id", "NomeModelo");
+            await _salaService.EditarAsync(salaDto);
+            if (_salaService.Invalid)
+            {
+                TempData["Notificacao"] = new BadRequestDto(_salaService.Notifications, TipoNotificacao.Warning);
+                return View(salaDto);
+            }
 
-////            return View(new SalaDto(sala));
-////        }
+            TempData["Notificacao"] = new BadRequestDto(new List<Notification>() { new Notification("EditarSala", "Sala editada com sucesso.") }, TipoNotificacao.Success);
+            ViewBag.Controller = "Salas";
+            return View("_Confirmacao");
+        }
 
-////        // POST: Salas/Edit/5
-////        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-////        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-////        [HttpPost]
-////        [ValidateAntiForgeryToken]
-////        public async Task<IActionResult> Edit(SalaDto salaDto)
-////        {
-////            ViewBag.TipoSala = Combos.retornarOpcoesSala();
-////            ViewBag.Equipamentos = new SelectList(_context.Equipamentos.AsNoTracking().Where(e => e.SalaEquipamentos == null), "Id", "NomeModelo");
+        // GET: Salas/Delete/5
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            ViewBag.Controller = "Salas";
 
-////            if (salaDto.Id == null)
-////            {
-////                return View(salaDto);
-////            }
+            await _salaService.DeletarAsync(id);
+            if (_salaService.Invalid)
+            {
+                TempData["Notificacao"] = new BadRequestDto(_salaService.Notifications, TipoNotificacao.Warning);
+                return View("_Confirmacao");
+            }
 
-////            salaDto.Validate();
-////            if (salaDto.Invalid)
-////            {
-////                TempData["Notificacao"] = new BadRequestDto(salaDto.Notifications, "warning");
-////                return View(salaDto);
-////            }
-
-////            var salaEditar = await _context.Salas.FirstOrDefaultAsync(s => s.Id == salaDto.Id);
-////            if (salaEditar == null)
-////            {
-////                TempData["Notificacao"] = new BadRequestDto(new List<Notification>() { new Notification("EditarSala", "Sala não encontrado.") }, "warning");
-////                return View(salaDto);
-////            }
-
-////            var identificadorSalaDuplicado = _context.Salas
-////                .Where(x => x.IdentificadorSala == salaEditar.IdentificadorSala)
-////                .AsNoTracking()
-////                .FirstOrDefault();
-
-////            if (identificadorSalaDuplicado != null && identificadorSalaDuplicado.Id != salaEditar.Id)
-////            {
-////                TempData["Notificacao"] = new BadRequestDto(new List<Notification>() { new Notification("EditarSala", "Identificador de Sala já cadastrado.") }, "warning");
-////                return View(salaDto);
-////            }
-
-//            List<Equipamento> listaEquips = salaDto.EquipamentoId == null ? null : _context.Equipamentos.Where(e => salaDto.EquipamentoId.Contains(e.Id)).ToList();
-//            salaEditar.Editar(salaDto.Tipo, salaDto.IdentificadorSala, salaDto.Observacao, salaDto.Area, salaDto.Andar,salaDto.CapacidadeAlunos);
-//            salaEditar.RemoverTodosSalaEquipamentos();
-//            salaEditar.AdicionarSalaEquipamento(listaEquips.Select(e => new SalaEquipamento(salaEditar.Id, e.Id)).ToList());
-
-////            _context.Entry<Sala>(salaEditar).State = EntityState.Modified;
-////            _context.SaveChanges();
-
-////            TempData["Notificacao"] = new BadRequestDto(new List<Notification>() { new Notification("EditarSala", "Sala editado com sucesso.") }, "success");
-////            ViewBag.Controller = "Salas";
-////            return View("_Confirmacao");
-////        }
-
-////        // GET: Salas/Delete/5
-////        public async Task<IActionResult> Delete(Guid id)
-////        {
-////            ViewBag.Controller = "Salas";
-
-////            var sala = await _context.Salas
-////                .Include(s => s.Agendamentos)
-////                .FirstOrDefaultAsync(m => m.Id == id);
-
-////            if (sala == null)
-////            {
-////                TempData["Notificacao"] = new BadRequestDto(new List<Notification>() { new Notification("ExcluirSala", "Sala não encontrado.") }, "warning");
-////                return View("_Confirmacao");
-////            }
-
-////            if (sala.Agendamentos != null || sala.Agendamentos.Any())
-////            {
-////                TempData["Notificacao"] = new BadRequestDto(new List<Notification>() { new Notification("ExcluirSala", "Não é possivel excluir pois a sala está vinculada a agendamentos.") }, "warning");
-////                return View("_Confirmacao");
-////            }
-
-////            _context.Salas.Remove(sala);
-////            await _context.SaveChangesAsync();
-
-////            TempData["Notificacao"] = new BadRequestDto(new List<Notification>() { new Notification("ExcluirSala", "Sala excluido com sucesso.") }, "success");
-////            return View("_Confirmacao");
-////        }
-////    }
-////}
+            TempData["Notificacao"] = new BadRequestDto(new List<Notification>() { new Notification("ExcluirSala", "Sala excluida com sucesso.") }, TipoNotificacao.Success);
+            return View("_Confirmacao");
+        }
+    }
+}

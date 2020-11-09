@@ -178,5 +178,26 @@ namespace NewSIGASE.Services
             return _usuarioRepository.ObterPorPerfil(perfil);
         }
 
+        public async Task RecuperarSenha(string email)
+        {
+            if (string.IsNullOrEmpty(email))
+            {
+                AddNotification("RecuperarSenha", MensagemValidacao.CampoObrigatorio);
+                return;
+            }
+
+            var usuario = await _usuarioRepository.ObterAsync(email);
+            if (usuario == null)
+            {
+                AddNotification("RecuperarSenha", MensagemValidacao.Usuario.NaoExiste);
+                return;
+            }
+
+            usuario.AlterarSenha();
+            await _usuarioRepository.EditarAsync(usuario);
+
+            _emailService.AdicionarDestinatario(usuario.Email, usuario.Nome);
+            await _emailService.EnviarEmailRecuperarSenha(usuario);
+        }
     }
 }

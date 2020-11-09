@@ -12,7 +12,7 @@
         <img class="imagen" src="~/css/Imagens/Logo.png" />
     </div>
     <div class="simple-login-container">
-        <h2>Acesso ao Sistema</h2>
+        <h2>Recuperar Senha</h2>
         <div id="MSG">
             <p id="msgRetorno"></p>
         </div>
@@ -21,18 +21,13 @@
                 <input id="inputEmail" type="text" class="form-control" placeholder="E-mail">
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-12 form-group">
-                <input id="inputSenha" type="password" placeholder="Senha" class="form-control">
+        <div class="row d-flex justify-content-center">
+            <div class="col-md-4 form-group">
+                <button type="submit" onclick="recuperarSenha();" class="btn btn-block btn-success" placeholder="Enviar">Enviar</button>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12 form-group">
-                <button type="submit" onclick="login();" class="btn btn-block btn-login" placeholder="Entrar">Entrar</button>
+            <div class="col-md-4 form-group">
+                <a class="btn btn-block btn-danger" href="/Login/Index">Retornar</a>
             </div>
-        </div>
-        <div id="senha" class="d-flex justify-content-end">
-            <a href="/Login/RecuperarSenha">Esqueceu a Senha?</a>
         </div>
     </div>
 </div>

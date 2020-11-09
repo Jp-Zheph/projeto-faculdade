@@ -15,8 +15,9 @@ namespace NewSIGASE.Dto.Response
 		public int QuantidadeEquipamentos { get; set; }
 		public decimal Area { get; set; }
 		public int Andar { get; set; }
+        public bool Ativo { get; set; }
 
-		public SalaListaDto(Sala sala)
+        public SalaListaDto(Sala sala)
 		{
 			Id = sala.Id;
 			Tipo = sala.Tipo;
@@ -25,6 +26,7 @@ namespace NewSIGASE.Dto.Response
 			QuantidadeEquipamentos = sala.SalaEquipamentos?.Count() ?? 0;
 			Area = sala.Area;
 			Andar = sala.Andar;
+			Ativo = sala.Ativo;
 		}
 	}
 	

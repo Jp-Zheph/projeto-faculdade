@@ -21,5 +21,7 @@ namespace NewSIGASE.Services.Interfaces
 
         IEnumerable<Usuario> ObterPorPerfil(EnumTipoPerfil perfil);
 
+        Task RecuperarSenha(string email);
+
     }
 }

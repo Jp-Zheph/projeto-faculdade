@@ -5,6 +5,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="wwwroot\js\SalaJs\**" />
+    <Content Remove="wwwroot\js\SalaJs\**" />
+    <EmbeddedResource Remove="wwwroot\js\SalaJs\**" />
+    <None Remove="wwwroot\js\SalaJs\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove=".gitignore" />
   </ItemGroup>
 
@@ -22,10 +29,6 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="3.1.9" />
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="3.0.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.4" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="wwwroot\js\SalaJs\" />
   </ItemGroup>
 
   <ItemGroup>

@@ -35,6 +35,9 @@ namespace NewSIGASE.Services.Constantes
         internal static class Sala
         {
             internal static readonly string NaoExiste = "Sala não encontrada.";
+            internal static readonly string SemPermissaoDesativar = "Não é possível inativar a sala, pois ela possui agendamentos futuros aprovados.";
+            internal static readonly string IdentificadorJaExiste = "Identificador de Sala já cadastrado.";
+            internal static readonly string PossuiAgendamento = "Não é possivel excluir pois a sala está vinculada a agendamentos.";            
         }
 
         internal static class Cep

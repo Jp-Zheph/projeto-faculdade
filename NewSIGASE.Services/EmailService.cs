@@ -54,6 +54,20 @@ namespace NewSIGASE.Services
             await EnviarAsync(AssuntosEmail.ConcluirCadastro, builder.ToString());
         }
 
+        public async Task EnviarEmailRecuperarSenha(Usuario usuario)
+        {
+            var caminhoTemplate = _caminhoPastaEmails + CaminhoArquivoEmail.ArquivoRecuperarSenha;
+
+            var builder = new StringBuilder();
+            builder.Append(File.ReadAllText(caminhoTemplate, Encoding.UTF8));
+
+            builder.Replace("{{URL_ACESSO}}", _urlLogin);
+            builder.Replace("{{EMAIL_USUARIO}}", usuario.Email);
+            builder.Replace("{{SENHA_USUARIO}}", usuario.Senha);
+
+            await EnviarAsync(AssuntosEmail.RecuperarSenha, builder.ToString());
+        }
+
         public async Task EnviarEmailAprovacaoAgendamento(Agendamento agendamento)
         {
             var caminhoTemplate = _caminhoPastaEmails + CaminhoArquivoEmail.AgendamentoAprovacao;

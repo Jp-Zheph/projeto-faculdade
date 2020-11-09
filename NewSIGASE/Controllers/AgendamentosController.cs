@@ -19,11 +19,14 @@ namespace NewSIGASE.Controllers
     {
         private readonly IAgendamentoService _agendamentoService;
         private readonly IUsuarioService _usuarioService;
+        private readonly ISalaService _salaService;
         public AgendamentosController(IAgendamentoService agendamentoService,
-            IUsuarioService usuarioService)
+            IUsuarioService usuarioService,
+            ISalaService salaService)
         {
             _agendamentoService = agendamentoService;
             _usuarioService = usuarioService;
+            _salaService = salaService;
         }
 
         // GET: Agendamentos
@@ -56,13 +59,43 @@ namespace NewSIGASE.Controllers
 
             return Json(new { erro = false, strErro = " " });
         }
+
         // GET: Agendamentos/Create
         public IActionResult Create()
         {
             ViewBag.Periodo = Combos.retornarOpcoesPeriodo();
-            //ViewBag.Salas = new SelectList(_context.Salas.AsNoTracking(), "Id", "IdentificadorSala");
+            ViewBag.Salas = new SelectList(_salaService.ObterSomenteAtivos(), "Id", "IdentificadorSala");
 
             return View();
+        }
+
+        // POST: Agendamentos/Create
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(AgendamentoDto dto)
+        {
+            ViewBag.Periodo = Combos.retornarOpcoesPeriodo();
+            ViewBag.Salas = new SelectList(_salaService.ObterSomenteAtivos(), "Id", "IdentificadorSala");
+
+            dto.Validate();
+            if (dto.Invalid)
+            {
+                TempData["Notificacao"] = new BadRequestDto(dto.Notifications, TipoNotificacao.Warning);
+                return View(dto);
+            }
+
+            await _agendamentoService.CriarAsync(dto);
+            if (_agendamentoService.Invalid)
+            {
+                TempData["Notificacao"] = new BadRequestDto(dto.Notifications, TipoNotificacao.Warning);
+                return View(dto);
+            }
+
+            TempData["Notificacao"] = new BadRequestDto(new List<Notification>() { new Notification("CadastrarAgendamento", "Agendamento cadastrado com sucesso.") }, TipoNotificacao.Success);
+            ViewBag.Controller = "Agendamentos";
+            return View("_Confirmacao");
         }
 
         [HttpGet]
@@ -115,39 +148,11 @@ namespace NewSIGASE.Controllers
             return View("Relatorio", retorno);
         }
 
-        //public JsonResult RetornarSalas(EnumTipoSala tipoSala)
-        //{
-        //    var salas = _context.Salas.AsNoTracking().Where(s => s.Tipo == tipoSala).ToList();
-        //    return Json(salas);
-        //}
-
-        // POST: Agendamentos/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(AgendamentoDto dto)
+        public JsonResult RetornarSalas(EnumTipoSala tipoSala)
         {
-            ViewBag.Periodo = Combos.retornarOpcoesPeriodo();
-            //ViewBag.Salas = new SelectList(_context.Salas.AsNoTracking(), "Id", "IdentificadorSala");
+            var salas = _salaService.Obter(tipoSala);
 
-            dto.Validate();
-            if (dto.Invalid)
-            {
-                TempData["Notificacao"] = new BadRequestDto(dto.Notifications, "warning");
-                return View(dto);
-            }
-
-            await _agendamentoService.CriarAsync(dto);
-            if (_agendamentoService.Invalid)
-            {
-                TempData["Notificacao"] = new BadRequestDto(dto.Notifications, "warning");
-                return View(dto);
-            }
-            
-            TempData["Notificacao"] = new BadRequestDto(new List<Notification>() { new Notification("CadastrarAgendamento", "Agendamento cadastrado com sucesso.") }, "success");
-            ViewBag.Controller = "Agendamentos";
-            return View("_Confirmacao");
+            return Json(salas.Select(s => new SalaListaDto(s)).ToList());
         }
 
         //GET: Agendamentos/Edit/5
@@ -156,7 +161,7 @@ namespace NewSIGASE.Controllers
             var agendamento = await _agendamentoService.ObterAsync(id);
             if (_agendamentoService.Invalid)
             {
-                TempData["Notificacao"] = new BadRequestDto(_agendamentoService.Notifications, "warning");
+                TempData["Notificacao"] = new BadRequestDto(_agendamentoService.Notifications, TipoNotificacao.Warning);
                 ViewBag.Controller = "Agendamentos";
                 return View("_Confirmacao");
             }
@@ -165,7 +170,7 @@ namespace NewSIGASE.Controllers
             ViewBag.Sala = agendamento.SalaId;
 
             ViewBag.Periodo = Combos.retornarOpcoesPeriodo();
-            //ViewBag.Salas = new SelectList(_context.Salas.AsNoTracking(), "Id", "IdentificadorSala", agendamento.SalaId);
+            ViewBag.Salas = new SelectList(_salaService.Obter(), "Id", "IdentificadorSala", agendamento.SalaId);
 
             return View(new AgendamentoDto(agendamento));
         }
@@ -178,12 +183,12 @@ namespace NewSIGASE.Controllers
         public async Task<IActionResult> Edit(AgendamentoDto dto)
         {
             ViewBag.Periodo = Combos.retornarOpcoesPeriodo();
-            //ViewBag.Salas = new SelectList(_context.Salas.AsNoTracking(), "Id", "IdentificadorSala", dto.SalaId);
+            ViewBag.Salas = new SelectList(_salaService.Obter(), "Id", "IdentificadorSala", dto.SalaId);
 
             dto.Validate();
             if (dto.Invalid)
             {
-                TempData["Notificacao"] = new BadRequestDto(dto.Notifications, "warning");
+                TempData["Notificacao"] = new BadRequestDto(dto.Notifications, TipoNotificacao.Warning);
                 return View(dto);
             }
 

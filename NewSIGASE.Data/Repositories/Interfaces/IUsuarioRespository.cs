@@ -27,5 +27,7 @@ namespace NewSIGASE.Data.Repositories.Interfaces
         Task EditarEnderecoAsync(Endereco endereco);
 
         IEnumerable<Usuario> ObterPorPerfil(EnumTipoPerfil perfil);
+
+        Task<Usuario> ObterAsync(string email);
     }
 }

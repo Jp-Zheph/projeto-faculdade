@@ -60,7 +60,8 @@ namespace NewSIGASE.Models
 			string observacao,
 			decimal area,
 			int andar,
-			int capacidadeAlunos)
+			int capacidadeAlunos,
+			bool ativo)
 		{
 			Tipo = tipo;
 			IdentificadorSala = identificadorSala;
@@ -68,6 +69,7 @@ namespace NewSIGASE.Models
 			CapacidadeAlunos = capacidadeAlunos;
 			Area = area;
 			Andar = andar;
+			Ativo = ativo;
 		}
 
 		public void AdicionarSalaEquipamento(List<SalaEquipamento> salaEquipamentos)

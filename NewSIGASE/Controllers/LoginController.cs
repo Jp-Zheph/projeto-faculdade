@@ -4,6 +4,11 @@ using NewSIGASE.Models;
 using Microsoft.AspNetCore.Http;
 using NewSIGASE.Infra.Configuration;
 using System;
+using System.Threading.Tasks;
+using NewSIGASE.Dto.Response;
+using NewSIGASE.Dto;
+using Flunt.Notifications;
+using System.Collections.Generic;
 
 namespace NewSIGASE.Controllers
 {
@@ -22,7 +27,7 @@ namespace NewSIGASE.Controllers
         [HttpPost]
         public IActionResult Autenticar(string email, string password)
         {
-            Usuario retorno = _usuarioService.ValidarLogin(email, password, out string mesangem);
+            Usuario retorno = _usuarioService.ValidarLogin(email, password, out string mensagem);
             if (retorno != null)
             {
                 HttpContext.Session.SetString("Perfil", retorno.Perfil.ToString());
@@ -37,7 +42,7 @@ namespace NewSIGASE.Controllers
 
                 return Json(new { erro = false, strErro = "", url = "Agendamentos/Index" });
             }
-            return Json(new { erro = true, strErro = mesangem });
+            return Json(new { erro = true, strErro = mensagem });
         }
 
         public IActionResult LogOut()
@@ -48,6 +53,24 @@ namespace NewSIGASE.Controllers
             HttpContext.Session.Clear();
             return RedirectToAction("Index");
 
+        }
+
+        public IActionResult RecuperarSenha()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> RecuperarSenha(string email)
+        {
+            await _usuarioService.RecuperarSenha(email);
+            if (_usuarioService.Invalid)
+            {
+                var strErro = new BadRequestDto(_usuarioService.Notifications, TipoNotificacao.Warning);
+                return Json(new { erro = true, strErro });
+            }
+
+            return Json(new { erro = false, strErro = "Você receberá em seu e-mail as informações para recuperar seu acesso." });
         }
     }
 }

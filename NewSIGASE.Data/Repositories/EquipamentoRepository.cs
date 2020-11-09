@@ -2,6 +2,8 @@
 using NewSIGASE.Data.Repositories.Interfaces;
 using NewSIGASE.Models;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -29,11 +31,41 @@ namespace NewSIGASE.Data.Repositories
             return equipamentos;
         }
 
+        public IQueryable<Equipamento> ObterSemSala()
+        {
+            var equipamentos = _context.Equipamentos
+                .Include(e => e.SalaEquipamento == null)
+                .AsNoTracking();
+
+            if (equipamentos == null)
+            {
+                return Array.Empty<Equipamento>().AsQueryable();
+            }
+
+            return equipamentos;
+        }
+
         public async Task<Equipamento> ObterAsync(Guid id)
         {
             return await _context.Equipamentos
                 .Include(e => e.SalaEquipamento)
                 .FirstOrDefaultAsync(e => e.Id == id);
+        }
+
+        public async Task<IEnumerable<Equipamento>> ObterAsync(IEnumerable<Guid> ids)
+        {
+            var equipamentos = await _context.Equipamentos
+                .Include(e => e.SalaEquipamento)
+                .Where(e => ids.Contains(e.Id))
+                .AsNoTracking()
+                .ToListAsync();
+
+            if (equipamentos == null)
+            {
+                return Array.Empty<Equipamento>();
+            }
+
+            return equipamentos;
         }
 
         public async Task<Equipamento> ObterAsync(string serial)

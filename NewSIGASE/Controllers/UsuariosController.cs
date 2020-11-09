@@ -53,18 +53,18 @@ namespace NewSIGASE.Controllers
             usuarioDto.Validate();
             if (usuarioDto.Invalid)
             {
-                TempData["Notificacao"] = new BadRequestDto(usuarioDto.Notifications, "warning");
+                TempData["Notificacao"] = new BadRequestDto(usuarioDto.Notifications, TipoNotificacao.Warning);
                 return View(usuarioDto);
             }
 
             await _usuarioService.Criar(usuarioDto);
             if (_usuarioService.Invalid)
             {
-                TempData["Notificacao"] = new BadRequestDto(_usuarioService.Notifications, "warning");
+                TempData["Notificacao"] = new BadRequestDto(_usuarioService.Notifications, TipoNotificacao.Warning);
                 return View(usuarioDto);
             }
 
-            TempData["Notificacao"] = new BadRequestDto(new List<Notification>() { new Notification("CadastrarUsuario", "Usuário cadastrado com sucesso.") }, "success");
+            TempData["Notificacao"] = new BadRequestDto(new List<Notification>() { new Notification("CadastrarUsuario", "Usuário cadastrado com sucesso.") }, TipoNotificacao.Success);
             ViewBag.Controller = "Usuarios";
             return View("_Confirmacao");
         }
@@ -75,7 +75,7 @@ namespace NewSIGASE.Controllers
             var usuario = await _usuarioService.Obter(id);
             if (_usuarioService.Invalid)
             {
-                TempData["Notificacao"] = new BadRequestDto(_usuarioService.Notifications, "warning");
+                TempData["Notificacao"] = new BadRequestDto(_usuarioService.Notifications, TipoNotificacao.Warning);
                 ViewBag.Controller = "Usuarios";
                 return View("_Confirmacao");
             }
@@ -103,18 +103,18 @@ namespace NewSIGASE.Controllers
             usuarioDto.Validate();
             if (usuarioDto.Invalid)
             {
-                TempData["Notificacao"] = new BadRequestDto(usuarioDto.Notifications, "warning");
+                TempData["Notificacao"] = new BadRequestDto(usuarioDto.Notifications, TipoNotificacao.Warning);
                 return View(usuarioDto);
             }
 
             await _usuarioService.Editar(usuarioDto);
             if (_usuarioService.Invalid)
             {
-                TempData["Notificacao"] = new BadRequestDto(_usuarioService.Notifications, "warning");
+                TempData["Notificacao"] = new BadRequestDto(_usuarioService.Notifications, TipoNotificacao.Warning);
                 return View(usuarioDto);
             }
 
-            TempData["Notificacao"] = new BadRequestDto(new List<Notification>() { new Notification("EditarUsuario", "Usuário editado com sucesso.") }, "success");
+            TempData["Notificacao"] = new BadRequestDto(new List<Notification>() { new Notification("EditarUsuario", "Usuário editado com sucesso.") }, TipoNotificacao.Success);
             ViewBag.Controller = "Usuarios";
             return View("_Confirmacao");
         }
@@ -129,11 +129,11 @@ namespace NewSIGASE.Controllers
             await _usuarioService.Deletar(id);
             if (_usuarioService.Invalid)
             {
-                TempData["Notificacao"] = new BadRequestDto(_usuarioService.Notifications, "warning");
+                TempData["Notificacao"] = new BadRequestDto(_usuarioService.Notifications, TipoNotificacao.Warning);
                 return View("_Confirmacao");
             }
 
-            TempData["Notificacao"] = new BadRequestDto(new List<Notification>() { new Notification("ExcluirUsuario", "Usuário excluído com sucesso.") }, "success");
+            TempData["Notificacao"] = new BadRequestDto(new List<Notification>() { new Notification("ExcluirUsuario", "Usuário excluído com sucesso.") }, TipoNotificacao.Success);
             return View("_Confirmacao");
         }
 
@@ -153,18 +153,18 @@ namespace NewSIGASE.Controllers
             senhaDto.Validate();
             if (senhaDto.Invalid)
             {
-                TempData["Notificacao"] = new BadRequestDto(senhaDto.Notifications, "warning");
+                TempData["Notificacao"] = new BadRequestDto(senhaDto.Notifications, TipoNotificacao.Warning);
                 return View(senhaDto);
             }
 
             await _usuarioService.CriarSenha(senhaDto);
             if (_usuarioService.Invalid)
             {
-                TempData["Notificacao"] = new BadRequestDto(_usuarioService.Notifications, "warning");
+                TempData["Notificacao"] = new BadRequestDto(_usuarioService.Notifications, TipoNotificacao.Warning);
                 return View(senhaDto);
             }
 
-            TempData["Notificacao"] = new BadRequestDto(new List<Notification>() { new Notification("AlterarSenha", "Senha alterada com sucesso.") }, "success");
+            TempData["Notificacao"] = new BadRequestDto(new List<Notification>() { new Notification("AlterarSenha", "Senha alterada com sucesso.") }, TipoNotificacao.Success);
             ViewBag.Controller = "Agendamentos";
             return View("_Confirmacao");
         }

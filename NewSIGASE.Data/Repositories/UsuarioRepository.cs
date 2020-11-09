@@ -65,6 +65,13 @@ namespace NewSIGASE.Data.Repositories
                 .FirstOrDefaultAsync(u => u.Email == email || u.Matricula == matricula);
         }
 
+        public async Task<Usuario> ObterAsync(string email)
+        {
+            return await _context.Usuarios
+                .Include(u => u.Endereco)
+                .FirstOrDefaultAsync(u => u.Email == email);
+        }
+
         public async Task<Usuario> ObterPorEmailAsync(string email)
         {
             return await _context.Usuarios
