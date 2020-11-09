@@ -6,6 +6,6 @@ namespace NewSIGASE.Models.Enum
         Pendente = 0,
         Aprovado = 1,
         Reprovado = 2,
-        Cancelado = 3,
+        Cancelado = 3
     }
 }

@@ -48,7 +48,7 @@ namespace NewSIGASE.Controllers
 
         [HttpPost]
         public async Task<JsonResult> AprovarAgendamento(AgendamentoAprovacaoDto aprovacao)
-        {        
+        {
             await _agendamentoService.AprovarAgendamento(aprovacao, AppSettings.Usuario);
             if (_agendamentoService.Invalid)
             {
@@ -198,7 +198,7 @@ namespace NewSIGASE.Controllers
                 TempData["Notificacao"] = new BadRequestDto(_agendamentoService.Notifications, TipoNotificacao.Warning);
                 return View(dto);
             }
-            
+
             TempData["Notificacao"] = new BadRequestDto(new List<Notification>() { new Notification("EditarAgendamento", "Agendamento Editado com sucesso.") }, TipoNotificacao.Success);
             ViewBag.Controller = "Agendamentos";
             return View("_Confirmacao");
@@ -221,6 +221,56 @@ namespace NewSIGASE.Controllers
             return View("_Confirmacao");
         }
 
+        [HttpGet]
+        [Route("/Agendamentos/RelatorioAprovados")]
+        public IActionResult RelatorioAprovados(AgendamentoRelatorioFiltroDto filtro)
+        {
+            filtro.DataInicio ??= DateTime.Now.Date;
+            filtro.DataFim ??= DateTime.Now.Date.AddDays(10);
 
+            ViewBag.DataInicio = filtro.DataInicio.Value.Date.ToString("yyyy-MM-dd");
+            ViewBag.DataFim = filtro.DataFim.Value.Date.ToString("yyyy-MM-dd");
+            ViewBag.Sala = filtro.Sala ?? string.Empty;
+            ViewBag.Usuario = filtro.Usuario ?? string.Empty;
+            ViewBag.TipoLocal = new SelectList(Combos.retornarOpcoesSala(), "Value", "Text", (int)filtro.TipoLocal);
+            ViewBag.Status = new SelectList(Combos.retornarOpcoesStatusAgendamento(), "Value", "Text");
+
+            var agendamentos = _agendamentoService.GerarRelatorio(filtro.DataInicio.Value, filtro.DataFim.Value);
+
+            if (filtro.TipoLocal != EnumTipoSala.Nenhum)
+            {
+                agendamentos = agendamentos.Where(a => a.Sala.Tipo == filtro.TipoLocal);
+            }
+
+            if (!string.IsNullOrEmpty(filtro.Sala))
+            {
+                agendamentos = agendamentos.Where(a => a.Sala.IdentificadorSala.ToLower().Contains(filtro.Sala.ToLower()));
+            }
+
+            if (!string.IsNullOrEmpty(filtro.Usuario))
+            {
+                agendamentos = agendamentos.Where(a => a.Usuario.Nome.ToLower().Contains(filtro.Usuario.ToLower()));
+            }
+
+            if (filtro.StatusAgendamento != null)
+            {
+                ViewBag.Status = new SelectList(Combos.retornarOpcoesStatusAgendamento(), "Value", "Text", (int)filtro.StatusAgendamento);
+
+                agendamentos = agendamentos.Where(a => a.Status == filtro.StatusAgendamento);
+            }
+
+            var usuariosAprovadores = _usuarioService.ObterPorPerfil(EnumTipoPerfil.Administrador);
+
+            var retorno = new List<AgendamentoRelatorioDto>();
+
+            foreach (var agendamento in agendamentos)
+            {
+                var aprovador = usuariosAprovadores.Where(u => u.Id == agendamento.AprovadorId).FirstOrDefault();
+
+                retorno.Add(new AgendamentoRelatorioDto(agendamento, aprovador));
+            }
+
+            return View("RelatorioAprovacao", retorno);
+        }
     }
 }

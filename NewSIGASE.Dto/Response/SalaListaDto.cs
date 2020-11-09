@@ -1,6 +1,7 @@
 ﻿using NewSIGASE.Models;
 using NewSIGASE.Models.Enum;
 using System;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
 namespace NewSIGASE.Dto.Response
@@ -13,6 +14,8 @@ namespace NewSIGASE.Dto.Response
 		public string IdentificadorSala { get; set; }
 		public int CapacidadeAlunos { get; set; }
 		public int QuantidadeEquipamentos { get; set; }
+
+		[DisplayFormat(DataFormatString = "{0:F3}")]
 		public decimal Area { get; set; }
 		public int Andar { get; set; }
         public bool Ativo { get; set; }

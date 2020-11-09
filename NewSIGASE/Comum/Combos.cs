@@ -48,6 +48,19 @@ namespace NewSIGASE.Comum
             };
             return cadastroOptions;
         }
+
+        static public List<SelectListItem> retornarOpcoesStatusAgendamento()
+        {
+            List<SelectListItem> cadastroOptions = new List<SelectListItem>()
+            {
+                new SelectListItem() { Text="Selecione", Value=""},
+                new SelectListItem() { Text="Pendente", Value="0"},
+                new SelectListItem() { Text="Aprovado", Value="1"},
+                new SelectListItem() { Text="Reprovado", Value="2"},
+                new SelectListItem() { Text="Cancelado", Value="3"}
+            };
+            return cadastroOptions;
+        }
     }
 
 }

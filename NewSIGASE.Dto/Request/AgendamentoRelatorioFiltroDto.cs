@@ -11,5 +11,6 @@ namespace NewSIGASE.Dto.Request
         public string Usuario { get; set; }
         public EnumTipoPerfil PerfilUsuario { get; set; }
         public EnumTipoSala TipoLocal { get; set; }
+        public EnumStatusAgendamento? StatusAgendamento { get; set; }
     }
 }

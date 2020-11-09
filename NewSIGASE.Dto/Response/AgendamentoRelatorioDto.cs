@@ -1,6 +1,7 @@
 ﻿
 using NewSIGASE.Models;
 using NewSIGASE.Models.Enum;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
 namespace NewSIGASE.Dto.Response
@@ -15,6 +16,9 @@ namespace NewSIGASE.Dto.Response
         public string DataAgendada { get; set; }
         public string Periodo { get; set; }
         public string Sala { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:F3}")]
+        public decimal Area { get; set; }
         public string TipoSala { get; set; }
         public int CapacidadeAlunos { get; set; }
         public int QuantidadeEquipamentos { get; set; }
@@ -35,6 +39,7 @@ namespace NewSIGASE.Dto.Response
             DataAgendada = string.Format("{0:dd/MM/yyyy}", agendamento.DataAgendada);
             Periodo = agendamento.Periodo.ToString();
             Sala = agendamento.Sala.IdentificadorSala;
+            Area = agendamento.Sala.Area;
             TipoSala = agendamento.Sala.Tipo == EnumTipoSala.Laboratorio ? agendamento.Sala.Tipo.ToString() : "Sala de Aula";
             CapacidadeAlunos = agendamento.Sala.CapacidadeAlunos;
 			QuantidadeEquipamentos = agendamento.Sala.SalaEquipamentos?.Count() ?? 0;

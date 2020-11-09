@@ -39,7 +39,7 @@
 <h3>Relatório de Agendamentos</h3>
 
 <div class="filtro">
-    <form asp-controller="Agendamentos" asp-action="GerarRelatorio" method="get">
+    <form asp-controller="Agendamentos" asp-action="RelatorioAprovados" method="get">
         <div class="row">
             <div class="form-group col-md-2 inputFiltro">
                 <label class="control-label">Data Início</label>
@@ -48,6 +48,10 @@
             <div class="form-group col-md-2 inputFiltro">
                 <label class="control-label">Data Fim</label>
                 <input required type="date" id="DataFim" name="DataFim" class="form-control" value="@ViewBag.DataFim" />
+            </div>
+            <div class="form-group col-md-2 inputFiltro">
+                <label class="control-label">Status</label>
+                <select id="StatusAgendamento" name="StatusAgendamento" class="form-control" asp-items="@ViewBag.Status"></select>
             </div>
             <div class="form-group col-md-1 inputFiltro">
                 <label class="control-label">Sala</label>
@@ -60,10 +64,6 @@
             <div class="form-group col-md-2 inputFiltro">
                 <label class="control-label">Usuário</label>
                 <input type="text" id="Usuario" name="Usuario" class="form-control" placeholder="Usuário" value="@ViewBag.Usuario" />
-            </div>
-            <div class="form-group col-md-2 inputFiltro">
-                <label class="control-label">Perfil</label>
-                <select id="PerfilUsuario" name="PerfilUsuario" class="form-control" asp-items="@ViewBag.Perfil"></select>
             </div>
             <div class="col-md-1 inputFiltro buttonFiltro">
                 <button type="submit" class="btn btn-primary btn-sm">
@@ -84,16 +84,16 @@
                 @Html.DisplayName("Data Criação")
             </th>
             <th>
-                @Html.DisplayName("Agendada Por")
+                @Html.DisplayName("Usuário")
             </th>
             <th>
                 @Html.DisplayName("Matrícula")
             </th>
             <th>
-                @Html.DisplayName("Email")
+                @Html.DisplayName("Perfil")
             </th>
             <th>
-                @Html.DisplayName("Perfil")
+                @Html.DisplayName("Status")
             </th>
             <th>
                 @Html.DisplayName("Data Agendada")
@@ -105,16 +105,7 @@
                 @Html.DisplayName("Sala")
             </th>
             <th>
-                @Html.DisplayName("Área")
-            </th>
-            <th>
                 @Html.DisplayName("Tipo Local")
-            </th>
-            <th>
-                @Html.DisplayName("Capacidade de Alunos")
-            </th>
-            <th>
-                @Html.DisplayName("Quant de Equipamentos")
             </th>
             <th>
                 @Html.DisplayName("Data Aprovação")
@@ -124,15 +115,6 @@
             </th>
             <th>
                 @Html.DisplayName("Matrícula")
-            </th>
-            <th>
-                @Html.DisplayName("Email")
-            </th>
-            <th>
-                @Html.DisplayName("Perfil")
-            </th>
-            <th>
-                @Html.DisplayName("Status")
             </th>
         </tr>
     </thead>
@@ -150,10 +132,10 @@
                     @Html.DisplayFor(modelItem => item.MatriculaUsuario)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.EmailUsuario)
+                    @Html.DisplayFor(modelItem => item.PerfilUsuario)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.PerfilUsuario)
+                    @Html.DisplayFor(modelItem => item.Status)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.DataAgendada)
@@ -165,16 +147,7 @@
                     @Html.DisplayFor(modelItem => item.Sala)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Area)
-                </td>
-                <td>
                     @Html.DisplayFor(modelItem => item.TipoSala)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CapacidadeAlunos)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.QuantidadeEquipamentos)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.DataAprovacao)
@@ -184,15 +157,6 @@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.MatriculaAprovador)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.EmailAprovador)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.PerfilAprovador)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Status)
                 </td>
             </tr>
         }
