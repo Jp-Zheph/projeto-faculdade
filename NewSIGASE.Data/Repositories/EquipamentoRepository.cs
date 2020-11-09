@@ -34,8 +34,22 @@ namespace NewSIGASE.Data.Repositories
         public IQueryable<Equipamento> ObterSemSala()
         {
             var equipamentos = _context.Equipamentos
-                .Include(e => e.SalaEquipamento == null)
-                .AsNoTracking();
+                .Include(e => e.SalaEquipamento)
+                .AsNoTracking().Where(e => e.SalaEquipamento == null);
+
+            if (equipamentos == null)
+            {
+                return Array.Empty<Equipamento>().AsQueryable();
+            }
+
+            return equipamentos;
+        }
+
+        public IQueryable<Equipamento> ObterPorSala(Guid salaId)
+        {
+            var equipamentos = _context.Equipamentos
+                .Include(e => e.SalaEquipamento)
+                .AsNoTracking().Where(e => e.SalaEquipamento.SalaId == salaId);
 
             if (equipamentos == null)
             {

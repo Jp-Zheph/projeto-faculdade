@@ -3,51 +3,22 @@
 @{
     ViewData["Title"] = "Create";
 }
+<link rel="stylesheet" href="https://res.cloudinary.com/dxfq3iotg/raw/upload/v1569006288/BBBootstrap/choices.min.css?version=7.0.0">
+<script src="https://res.cloudinary.com/dxfq3iotg/raw/upload/v1569006273/BBBootstrap/choices.min.js?version=7.0.0"></script>
 
 <script>
     $(document).ready(function () {
-        $.ajax({
-            type: "get",
-            url: "/Salas/RetornaEquipamentos",
-            dataType: 'json',
-            contentType: "application/json; charset=utf-8",
-            success: function (data) {
-                debugger;
-                if (data != null) {
-                    var a = data;
-                    for (var e of data) {
-                        $('#selectCheckbox')
-                            .append(`<label><input type="checkbox" id="${e.value}" name="interest" value="${e.value}">${e.text}<label>`)
-                    }
-                }
-            }
+        var multipleCancelButton = new Choices('#choices-multiple-remove-button', {
+            removeItemButton: true,
+            maxItemCount: 5,
+            searchResultLimit: 5,
+            renderChoiceLimit: 5
         });
-
-        $("equipSelected").on('change', function () {
-
-        })
     });
 </script>
-<style>
-.multiselect {
-    border: solid 1px #c0c0c0;
-    overflow: auto;
-    height: 130px;
-}
-
-.multiselect label {
-    display: block;
-    margin-left: 5px;
- }
-
-.multiselect-on {
-    color: #ffffff;
-    background-color: #000099;
-}
-</style>
 
 <h3>Cadastro de Sala</h3>
-<input id="Equips" type="hidden" value="@ViewBag.Equipamentos"/>
+<input id="Equips" type="hidden" value="@ViewBag.Equipamentos" />
 <hr />
 <div class="row formulario">
     <div class="col-md-8">
@@ -96,11 +67,9 @@
                 <span asp-validation-for="Andar" class="text-danger"></span>
             </div>
             <div class="form-group row">
-                <label class="col-sm-12 col-form-label">Equipamentos (Para selecionar mais de um, segure ctrl)</label>
+                <label class="col-sm-12 col-form-label">Equipamentos (Clique no campo abaixo para selecionar as opções.)</label>
                 <div class="col-sm-12">
-                    <div class="multiselect" id="selectCheckbox">
-                    </div>
-                    <select style="display:none" multiple id="equipSelected" type="hidden" asp-for="EquipamentoId" asp-items="@ViewBag.Equipamentos"></select>
+                    <select multiple data-live-search="true" asp-for="EquipamentoId" id="choices-multiple-remove-button" class="form-control" asp-items="@ViewBag.Equipamentos"></select>
                 </div>
             </div>
             <div class="row justify-content-center no-gutter">

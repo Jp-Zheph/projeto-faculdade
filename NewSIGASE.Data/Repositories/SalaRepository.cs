@@ -77,6 +77,7 @@ namespace NewSIGASE.Data.Repositories
         public async Task<Sala> ObterAsync(Guid id)
         {
             return await _context.Salas
+                .IgnoreQueryFilters()
                 .Include(s => s.SalaEquipamentos)
                 .Include(s => s.Agendamentos)
                 .FirstOrDefaultAsync(s => s.Id == id);

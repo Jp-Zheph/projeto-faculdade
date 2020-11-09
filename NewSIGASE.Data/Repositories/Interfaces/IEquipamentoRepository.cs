@@ -12,6 +12,8 @@ namespace NewSIGASE.Data.Repositories.Interfaces
 
         IQueryable<Equipamento> ObterSemSala();
 
+        IQueryable<Equipamento> ObterPorSala(Guid salaId);
+
         Task<Equipamento> ObterAsync(Guid id);
 
         Task<Equipamento> ObterAsync(string serial);

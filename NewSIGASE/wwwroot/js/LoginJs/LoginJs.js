@@ -12,7 +12,6 @@ login = function () {
         type: 'POST',
         async: false,
         url: "Login/Autenticar?email=" + email + "&password=" + senha,
-        data: 'option=validate_login&str_login=' + $("#form-login").val() + '&str_password=' + $("#form-password").val(),
         success: function (data) {
             if (data.erro) {
                 $("#MSG").show();
@@ -30,9 +29,8 @@ recuperarSenha = function () {
     email = $("#inputEmail").val();
     $.ajax({
         type: 'POST',
-        async: false,
-        url: "Login/RecuperarSenha",
-        data: { email: email },
+        async: true,
+        url: "RecuperarSenha?email=" + email,
         success: function (data) {
             if (data.erro) {
                 $("#MSG").show();

@@ -89,8 +89,7 @@ namespace NewSIGASE.Controllers
             }
 
             ViewBag.TipoSala = new SelectList(Combos.retornarOpcoesSala(), "Value", "Text", sala.Tipo);
-            ViewBag.Equipamentos = new SelectList(_equipamentoService.ObterSemSala(), "Id", "NomeModelo", sala.SalaEquipamentos.Select(s => s.EquipamentoId));
-
+            ViewBag.Equipamentos = _equipamentoService.ObterPorSalaEdicao(sala.Id);
             return View(new SalaDto(sala));
         }
 
@@ -102,7 +101,7 @@ namespace NewSIGASE.Controllers
         public async Task<IActionResult> Edit(SalaDto salaDto)
         {
             ViewBag.TipoSala = new SelectList(Combos.retornarOpcoesSala(), "Value", "Text", salaDto.Tipo);
-            ViewBag.Equipamentos = new SelectList(_equipamentoService.ObterSemSala(), "Id", "NomeModelo");
+            ViewBag.Equipamentos = _equipamentoService.ObterPorSalaEdicao(salaDto.Id.Value);
 
             salaDto.Validate();
             if (salaDto.Invalid)

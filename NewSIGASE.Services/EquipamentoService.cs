@@ -1,5 +1,6 @@
 ﻿using Flunt.Notifications;
 using Flunt.Validations;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using NewSIGASE.Data.Repositories.Interfaces;
 using NewSIGASE.Dto.Request;
 using NewSIGASE.Models;
@@ -30,6 +31,29 @@ namespace NewSIGASE.Services
         public IQueryable<Equipamento> ObterSemSala()
         {
             return _equipamentoRepository.ObterSemSala();
+        }
+
+        public SelectList ObterPorSalaEdicao(Guid salaId)
+        {
+            var listaComSala = _equipamentoRepository.ObterPorSala(salaId).ToList();
+            var listaRetorno = new List<Equipamento>();
+            if (listaComSala.Any())
+            {
+                listaRetorno.AddRange(listaComSala);
+            }
+            listaRetorno.AddRange(_equipamentoRepository.ObterSemSala().ToList());
+
+            var listafim = new SelectList(listaRetorno, "Id", "NomeModelo");
+
+            foreach(var e in listafim)
+            {
+                if(listaComSala.Any(i => i.Id == Guid.Parse(e.Value)))
+                {
+                    e.Selected = true;
+                }
+            }
+
+            return listafim;
         }
 
         public async Task<Equipamento> ObterAsync(Guid id)

@@ -1,4 +1,5 @@
-﻿using NewSIGASE.Dto.Request;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using NewSIGASE.Dto.Request;
 using NewSIGASE.Models;
 using System;
 using System.Collections.Generic;
@@ -13,6 +14,8 @@ namespace NewSIGASE.Services.Interfaces
         IQueryable<Equipamento> Obter();
 
         IQueryable<Equipamento> ObterSemSala();
+
+        SelectList ObterPorSalaEdicao(Guid salaId);
 
         Task<Equipamento> ObterAsync(Guid id);
 
