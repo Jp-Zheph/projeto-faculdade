@@ -26,20 +26,19 @@ namespace NewSIGASE.Dto.Request
         public DateTime DataCriacao { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:F3}")]
-        public decimal? Peso { get; set; }
+        public string Peso { get ; set; }
+
         public string Cor { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:F3}")]
-        public decimal? Comprimento { get; set; }
-
-        [DataType(DataType.Currency)]
-        [DisplayFormat(DataFormatString = "{0:F3}")]
-        public decimal? Largura { get; set; }
+        public string Comprimento { get ; set ; }
 
         [DisplayFormat(DataFormatString = "{0:F3}")]
-        public decimal? Altura { get; set; }
+        public string Largura { get ; set ; }
 
-		public EquipamentoDto(Equipamento equipamento)
+        public string Altura { get ; set ; }
+
+        public EquipamentoDto(Equipamento equipamento)
 		{
 			Id = equipamento.Id;
 			Serial = equipamento.Serial;
@@ -47,13 +46,12 @@ namespace NewSIGASE.Dto.Request
 			Modelo = equipamento.Modelo;
 			Marca = equipamento.Marca;
 			DataCriacao = equipamento.DataCriacao;
-			Peso = equipamento.Peso;
+			Peso = equipamento.Peso.ToString();
 			Cor = equipamento.Cor;
-			Comprimento = equipamento.Comprimento;
-			Largura = equipamento.Largura;
-			Altura = equipamento.Altura;
+			Comprimento = equipamento.Comprimento.ToString();
+			Largura = equipamento.Largura.ToString();
+			Altura = equipamento.Altura.ToString();
 		}
-
 
         public EquipamentoDto()
         { }

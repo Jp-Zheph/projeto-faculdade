@@ -21,23 +21,21 @@ namespace NewSIGASE.Dto.Request
         [Required(ErrorMessage = MensagemValidacao.CampoObrigatorio)]
         public int CapacidadeAlunos { get; set; }
 
-        public decimal Area { get; set; }
+        [Required(ErrorMessage = MensagemValidacao.CampoObrigatorio)]
+        [DisplayFormat(DataFormatString = "{0:F3}")]
+        public string Area { get; set; }
         public int Andar { get; set; }
         public string Observacao { get; set; }
         public bool Ativo { get; set; }
-
-        public List<SalaEquipamento> SalaEquipamentos { get; set; }
         public List<Guid> EquipamentoId { get; set; }
-
 
         public SalaDto(Sala sala)
         {
             Tipo = sala.Tipo;
             IdentificadorSala = sala.IdentificadorSala;
             CapacidadeAlunos = sala.CapacidadeAlunos;
-            Area = sala.Area;
+            Area = sala.Area.ToString();
             Andar = sala.Andar;
-            SalaEquipamentos = sala.SalaEquipamentos;
             Ativo = sala.Ativo;
         }
 
@@ -55,6 +53,8 @@ namespace NewSIGASE.Dto.Request
                 .HasMaxLengthIfNotNullOrEmpty(IdentificadorSala, 100, nameof(IdentificadorSala), MensagemValidacao.CampoLimite50Caracteres)
 
                 .IsTrue(CapacidadeAlunos > 0, nameof(CapacidadeAlunos), MensagemValidacao.CampoTipoInvalido(nameof(CapacidadeAlunos)))
+
+                .IsNotNullOrEmpty(Area, nameof(Area), MensagemValidacao.CampoObrigatorio)
             );
         }
     }
