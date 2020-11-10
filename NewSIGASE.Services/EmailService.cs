@@ -79,6 +79,7 @@ namespace NewSIGASE.Services
             {
                 builder.Replace("{{JUSTIFICATIVA}}", "Motivo: " + agendamento.Justificativa);
             }
+            builder.Replace("{{JUSTIFICATIVA}}", "");
             builder.Replace("{{TITULO}}", agendamento.Status.ToString() == "Reprovado" ? "Reprovação" : "Aprovação");
             builder.Replace("{{STATUS}}", agendamento.Status.ToString());
             builder.Replace("{{SALA}}", agendamento.Sala.IdentificadorSala);
