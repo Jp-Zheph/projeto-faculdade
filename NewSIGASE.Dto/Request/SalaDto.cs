@@ -23,7 +23,11 @@ namespace NewSIGASE.Dto.Request
 
         [Required(ErrorMessage = MensagemValidacao.CampoObrigatorio)]
         [DisplayFormat(DataFormatString = "{0:F3}")]
+        [RegularExpression("^[0-9]*$", ErrorMessage = MensagemValidacao.CampoFormatoIncorreto)]
         public string Area { get; set; }
+
+        [Required(ErrorMessage = MensagemValidacao.CampoObrigatorio)]
+        [RegularExpression("^[0-9]*$", ErrorMessage = MensagemValidacao.CampoFormatoIncorreto)]
         public int Andar { get; set; }
         public string Observacao { get; set; }
         public bool Ativo { get; set; }
