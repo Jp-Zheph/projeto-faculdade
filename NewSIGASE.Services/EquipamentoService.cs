@@ -72,6 +72,7 @@ namespace NewSIGASE.Services
 
         public async Task CriarAsync(EquipamentoDto dto)
         {
+
             var serialDuplicado = await _equipamentoRepository.ObterAsync(dto.Serial);
             if (serialDuplicado != null)
             {
@@ -79,8 +80,12 @@ namespace NewSIGASE.Services
                 return;
             }
 
-            var equipamento = new Equipamento(dto.Serial, dto.Nome, dto.Modelo, dto.Peso, 
-                dto.Cor, dto.Comprimento, dto.Largura, dto.Altura, dto.Marca);
+            decimal? peso = dto.Peso == null ? (decimal?)null : Convert.ToDecimal(dto.Peso.Replace('.', ','));
+            decimal? comprimento = dto.Comprimento == null ? (decimal?)null : Convert.ToDecimal(dto.Comprimento.Replace('.', ','));
+            decimal? largura = dto.Largura == null ? (decimal?)null : Convert.ToDecimal(dto.Largura.Replace('.', ','));
+            decimal? altura = dto.Altura == null ? (decimal?)null : Convert.ToDecimal(dto.Altura.Replace('.', ','));
+
+            var equipamento = new Equipamento(dto.Serial, dto.Nome, dto.Modelo, peso, dto.Cor, comprimento, largura, altura, dto.Marca);
 
             await _equipamentoRepository.CriarAsync(equipamento);
         }
@@ -107,8 +112,12 @@ namespace NewSIGASE.Services
                 return;
             }
 
-            equipamentoEditar.Editar(dto.Serial, dto.Nome, dto.Modelo, dto.Peso, dto.Cor, dto.Comprimento,
-                dto.Largura, dto.Altura, dto.Marca);
+            decimal? peso = dto.Peso == null ? (decimal?)null : Convert.ToDecimal(dto.Peso.Replace('.', ','));
+            decimal? comprimento = dto.Comprimento == null ? (decimal?)null : Convert.ToDecimal(dto.Comprimento.Replace('.', ','));
+            decimal? largura = dto.Largura == null ? (decimal?)null : Convert.ToDecimal(dto.Largura.Replace('.', ','));
+            decimal? altura = dto.Altura == null ? (decimal?)null : Convert.ToDecimal(dto.Altura.Replace('.', ','));
+
+            equipamentoEditar.Editar(dto.Serial, dto.Nome, dto.Modelo, peso, dto.Cor, comprimento, largura, altura, dto.Marca);
 
             await _equipamentoRepository.EditarAsync(equipamentoEditar);
         }

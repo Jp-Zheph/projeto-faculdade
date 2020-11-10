@@ -59,7 +59,7 @@ namespace NewSIGASE.Services
                 return;
             }
 
-            var sala = new Sala(dto.Tipo, dto.IdentificadorSala, dto.Observacao, dto.Area, dto.Andar, dto.CapacidadeAlunos);
+            var sala = new Sala(dto.Tipo, dto.IdentificadorSala, dto.Observacao, Convert.ToDecimal(dto.Area.Replace('.', ',')), dto.Andar, dto.CapacidadeAlunos);
 
             if (dto.EquipamentoId != null && dto.EquipamentoId.Any())
             {
@@ -104,7 +104,7 @@ namespace NewSIGASE.Services
                 return;
             }
 
-            salaEditar.Editar(dto.Tipo, dto.IdentificadorSala, dto.Observacao, dto.Area, dto.Andar, dto.CapacidadeAlunos, dto.Ativo);
+            salaEditar.Editar(dto.Tipo, dto.IdentificadorSala, dto.Observacao, Convert.ToDecimal(dto.Area.Replace('.', ',')), dto.Andar, dto.CapacidadeAlunos, dto.Ativo);
 
             if (dto.EquipamentoId != null && dto.EquipamentoId.Any())
             {
