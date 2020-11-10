@@ -54,7 +54,7 @@ namespace NewSIGASE.Services
             var endereco = new Endereco(usuarioDto.Endereco.Logradouro, usuarioDto.Endereco.Numero, usuarioDto.Endereco.Bairro, usuarioDto.Endereco.Cep, 
                 usuarioDto.Endereco.Cidade, usuarioDto.Endereco.UF, usuarioDto.Endereco.Complemento, usuarioDto.Endereco.PontoReferencia);
 
-            var usuario = new Usuario(usuarioDto.Matricula, usuarioDto.Email, usuarioDto.Nome, usuarioDto.Perfil, endereco, false, usuarioDto.Telefone, usuarioDto.DataNascimento, usuarioDto.Documento);
+            var usuario = new Usuario(usuarioDto.Matricula, usuarioDto.Email, usuarioDto.Nome, usuarioDto.Perfil, endereco, usuarioDto.Telefone, usuarioDto.DataNascimento, usuarioDto.Documento);
 
             await _usuarioRepository.CriarAsync(usuario);
 

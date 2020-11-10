@@ -20,6 +20,7 @@ namespace NewSIGASE.Services.Constantes
         internal static class Agendamento
         {
             internal static readonly string NaoExiste = "Agendamento não encontrado.";
+            internal static readonly string PermitidoUm = "É permitido apenas um agendamento por Data e Período para o usuário solicitante.";
             internal static readonly string SemPermissao = "Usuário não tem permissão para executar essa funcionalidade.";
             internal static readonly string JaExiste = "A sala escolhida já está reservada para esse período e data. Favor escolher outro.";
         }

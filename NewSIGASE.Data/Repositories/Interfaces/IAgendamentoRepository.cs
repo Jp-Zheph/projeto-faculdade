@@ -20,6 +20,8 @@ namespace NewSIGASE.Data.Repositories.Interfaces
 
         Task<Agendamento> ObterAsync(Guid salaId, EnumPeriodo periodo, DateTime data);
 
+        Task<Agendamento> ObterAsync(EnumPeriodo periodo, DateTime data);
+
         Task CriarAsync(Agendamento agendamento);
     }
 }

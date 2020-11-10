@@ -93,6 +93,14 @@ namespace NewSIGASE.Data.Repositories
                 .FirstOrDefaultAsync();
         }
 
+        public async Task<Agendamento> ObterAsync(EnumPeriodo periodo, DateTime data)
+        {
+            return await _context.Agendamentos
+                .Where(a => a.Periodo == periodo && a.DataAgendada.Date == data.Date)
+                .AsNoTracking()
+                .FirstOrDefaultAsync();
+        }
+
         public async Task CriarAsync(Agendamento agendamento)
         {
             _context.Agendamentos.Add(agendamento);

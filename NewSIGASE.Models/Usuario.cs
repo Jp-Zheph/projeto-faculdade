@@ -51,7 +51,6 @@ namespace NewSIGASE.Models
 			string nome,  
 			EnumTipoPerfil perfil,
 			Endereco endereco,
-			bool ativo,
 			string telefone,
 			DateTime dataNasc,
 			string documento)
@@ -62,7 +61,7 @@ namespace NewSIGASE.Models
 			Nome = nome;
 			Senha = matricula;
 			Perfil = perfil;
-			Ativo = ativo;
+			Ativo = true;
 			DataCriacao = DateTime.Now;
 			Endereco = endereco;
 			EnderecoId = endereco.Id;

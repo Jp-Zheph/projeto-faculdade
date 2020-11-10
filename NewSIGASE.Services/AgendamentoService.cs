@@ -97,6 +97,12 @@ namespace NewSIGASE.Services
                 return;
             }
 
+            await ValidarAgendamentoDoUsuario(dto.Periodo, dto.DataAgendada, usuario.Id, "CadastrarAgendamento");
+            if (Invalid)
+            {
+                return;
+            }
+
             var agendamentoExiste = await _agendamentoRepository.ObterAsync(dto.SalaId, dto.Periodo, dto.DataAgendada);
             if (agendamentoExiste != null && (agendamentoExiste.Status == EnumStatusAgendamento.Aprovado || agendamentoExiste.Status == EnumStatusAgendamento.Pendente))
             {
@@ -107,6 +113,16 @@ namespace NewSIGASE.Services
             var agendamento = new Agendamento(dto.DataAgendada, dto.Periodo, dto.SalaId, dto.UsuarioId);
 
             await _agendamentoRepository.CriarAsync(agendamento);
+        }
+
+        public async Task ValidarAgendamentoDoUsuario(EnumPeriodo periodo, DateTime data, Guid usuarioId, string metodo)
+        {
+            var agendamento = await _agendamentoRepository.ObterAsync(periodo, data);
+            if (agendamento != null && agendamento.UsuarioId == usuarioId && (agendamento.Status == EnumStatusAgendamento.Aprovado || agendamento.Status == EnumStatusAgendamento.Pendente))
+            {
+                AddNotification(metodo, MensagemValidacao.Agendamento.PermitidoUm);
+                return;
+            }
         }
 
         public void ValidarSalaUsuario(Sala sala, Usuario usuario)
@@ -130,10 +146,25 @@ namespace NewSIGASE.Services
                 return;
             }
 
+            var sala = await _salaService.ObterAsync(dto.SalaId);
+            var usuario = await _usuarioService.Obter(dto.UsuarioId);
+
+            ValidarSalaUsuario(sala, usuario);
+            if (Invalid)
+            {
+                return;
+            }
+
             var agendamentoEditar = await _agendamentoRepository.ObterAsync(dto.Id.Value);
             if (agendamentoEditar == null)
             {
                 AddNotification("EditarAgendamento", MensagemValidacao.Agendamento.NaoExiste);
+                return;
+            }
+
+            await ValidarAgendamentoDoUsuario(dto.Periodo, dto.DataAgendada, usuario.Id, "EditarAgendamento");
+            if (Invalid)
+            {
                 return;
             }
 

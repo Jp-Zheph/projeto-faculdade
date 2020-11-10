@@ -89,7 +89,7 @@ namespace NewSIGASE.Controllers
             await _agendamentoService.CriarAsync(dto);
             if (_agendamentoService.Invalid)
             {
-                TempData["Notificacao"] = new BadRequestDto(dto.Notifications, TipoNotificacao.Warning);
+                TempData["Notificacao"] = new BadRequestDto(_agendamentoService.Notifications, TipoNotificacao.Warning);
                 return View(dto);
             }
 

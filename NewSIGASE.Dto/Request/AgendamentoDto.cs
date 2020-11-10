@@ -25,7 +25,6 @@ namespace NewSIGASE.Dto.Request
 
         public SalaDto Sala { get; set; }
 
-        [Required(ErrorMessage = MensagemValidacao.CampoObrigatorio)]
         public Guid UsuarioId { get; set; }
 
         public UsuarioDto Usuario { get; set; }
