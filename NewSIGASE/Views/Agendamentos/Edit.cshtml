@@ -7,6 +7,8 @@
 <script>
     $(document).ready(function () {
 
+
+
         $("#selectTipoSala").change(function () {
             $.ajax({
                 type: "get",
@@ -19,6 +21,7 @@
                         var selectbox = $('#SelectSala');
                         selectbox.find('option').remove();
                         $.each(obj, function (i, d) {
+                            debugger;
                             $('<option>').val(d.id).text(d.identificadorSala).appendTo(selectbox);
                         });
                         if (s != undefined) {
@@ -47,7 +50,7 @@
 }
 <h3>Editar Agendamento</h3>
 <hr />
-<input type="hidden" id="tipoHidden" value="@ViewBag.TipoSala" />
+<input type="hidden" id="tipoHidden" value="@ViewBag.Tipo" />
 <input type="hidden" id="salaHidden" value="@ViewBag.Sala" />
 <input type="hidden" id="status" value="@status"/>
 <div class="row formulario">
