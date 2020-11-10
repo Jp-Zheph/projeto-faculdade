@@ -8,12 +8,14 @@
 
 <script>
     $(document).ready(function () {
+        var qtdItens = $(".testeSelect option").length;
         var multipleCancelButton = new Choices('#choices-multiple-remove-button', {
             removeItemButton: true,
-            maxItemCount: 5,
+            maxItemCount: qtdItens,
             searchResultLimit: 5,
-            renderChoiceLimit: 5
+            renderChoiceLimit: qtdItens,
         });
+
     });
 </script>
 
@@ -69,7 +71,7 @@
             <div class="form-group row">
                 <label class="col-sm-12 col-form-label">Equipamentos (Clique no campo abaixo para selecionar as opções.)</label>
                 <div class="col-sm-12">
-                    <select multiple data-live-search="true" asp-for="EquipamentoId" id="choices-multiple-remove-button" class="form-control" asp-items="@ViewBag.Equipamentos"></select>
+                    <select multiple data-live-search="true" asp-for="EquipamentoId" id="choices-multiple-remove-button" class="testeSelect form-control" asp-items="@ViewBag.Equipamentos"></select>
                 </div>
             </div>
             <div class="row justify-content-center no-gutter">
