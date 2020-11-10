@@ -98,7 +98,7 @@ namespace NewSIGASE.Services
             }
 
             var agendamentoExiste = await _agendamentoRepository.ObterAsync(dto.SalaId, dto.Periodo, dto.DataAgendada);
-            if (agendamentoExiste != null)
+            if (agendamentoExiste != null && (agendamentoExiste.Status == EnumStatusAgendamento.Aprovado || agendamentoExiste.Status == EnumStatusAgendamento.Pendente))
             {
                 AddNotification("CadastrarAgendamento", MensagemValidacao.Agendamento.JaExiste);
                 return;
