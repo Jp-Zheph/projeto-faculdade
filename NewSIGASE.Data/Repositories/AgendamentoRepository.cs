@@ -20,6 +20,7 @@ namespace NewSIGASE.Data.Repositories
         public IQueryable<Agendamento> Obter()
         {
             var agendamentos = _context.Agendamentos
+                .IgnoreQueryFilters()
                     .Include(a => a.Sala)
                     .Include(a => a.Usuario)
                     .AsNoTracking();

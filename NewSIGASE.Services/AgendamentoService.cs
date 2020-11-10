@@ -34,8 +34,8 @@ namespace NewSIGASE.Services
             {
                 return _agendamentoRepository.ObterPorUsuario(usuarioId);
             }
-
-            return _agendamentoRepository.Obter();
+            var teste = _agendamentoRepository.Obter();
+            return teste;
         }
 
         public async Task<Agendamento> ObterAsync(Guid id)
@@ -95,7 +95,7 @@ namespace NewSIGASE.Services
                 return;
             }
 
-            var agendamentoExiste = _agendamentoRepository.ObterAsync(dto.SalaId, dto.Periodo, dto.DataAgendada);
+            var agendamentoExiste = await _agendamentoRepository.ObterAsync(dto.SalaId, dto.Periodo, dto.DataAgendada);
             if (agendamentoExiste != null)
             {
                 AddNotification("CadastrarAgendamento", MensagemValidacao.Agendamento.JaExiste);
