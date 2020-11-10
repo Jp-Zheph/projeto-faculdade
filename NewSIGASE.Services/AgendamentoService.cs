@@ -16,16 +16,18 @@ namespace NewSIGASE.Services
     {
         private readonly IAgendamentoRepository _agendamentoRepository;
         private readonly IUsuarioService _usuarioService;
-        //private readonly ISalaService _salaService;
+        private readonly ISalaService _salaService;
         private readonly IEmailService _emailService;
 
         public AgendamentoService(IAgendamentoRepository agendamentoRepository,
             IUsuarioService usuarioService,
+            ISalaService salaService,
             IEmailService emailService)
         {
             _agendamentoRepository = agendamentoRepository;
             _usuarioService = usuarioService;
             _emailService = emailService;
+            _salaService = salaService;
         }
 
         public IQueryable<Agendamento> Obter(string perfil, Guid usuarioId)
@@ -86,7 +88,7 @@ namespace NewSIGASE.Services
 
         public async Task CriarAsync(AgendamentoDto dto)
         {
-            var sala = new Sala(); // await _salaService.ObterAsync(dto.SalaId);
+            var sala = await _salaService.ObterAsync(dto.SalaId);
             var usuario = await _usuarioService.Obter(dto.UsuarioId);
 
             ValidarSalaUsuario(sala, usuario);
