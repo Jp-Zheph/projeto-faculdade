@@ -138,7 +138,7 @@ namespace NewSIGASE.Services
             }
 
             var agendamentoDuplicado = await _agendamentoRepository.ObterAsync(dto.SalaId, dto.Periodo, dto.DataAgendada);
-            if (agendamentoDuplicado != null && agendamentoEditar.UsuarioId != agendamentoDuplicado.UsuarioId)
+            if (agendamentoDuplicado != null && agendamentoEditar.UsuarioId != agendamentoDuplicado.UsuarioId && (agendamentoDuplicado.Status == EnumStatusAgendamento.Aprovado || agendamentoDuplicado.Status == EnumStatusAgendamento.Pendente))
             {
                 AddNotification("EditarAgendamento", MensagemValidacao.Agendamento.JaExiste);
                 return;

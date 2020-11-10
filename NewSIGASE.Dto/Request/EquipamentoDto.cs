@@ -26,18 +26,23 @@ namespace NewSIGASE.Dto.Request
         public DateTime DataCriacao { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:F3}")]
+        [RegularExpression("^[0-9]*$", ErrorMessage = MensagemValidacao.CampoFormatoIncorreto)]
         public string Peso { get ; set; }
 
         public string Cor { get; set; }
         
-
         [DisplayFormat(DataFormatString = "{0:F3}")]
-        [RegularExpression("^[0-9]*$")]
+        [RegularExpression("^[0-9]*$", ErrorMessage = MensagemValidacao.CampoFormatoIncorreto)]
         public string Comprimento { get ; set ; }
 
+
         [DisplayFormat(DataFormatString = "{0:F3}")]
+        [RegularExpression("^[0-9]*$", ErrorMessage = MensagemValidacao.CampoFormatoIncorreto)]
         public string Largura { get ; set ; }
 
+
+        [DisplayFormat(DataFormatString = "{0:F3}")]
+        [RegularExpression("^[0-9]*$", ErrorMessage = MensagemValidacao.CampoFormatoIncorreto)]
         public string Altura { get ; set ; }
 
         public EquipamentoDto(Equipamento equipamento)
