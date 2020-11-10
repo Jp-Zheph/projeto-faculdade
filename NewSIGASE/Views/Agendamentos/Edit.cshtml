@@ -28,7 +28,7 @@
                             $("#SelectSala").val(s).change();
                         }
 
-                        if (status == "Cancelado" || status == "Aprovado") {
+                        if (status != "Pendente") {
                             $("input, select, textarea").each(function () {
                                 $(this).attr('readonly', true);
                             });
@@ -96,7 +96,7 @@
                 </div>
             }
             <div class="class=" btn-toolbar"" role="group">
-                @if (status != "Cancelado")
+                @if (status == "Pendente")
                 {
                     <div class="btn-group mr-lg-2">
                         <input class="btn btn-success" type="submit" value="Salvar" />

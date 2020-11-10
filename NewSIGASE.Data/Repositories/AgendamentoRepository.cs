@@ -23,7 +23,7 @@ namespace NewSIGASE.Data.Repositories
                 .IgnoreQueryFilters()
                     .Include(a => a.Sala)
                     .Include(a => a.Usuario)
-                    .AsNoTracking();
+                  .AsNoTracking().OrderByDescending(a => a.DataAgendada);
 
             if (agendamentos == null)
             {
@@ -39,7 +39,7 @@ namespace NewSIGASE.Data.Repositories
                     .Include(a => a.Sala)
                     .Include(a => a.Usuario)
                     .Where(a => a.UsuarioId == usuarioId)
-                    .AsNoTracking();
+                    .AsNoTracking().OrderByDescending(a => a.DataAgendada);
 
             if (agendamentos == null)
             {
