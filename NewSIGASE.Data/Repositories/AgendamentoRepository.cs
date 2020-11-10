@@ -71,8 +71,9 @@ namespace NewSIGASE.Data.Repositories
         {
             return await _context.Agendamentos
                 .Include(a => a.Sala)
+                .IgnoreQueryFilters()
                 .Include(a => a.Usuario)
-                    .ThenInclude(u => u.Endereco)
+                   .ThenInclude(u => u.Endereco)
                 .FirstOrDefaultAsync(a => a.Id == id);
         }
 

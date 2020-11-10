@@ -120,8 +120,8 @@ namespace NewSIGASE.Controllers
         }
 
         // POST: Usuarios/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
+        //[HttpPost, ActionName("Delete")]
+        //[ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(Guid id)
         {
             ViewBag.Controller = "Usuarios";

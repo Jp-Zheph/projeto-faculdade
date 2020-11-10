@@ -159,6 +159,9 @@ namespace NewSIGASE.Controllers
         public async Task<IActionResult> Edit(Guid id)
         {
             var agendamento = await _agendamentoService.ObterAsync(id);
+
+           
+
             if (_agendamentoService.Invalid)
             {
                 TempData["Notificacao"] = new BadRequestDto(_agendamentoService.Notifications, TipoNotificacao.Warning);
@@ -166,11 +169,11 @@ namespace NewSIGASE.Controllers
                 return View("_Confirmacao");
             }
 
-            ViewBag.TipoSala = (int)agendamento.Sala.Tipo;
+            ViewBag.Tipo = (int)agendamento.Sala.Tipo;
             ViewBag.Sala = agendamento.SalaId;
 
             ViewBag.Periodo = Combos.retornarOpcoesPeriodo();
-            ViewBag.Salas = new SelectList(_salaService.Obter(), "Id", "IdentificadorSala", agendamento.SalaId);
+            ViewBag.TipoSala = Combos.retornarOpcoesSala();
 
             return View(new AgendamentoDto(agendamento));
         }
@@ -183,7 +186,7 @@ namespace NewSIGASE.Controllers
         public async Task<IActionResult> Edit(AgendamentoDto dto)
         {
             ViewBag.Periodo = Combos.retornarOpcoesPeriodo();
-            ViewBag.Salas = new SelectList(_salaService.Obter(), "Id", "IdentificadorSala", dto.SalaId);
+            ViewBag.Salas = new SelectList(_salaService.Obter(), "Id", "IdentificadorSala");
 
             dto.Validate();
             if (dto.Invalid)
