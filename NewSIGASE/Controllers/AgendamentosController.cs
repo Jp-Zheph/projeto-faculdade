@@ -64,7 +64,7 @@ namespace NewSIGASE.Controllers
         public IActionResult Create()
         {
             ViewBag.Periodo = Combos.retornarOpcoesPeriodo();
-            ViewBag.Salas = new SelectList(_salaService.ObterSomenteAtivos(), "Id", "IdentificadorSala");
+            ViewBag.TipoSala = Combos.retornarOpcoesSala();
 
             return View();
         }
@@ -77,7 +77,7 @@ namespace NewSIGASE.Controllers
         public async Task<IActionResult> Create(AgendamentoDto dto)
         {
             ViewBag.Periodo = Combos.retornarOpcoesPeriodo();
-            ViewBag.Salas = new SelectList(_salaService.ObterSomenteAtivos(), "Id", "IdentificadorSala");
+            ViewBag.TipoSala = Combos.retornarOpcoesSala();
 
             dto.Validate();
             if (dto.Invalid)
