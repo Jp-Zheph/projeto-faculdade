@@ -37,10 +37,12 @@ namespace NewSIGASE.Services
         {
             var listaComSala = _equipamentoRepository.ObterPorSala(salaId).ToList();
             var listaRetorno = new List<Equipamento>();
+
             if (listaComSala.Any())
             {
                 listaRetorno.AddRange(listaComSala);
             }
+
             listaRetorno.AddRange(_equipamentoRepository.ObterSemSala().ToList());
 
             var listafim = new SelectList(listaRetorno, "Id", "NomeModelo");

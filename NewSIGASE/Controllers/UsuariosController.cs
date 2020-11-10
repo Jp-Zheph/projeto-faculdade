@@ -81,7 +81,7 @@ namespace NewSIGASE.Controllers
             }
 
             ViewBag.Perfil = Combos.retornarOpcoesPerfil();
-            ViewBag.Status = Combos.retornarOpcoesStatusUsuario();
+            ViewBag.Status = Combos.retornarOpcoesStatus();
 
             return View(new UsuarioDto(usuario));
         }
@@ -94,7 +94,7 @@ namespace NewSIGASE.Controllers
         public async Task<IActionResult> Edit(UsuarioDto usuarioDto)
         {
             ViewBag.Perfil = Combos.retornarOpcoesPerfil();
-            ViewBag.Status = Combos.retornarOpcoesStatusUsuario();
+            ViewBag.Status = Combos.retornarOpcoesStatus();
             if (usuarioDto.Id == null)
             {
                 return NotFound();

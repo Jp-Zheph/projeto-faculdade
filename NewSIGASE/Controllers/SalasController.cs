@@ -90,6 +90,8 @@ namespace NewSIGASE.Controllers
 
             ViewBag.TipoSala = new SelectList(Combos.retornarOpcoesSala(), "Value", "Text", sala.Tipo);
             ViewBag.Equipamentos = _equipamentoService.ObterPorSalaEdicao(sala.Id);
+            ViewBag.Status = Combos.retornarOpcoesStatus();
+
             return View(new SalaDto(sala));
         }
 
@@ -102,6 +104,7 @@ namespace NewSIGASE.Controllers
         {
             ViewBag.TipoSala = new SelectList(Combos.retornarOpcoesSala(), "Value", "Text", salaDto.Tipo);
             ViewBag.Equipamentos = _equipamentoService.ObterPorSalaEdicao(salaDto.Id.Value);
+            ViewBag.Status = Combos.retornarOpcoesStatus();
 
             salaDto.Validate();
             if (salaDto.Invalid)

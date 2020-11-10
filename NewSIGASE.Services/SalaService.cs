@@ -106,7 +106,7 @@ namespace NewSIGASE.Services
 
             salaEditar.Editar(dto.Tipo, dto.IdentificadorSala, dto.Observacao, dto.Area, dto.Andar, dto.CapacidadeAlunos, dto.Ativo);
 
-            if (dto.EquipamentoId != null && dto.EquipamentoId.Any() && salaEditar.SalaEquipamentos != null && salaEditar.SalaEquipamentos.Any())
+            if (dto.EquipamentoId != null && dto.EquipamentoId.Any())
             {
                 var equipamentos = await _equipamentoRepository.ObterAsync(dto.EquipamentoId);
                 if (!equipamentos.Any())
@@ -115,17 +115,19 @@ namespace NewSIGASE.Services
                     return;
                 }
 
-                await _salaRepository.DeletarSalaEquipamentosAsync(salaEditar.SalaEquipamentos);
+                if (salaEditar.SalaEquipamentos != null && salaEditar.SalaEquipamentos.Any())
+                {
+                    await _salaRepository.DeletarSalaEquipamentosAsync(salaEditar.SalaEquipamentos);
+                }
 
                 await _salaRepository.CriarSalaEquipamentosAsync(equipamentos.Select(e => new SalaEquipamento(salaEditar.Id, e.Id)).ToList());
             }
-
-            if (salaEditar.SalaEquipamentos != null && salaEditar.SalaEquipamentos.Any())
+            else if (salaEditar.SalaEquipamentos != null && salaEditar.SalaEquipamentos.Any())
             {
                 await _salaRepository.DeletarSalaEquipamentosAsync(salaEditar.SalaEquipamentos);
             }
 
-            await _salaRepository.EditatAsync(salaEditar);           
+            await _salaRepository.EditatAsync(salaEditar);       
         }
 
         public async Task DeletarAsync(Guid id)
