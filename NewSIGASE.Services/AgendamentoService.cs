@@ -176,7 +176,7 @@ namespace NewSIGASE.Services
             }
 
             agendamentoEditar.Editar(dto.DataAgendada, dto.Periodo, dto.SalaId);
-            agendamentoEditar.AtualizarAgendamento(Guid.Empty, EnumStatusAgendamento.Pendente, null);
+            agendamentoEditar.AtualizarAgendamento(Guid.Empty, dto.Status, null);
 
             await _agendamentoRepository.EditarAsync(agendamentoEditar);
         }

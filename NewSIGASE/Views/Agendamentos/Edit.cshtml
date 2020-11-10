@@ -7,8 +7,6 @@
 <script>
     $(document).ready(function () {
 
-
-
         $("#selectTipoSala").change(function () {
             $.ajax({
                 type: "get",
@@ -28,7 +26,8 @@
                             $("#SelectSala").val(s).change();
                         }
 
-                        if (status != "Pendente") {
+                        if (status != "Pendente" ) {
+                            $("#messageJusti").show();
                             $("input, select, textarea").each(function () {
                                 $(this).attr('readonly', true);
                             });
@@ -41,10 +40,25 @@
         var a = $("#tipoHidden").val();
         var s = $("#salaHidden").val();
         var status = $("#status").val();
+        $("#messageJusti").hide();
         $("#selectTipoSala").val(a).change();
 
     });
 </script>
+<style>
+    #messageJusti {
+        background-color: #f7e5ab;
+        border-radius: 3px;
+        margin-bottom: 9px;
+        margin-top: 8px;
+        width: 550px;
+        height: 40px;
+    }
+        #messageJusti p {
+            color: #591107;
+            padding: 2% 5%;
+        }
+</style>
 @{ 
     var status = Model.Status.ToString();
 }
@@ -56,19 +70,22 @@
 <div class="row formulario">
     <div class="col-md-8">
         <form id="form" asp-action="Edit">
+            <div id="messageJusti" class="alert-danger">
+                <p> Campos bloqueados para edição devido ao status do agendamento.</p>
+            </div>
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="UsuarioId" value="@NewSIGASE.Infra.Configuration.AppSettings.Usuario" />
             <div class="form-group row">
                 <label class="col-sm-6 col-form-label">Data do Agendamento</label>
                 <div class="col-sm-6">
-                    <input asp-for="DataAgendada" type="date" class="form-control"/>
+                    <input asp-for="DataAgendada" type="date" class="form-control" />
                 </div>
                 <span asp-validation-for="DataAgendada" class="text-danger"></span>
             </div>
             <div class="form-group row">
                 <label class="col-sm-4 col-form-label">Período do Dia</label>
                 <div class="col-sm-8">
-                    <select  asp-for="Periodo" class="form-control disabled" asp-items="ViewBag.Periodo"></select>
+                    <select asp-for="Periodo" class="form-control disabled" asp-items="ViewBag.Periodo"></select>
                 </div>
                 <span asp-validation-for="Periodo" class="text-danger"></span>
             </div>

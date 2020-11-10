@@ -30,10 +30,9 @@ namespace NewSIGASE.Controllers
             Usuario retorno = _usuarioService.ValidarLogin(email, password, out string mensagem);
             if (retorno != null)
             {
-                HttpContext.Session.SetString("Perfil", retorno.Perfil.ToString());
-                HttpContext.Session.SetString("UsuarioId", retorno.Id.ToString());
-                AppSettings.Perfil = HttpContext.Session.GetString("Perfil");
-                AppSettings.Usuario = Guid.Parse(HttpContext.Session.GetString("UsuarioId"));
+                AppSettings.Perfil = retorno.Perfil.ToString();
+                AppSettings.Usuario = retorno.Id;
+                AppSettings.Nome = retorno.Nome;
 
                 if(retorno.Senha == retorno.Matricula)
                 {
