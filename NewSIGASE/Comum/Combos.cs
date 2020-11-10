@@ -16,7 +16,7 @@ namespace NewSIGASE.Comum
             return cadastroOptions;
         }
 
-        static public List<SelectListItem> retornarOpcoesStatusUsuario()
+        static public List<SelectListItem> retornarOpcoesStatus()
         {
             List<SelectListItem> cadastroOptions = new List<SelectListItem>()
             {

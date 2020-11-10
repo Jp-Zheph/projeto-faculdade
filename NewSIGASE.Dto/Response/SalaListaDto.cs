@@ -18,7 +18,7 @@ namespace NewSIGASE.Dto.Response
 		[DisplayFormat(DataFormatString = "{0:F3}")]
 		public decimal Area { get; set; }
 		public int Andar { get; set; }
-        public bool Ativo { get; set; }
+        public string Ativo { get; set; }
 
         public SalaListaDto(Sala sala)
 		{
@@ -29,7 +29,7 @@ namespace NewSIGASE.Dto.Response
 			QuantidadeEquipamentos = sala.SalaEquipamentos?.Count() ?? 0;
 			Area = sala.Area;
 			Andar = sala.Andar;
-			Ativo = sala.Ativo;
+			Ativo = sala.Ativo ? "Ativo" : "Inativo";
 		}
 	}
 	
