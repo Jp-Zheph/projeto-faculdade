@@ -12,6 +12,7 @@ namespace NewSIGASE.Infra.Configuration
 
         static string PerfilUsuario;
         static Guid UsuarioId;
+        static string NomeUsuario;
         public static string Perfil
         {
             get
@@ -32,6 +33,18 @@ namespace NewSIGASE.Infra.Configuration
             set
             {
                 UsuarioId = value;
+            }
+        }
+
+        public static string Nome
+        {
+            get
+            {
+                return NomeUsuario;
+            }
+            set
+            {
+                NomeUsuario = value;
             }
         }
 
