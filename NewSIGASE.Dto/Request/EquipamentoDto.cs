@@ -29,8 +29,10 @@ namespace NewSIGASE.Dto.Request
         public string Peso { get ; set; }
 
         public string Cor { get; set; }
+        
 
         [DisplayFormat(DataFormatString = "{0:F3}")]
+        [RegularExpression("^[0-9]*$")]
         public string Comprimento { get ; set ; }
 
         [DisplayFormat(DataFormatString = "{0:F3}")]
