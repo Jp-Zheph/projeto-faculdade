@@ -22,5 +22,7 @@ namespace NewSIGASE.Services.Interfaces
         Task EditarAsync(AgendamentoDto dto);
 
         Task Cancelar(Guid id, Guid usuarioId);
+
+        IQueryable<Agendamento> Obter();
     }
 }

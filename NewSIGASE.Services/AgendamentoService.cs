@@ -36,8 +36,13 @@ namespace NewSIGASE.Services
             {
                 return _agendamentoRepository.ObterPorUsuario(usuarioId);
             }
-            var teste = _agendamentoRepository.Obter();
-            return teste;
+
+            return _agendamentoRepository.Obter();
+        }
+
+        public IQueryable<Agendamento> Obter()
+        {
+            return _agendamentoRepository.Obter();
         }
 
         public async Task<Agendamento> ObterAsync(Guid id)
