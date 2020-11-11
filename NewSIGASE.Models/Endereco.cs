@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.RegularExpressions;
 
 namespace NewSIGASE.Models
 {
@@ -52,7 +53,7 @@ namespace NewSIGASE.Models
             Numero = numero;
             Complemento = complemento;
             Bairro = bairro;
-            Cep = cep;
+            Cep = Regex.Replace(cep, "[-]", "");
             Cidade = cidade;
             UF = uf;
             Pais = "BR";

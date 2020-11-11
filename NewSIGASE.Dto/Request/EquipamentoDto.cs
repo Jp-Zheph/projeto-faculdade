@@ -29,6 +29,7 @@ namespace NewSIGASE.Dto.Request
         [RegularExpression("^[0-9]*$", ErrorMessage = MensagemValidacao.CampoAceitaNumeros)]
         public string Peso { get ; set; }
 
+
         public string Cor { get; set; }
         
         [DisplayFormat(DataFormatString = "{0:F3}")]

@@ -23,6 +23,7 @@ namespace NewSIGASE.Dto.Request
         public string Documento { get; set; }
 
         [Required(ErrorMessage = MensagemValidacao.CampoObrigatorio)]
+        [RegularExpression("^[0-9]*$", ErrorMessage = MensagemValidacao.CampoAceitaNumeros)]
         public string Telefone { get; set; }
 
         [Required(ErrorMessage = MensagemValidacao.CampoObrigatorio)]
@@ -74,7 +75,7 @@ namespace NewSIGASE.Dto.Request
                 .IsTrue(perfilExiste, nameof(Perfil), MensagemValidacao.CampoTipoInvalido(nameof(Perfil)))
 
                 .IsNotNullOrEmpty(Documento, nameof(Documento), MensagemValidacao.CampoObrigatorio)
-                .IfNotNull(Documento, x => x.IsCpf(Documento, nameof(Documento), MensagemValidacao.CampoFormatoIncorreto))
+                .IfNotNull(Documento, x => x.IsCpf(Documento, "CPF", MensagemValidacao.CampoFormatoIncorreto))
 
                 .IsNotNullOrEmpty(Telefone, nameof(Telefone), MensagemValidacao.CampoObrigatorio)
                 .IfNotNull(Telefone, x => x.IsTrue(Regex.IsMatch(Telefone, "^[0-9]*$"), nameof(Telefone), MensagemValidacao.CampoFormatoIncorreto))
