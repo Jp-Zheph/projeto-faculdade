@@ -158,9 +158,7 @@ namespace NewSIGASE.Controllers
         //GET: Agendamentos/Edit/5
         public async Task<IActionResult> Edit(Guid id)
         {
-            var agendamento = await _agendamentoService.ObterAsync(id);
-
-           
+            var agendamento = await _agendamentoService.ObterAsync(id);           
 
             if (_agendamentoService.Invalid)
             {

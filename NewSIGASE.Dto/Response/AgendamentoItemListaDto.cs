@@ -12,6 +12,8 @@ namespace NewSIGASE.Dto.Response
         public string Periodo { get; set; }
         public string Status { get; set; }
         public string Sala { get; set; }
+        public string StatusSala { get; set; }
+        public string Observacoes { get; set; }
         public string Usuario { get; set; }
         public string TipoSala { get; set;  }
 
@@ -27,6 +29,8 @@ namespace NewSIGASE.Dto.Response
             Sala = agendamento.Sala.IdentificadorSala;
             Usuario = nomeUsuario.Length > 1 ? $"{nomeUsuario[0]} {nomeUsuario[1]}" : $"{nomeUsuario[0]}";
             TipoSala = agendamento.Sala.Tipo == EnumTipoSala.Laboratorio ? agendamento.Sala.Tipo.ToString() : "Sala de Aula";
+            StatusSala = agendamento.Sala.Ativo ? "Ativo" : "Inativo";
+            Observacoes = agendamento.Sala.Observacao ?? string.Empty;
         }
     }
 }

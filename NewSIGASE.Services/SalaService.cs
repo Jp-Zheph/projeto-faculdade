@@ -98,12 +98,6 @@ namespace NewSIGASE.Services
                 return;
             }
 
-            if (salaEditar.Agendamentos.Any(a => a.DataAgendada.Date > DateTime.Now.Date && a.Status == EnumStatusAgendamento.Aprovado))
-            {
-                AddNotification("EditarSala", MensagemValidacao.Sala.SemPermissaoDesativar);
-                return;
-            }
-
             salaEditar.Editar(dto.Tipo, dto.IdentificadorSala, dto.Observacao, Convert.ToDecimal(dto.Area.Replace('.', ',')), dto.Andar, dto.CapacidadeAlunos, dto.Ativo);
 
             if (dto.EquipamentoId != null && dto.EquipamentoId.Any())
