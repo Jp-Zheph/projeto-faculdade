@@ -77,7 +77,7 @@ namespace NewSIGASE.Models
             Numero = numero;
             Complemento = complemento;
             Bairro = bairro;
-            Cep = cep;
+            Cep = Regex.Replace(cep, "[-]", "");
             Cidade = cidade;
             UF = uf;
             PontoReferencia = pontoReferencia;

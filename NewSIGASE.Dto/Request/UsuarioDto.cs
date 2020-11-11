@@ -23,13 +23,14 @@ namespace NewSIGASE.Dto.Request
         public string Documento { get; set; }
 
         [Required(ErrorMessage = MensagemValidacao.CampoObrigatorio)]
-        [RegularExpression("^[0-9]*$", ErrorMessage = MensagemValidacao.CampoAceitaNumeros)]
+        [Phone(ErrorMessage = MensagemValidacao.CampoFormatoIncorreto)]
         public string Telefone { get; set; }
 
         [Required(ErrorMessage = MensagemValidacao.CampoObrigatorio)]
         public DateTime DataNascimento { get; set; }
 
         [Required(ErrorMessage = MensagemValidacao.CampoObrigatorio)]
+        [EmailAddress(ErrorMessage = MensagemValidacao.CampoFormatoIncorreto)]
         public string Email { get; set; }
 
         [Required(ErrorMessage = MensagemValidacao.CampoObrigatorio)]

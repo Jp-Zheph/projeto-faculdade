@@ -19,16 +19,13 @@ namespace NewSIGASE.Dto.Request
         public string IdentificadorSala { get; set; }  // numero da sala
 
         [Required(ErrorMessage = MensagemValidacao.CampoObrigatorio)]
-        [RegularExpression("^[0-9]*$", ErrorMessage = MensagemValidacao.CampoAceitaNumeros)]
         public int CapacidadeAlunos { get; set; }
 
         [Required(ErrorMessage = MensagemValidacao.CampoObrigatorio)]
         [DisplayFormat(DataFormatString = "{0:F3}")]
-        [RegularExpression("^[0-9]*$", ErrorMessage = MensagemValidacao.CampoAceitaNumeros)]
         public string Area { get; set; }
 
         [Required(ErrorMessage = MensagemValidacao.CampoObrigatorio)]
-        [RegularExpression("^[0-9]*$", ErrorMessage = MensagemValidacao.CampoAceitaNumeros)]
         public int Andar { get; set; }
         public string Observacao { get; set; }
         public bool Ativo { get; set; }

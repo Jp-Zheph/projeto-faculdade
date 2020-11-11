@@ -84,7 +84,7 @@ namespace NewSIGASE.Services
             AddNotifications(new Contract()
                 .IfNotNull(usuarioCadastrado?.Email, x => x.AreNotEquals(usuarioCadastrado.Email, usuarioDto.Email, "CriarUsuario", MensagemValidacao.Usuario.JaCadastrado(nameof(usuarioDto.Email)), StringComparison.OrdinalIgnoreCase))
                 .IfNotNull(usuarioCadastrado?.Matricula, x => x.AreNotEquals(usuarioCadastrado.Matricula, usuarioDto.Matricula, "CriarUsuario", MensagemValidacao.Usuario.JaCadastrado(nameof(usuarioDto.Matricula)), StringComparison.OrdinalIgnoreCase))
-                .IfNotNull(usuarioCadastrado?.Documento, x => x.AreNotEquals(usuarioCadastrado.Documento, usuarioDto.Documento, "CriarUsuario", MensagemValidacao.Usuario.JaCadastrado(nameof(usuarioDto.Documento)), StringComparison.OrdinalIgnoreCase))
+                .IfNotNull(usuarioCadastrado?.Documento, x => x.AreNotEquals(usuarioCadastrado.Documento, usuarioDto.Documento, "CriarUsuario", MensagemValidacao.Usuario.JaCadastrado("CPF"), StringComparison.OrdinalIgnoreCase))
             );
         }
 
