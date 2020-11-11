@@ -14,7 +14,7 @@ namespace NewSIGASE.Data.Repositories.Interfaces
 
         Task<Usuario> ObterAsync(Guid id);
 
-        Task<Usuario> ObterAsync(string email, string matricula);
+        Task<Usuario> ObterAsync(string email, string matricula, string documento);
 
         Task CriarAsync(Usuario usuario);
 

@@ -26,23 +26,23 @@ namespace NewSIGASE.Dto.Request
         public DateTime DataCriacao { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:F3}")]
-        [RegularExpression("^[0-9]*$", ErrorMessage = MensagemValidacao.CampoFormatoIncorreto)]
+        [RegularExpression("^[0-9]*$", ErrorMessage = MensagemValidacao.CampoAceitaNumeros)]
         public string Peso { get ; set; }
 
         public string Cor { get; set; }
         
         [DisplayFormat(DataFormatString = "{0:F3}")]
-        [RegularExpression("^[0-9]*$", ErrorMessage = MensagemValidacao.CampoFormatoIncorreto)]
+        [RegularExpression("^[0-9]*$", ErrorMessage = MensagemValidacao.CampoAceitaNumeros)]
         public string Comprimento { get ; set ; }
 
 
         [DisplayFormat(DataFormatString = "{0:F3}")]
-        [RegularExpression("^[0-9]*$", ErrorMessage = MensagemValidacao.CampoFormatoIncorreto)]
+        [RegularExpression("^[0-9]*$", ErrorMessage = MensagemValidacao.CampoAceitaNumeros)]
         public string Largura { get ; set ; }
 
 
         [DisplayFormat(DataFormatString = "{0:F3}")]
-        [RegularExpression("^[0-9]*$", ErrorMessage = MensagemValidacao.CampoFormatoIncorreto)]
+        [RegularExpression("^[0-9]*$", ErrorMessage = MensagemValidacao.CampoAceitaNumeros)]
         public string Altura { get ; set ; }
 
         public EquipamentoDto(Equipamento equipamento)

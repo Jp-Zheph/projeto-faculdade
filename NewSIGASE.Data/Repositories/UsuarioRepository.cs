@@ -57,12 +57,12 @@ namespace NewSIGASE.Data.Repositories
                 .FirstOrDefaultAsync(u => u.Id == id);
         }
 
-        public async Task<Usuario> ObterAsync(string email, string matricula)
+        public async Task<Usuario> ObterAsync(string email, string matricula, string documento)
         {
             return await _context.Usuarios
                 .Include(u => u.Endereco)
                 .AsNoTracking()
-                .FirstOrDefaultAsync(u => u.Email == email || u.Matricula == matricula);
+                .FirstOrDefaultAsync(u => u.Email == email || u.Matricula == matricula || u.Documento == documento);
         }
 
         public async Task<Usuario> ObterAsync(string email)

@@ -43,7 +43,7 @@ namespace NewSIGASE.Services
 
         public async Task Criar(UsuarioDto usuarioDto)
         {
-            var usuarioCadastrado = await _usuarioRepository.ObterAsync(usuarioDto.Email, usuarioDto.Matricula);
+            var usuarioCadastrado = await _usuarioRepository.ObterAsync(usuarioDto.Email, usuarioDto.Matricula, usuarioDto.Documento);
 
             ValidarUsuarioCadastrado(usuarioDto, usuarioCadastrado);
             if (Invalid)
@@ -84,6 +84,7 @@ namespace NewSIGASE.Services
             AddNotifications(new Contract()
                 .IfNotNull(usuarioCadastrado?.Email, x => x.AreNotEquals(usuarioCadastrado.Email, usuarioDto.Email, "CriarUsuario", MensagemValidacao.Usuario.JaCadastrado(nameof(usuarioDto.Email)), StringComparison.OrdinalIgnoreCase))
                 .IfNotNull(usuarioCadastrado?.Matricula, x => x.AreNotEquals(usuarioCadastrado.Matricula, usuarioDto.Matricula, "CriarUsuario", MensagemValidacao.Usuario.JaCadastrado(nameof(usuarioDto.Matricula)), StringComparison.OrdinalIgnoreCase))
+                .IfNotNull(usuarioCadastrado?.Documento, x => x.AreNotEquals(usuarioCadastrado.Documento, usuarioDto.Documento, "CriarUsuario", MensagemValidacao.Usuario.JaCadastrado(nameof(usuarioDto.Documento)), StringComparison.OrdinalIgnoreCase))
             );
         }
 
@@ -91,7 +92,7 @@ namespace NewSIGASE.Services
         {
             var usuarioEditar = await _usuarioRepository.ObterAsync(dto.Id.Value);
 
-            await ValidarUsuarioEditar(usuarioEditar, dto.Email, dto.Matricula);
+            await ValidarUsuarioEditar(usuarioEditar, dto.Email, dto.Matricula, dto.Documento);
             if (Invalid)
             {
                 return;
@@ -105,7 +106,7 @@ namespace NewSIGASE.Services
             await _usuarioRepository.EditarAsync(usuarioEditar);
         }
 
-        private async Task ValidarUsuarioEditar(Usuario usuarioEditar, string email, string matricula)
+        private async Task ValidarUsuarioEditar(Usuario usuarioEditar, string email, string matricula, string documento)
         {
             if (usuarioEditar == null)
             {
@@ -113,7 +114,7 @@ namespace NewSIGASE.Services
                 return;
             }
 
-            var usuarioDuplicado = await _usuarioRepository.ObterAsync(email, matricula);
+            var usuarioDuplicado = await _usuarioRepository.ObterAsync(email, matricula, documento);
             if (usuarioDuplicado != null && usuarioDuplicado.Id != usuarioEditar.Id)
             {
                 AddNotification("UsuarioEditar", MensagemValidacao.Usuario.JaCadastrado("Usuário"));
