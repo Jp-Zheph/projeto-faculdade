@@ -73,7 +73,16 @@ namespace NewSIGASE.Services
                 sala.AdicionarSalaEquipamento(equipamentos.Select(e => new SalaEquipamento(sala.Id, e.Id)).ToList());
             }
 
-            await _salaRepository.CriarAsync(sala);
+            try
+            {
+                await _salaRepository.CriarAsync(sala);
+            }
+            catch(Exception ex)
+            {
+                AddNotification("CadastrarSala", MensagemValidacao.ContacteSuporte);
+                return;
+            }
+           
         }
 
         public async Task EditarAsync(SalaDto dto)

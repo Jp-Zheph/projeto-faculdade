@@ -117,7 +117,16 @@ namespace NewSIGASE.Services
 
             var agendamento = new Agendamento(dto.DataAgendada, dto.Periodo, dto.SalaId, dto.UsuarioId);
 
-            await _agendamentoRepository.CriarAsync(agendamento);
+            try
+            {
+                await _agendamentoRepository.CriarAsync(agendamento);
+            }
+            catch(Exception ex)
+            {
+                AddNotification("CadastrarAgendamento", MensagemValidacao.ContacteSuporte);
+                return;
+            }
+            
         }
 
         public async Task ValidarAgendamentoDoUsuario(EnumPeriodo periodo, DateTime data, Guid usuarioId, string metodo)

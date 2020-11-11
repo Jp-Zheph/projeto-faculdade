@@ -55,8 +55,17 @@ namespace NewSIGASE.Services
                 usuarioDto.Endereco.Cidade, usuarioDto.Endereco.UF, usuarioDto.Endereco.Complemento, usuarioDto.Endereco.PontoReferencia);
 
             var usuario = new Usuario(usuarioDto.Matricula, usuarioDto.Email, usuarioDto.Nome, usuarioDto.Perfil, endereco, usuarioDto.Telefone, usuarioDto.DataNascimento, usuarioDto.Documento);
-
-            await _usuarioRepository.CriarAsync(usuario);
+            
+            try
+            {
+                await _usuarioRepository.CriarAsync(usuario);
+            }
+            catch(Exception ex)
+            {
+                AddNotification("CadastrarUsuario", MensagemValidacao.ContacteSuporte);
+                return;
+            }
+            
 
             _emailService.AdicionarDestinatario(usuario.Email, usuario.Nome);
             await _emailService.EnviarEmailCadastroUsuario(usuario);

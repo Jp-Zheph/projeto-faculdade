@@ -6,8 +6,10 @@
 
 <script>
     $(document).ready(function () {
+        $("#divObsSala").hide();
 
         $("#selectTipoSala").change(function () {
+            $("#divObsSala").hide();
             $.ajax({
                 type: "get",
                 url: "/Agendamentos/RetornarSalas",
@@ -18,10 +20,12 @@
                     if (obj != null) {
                         var selectbox = $('#SelectSala');
                         selectbox.find('option').remove();
+
+                        $('<option>').val(0).text('Selecione..').appendTo(selectbox);
                         $.each(obj, function (i, d) {
-                            debugger;
                             $('<option>').val(d.id).text(d.identificadorSala).appendTo(selectbox);
                         });
+
                         if (s != undefined) {
                             $("#SelectSala").val(s).change();
                         }
@@ -36,6 +40,30 @@
                 }
             });
         });
+
+        $("#SelectSala").change(function () {
+            var SalaSelecionada = $('#SelectSala :selected').text();
+            $.ajax({
+                type: "get",
+                url: "/Agendamentos/RetorarObservacoes",
+                data: { tipoSala: $("#selectTipoSala").val(), idSala: $('#SelectSala :selected').val() },
+                dataType: 'json',
+                contentType: "application/json; charset=utf-8",
+                success: function (obj) {
+                    debugger;
+                    if (obj.length > 0) {
+                        if (obj[0].id == SalaSelecionada) {
+                            $("#divObsSala").show();
+                            $("#obsSala").text(obj[0].obs);
+                        } else {
+                            $("#divObsSala").hide();
+                        };
+                    } else {
+                        $("#divObsSala").hide();
+                    }
+                }
+            });
+        })
 
         var a = $("#tipoHidden").val();
         var s = $("#salaHidden").val();
@@ -102,6 +130,12 @@
                     <select id="SelectSala" asp-for="SalaId" class="form-control"></select>
                 </div>
                 <span asp-validation-for="SalaId" class="text-danger"></span>
+            </div>
+            <div id="divObsSala" class="form-group row">
+                <label class="col-sm-8 col-form-label">Essa sala contém a seguinte observação:</label>
+                <div class="col-sm-12">
+                    <textarea readonly id="obsSala" rows="2" class="form-control disabled"></textarea>
+                </div>
             </div>
             @if (status == "Reprovado")
             {

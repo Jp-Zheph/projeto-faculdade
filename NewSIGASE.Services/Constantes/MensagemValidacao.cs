@@ -5,6 +5,7 @@ namespace NewSIGASE.Services.Constantes
     {
         internal static readonly string CampoInvalido = "Campo Inválido";
         internal static readonly string CampoObrigatorio = "Campo Obrigatório";
+        internal static readonly string ContacteSuporte = "Ocorreu um erro interno contacte o suporte do sistema.";
 
         internal static class Usuario
         {            

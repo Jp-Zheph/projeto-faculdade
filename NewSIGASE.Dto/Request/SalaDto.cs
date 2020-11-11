@@ -39,6 +39,7 @@ namespace NewSIGASE.Dto.Request
             Area = sala.Area.ToString();
             Andar = sala.Andar;
             Ativo = sala.Ativo;
+            Observacao = sala.Observacao;
         }
 
         public SalaDto()

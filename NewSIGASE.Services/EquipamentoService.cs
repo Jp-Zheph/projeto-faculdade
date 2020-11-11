@@ -87,7 +87,16 @@ namespace NewSIGASE.Services
 
             var equipamento = new Equipamento(dto.Serial, dto.Nome, dto.Modelo, peso, dto.Cor, comprimento, largura, altura, dto.Marca);
 
-            await _equipamentoRepository.CriarAsync(equipamento);
+            try
+            {
+                await _equipamentoRepository.CriarAsync(equipamento);
+            }
+            catch(Exception ex)
+            {
+                AddNotification("CadastrarEquipamento", MensagemValidacao.ContacteSuporte);
+                return;
+            }
+            
         }
 
         public async Task EditarAsync(EquipamentoDto dto)

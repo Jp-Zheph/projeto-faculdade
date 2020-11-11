@@ -151,8 +151,15 @@ namespace NewSIGASE.Controllers
         public JsonResult RetornarSalas(EnumTipoSala tipoSala)
         {
             var salas = _salaService.Obter(tipoSala);
+            Json(salas.Where(s => s.Observacao != null).Select(s => new { id = s.IdentificadorSala, obs = s.Observacao}).ToList());
 
             return Json(salas.Select(s => new SalaListaDto(s)).ToList());
+        }
+
+        public JsonResult RetorarObservacoes(EnumTipoSala tipoSala, Guid idSala)
+        {
+            var salas = _salaService.Obter(tipoSala).Where(s => s.Id == idSala);
+            return Json(salas.Where(s => s.Observacao != null).Select(s => new { id = s.IdentificadorSala, obs = s.Observacao }));
         }
 
         //GET: Agendamentos/Edit/5
@@ -184,7 +191,7 @@ namespace NewSIGASE.Controllers
         public async Task<IActionResult> Edit(AgendamentoDto dto)
         {
             ViewBag.Periodo = Combos.retornarOpcoesPeriodo();
-            ViewBag.Salas = new SelectList(_salaService.Obter(), "Id", "IdentificadorSala");
+            ViewBag.TipoSala = Combos.retornarOpcoesSala();
 
             dto.Validate();
             if (dto.Invalid)
