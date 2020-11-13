@@ -36,7 +36,7 @@
     }
 </style>
 
-<h3>Relatório de Agendamentos</h3>
+<h3>Relatório de Aprovados e Reprovados</h3>
 
 <div class="filtro">
     <form asp-controller="Agendamentos" asp-action="RelatorioAprovados" method="get">
@@ -119,47 +119,57 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
+        @if (Model.Any())
+        {
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DataCriacao)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AgendadaPor)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.MatriculaUsuario)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PerfilUsuario)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Status)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DataAgendada)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Periodo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Sala)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TipoSala)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DataAprovacao)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AprovadaPor)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.MatriculaAprovador)
+                    </td>
+                </tr>
+            }
+        }
+        else
         {
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DataCriacao)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.AgendadaPor)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.MatriculaUsuario)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.PerfilUsuario)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Status)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DataAgendada)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Periodo)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Sala)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TipoSala)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DataAprovacao)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.AprovadaPor)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.MatriculaAprovador)
-                </td>
+                <td colspan="13">Nenhum registro foi encontrado!</td>
             </tr>
         }
+
     </tbody>
 </table>
 

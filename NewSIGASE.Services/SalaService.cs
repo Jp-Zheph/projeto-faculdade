@@ -52,37 +52,38 @@ namespace NewSIGASE.Services
 
         public async Task CriarAsync(SalaDto dto)
         {
-            var identificadorDuplicado = await _salaRepository.ObterAsync(dto.IdentificadorSala);
-            if (identificadorDuplicado != null)
+            try
             {
-                AddNotification("CadastrarSala", MensagemValidacao.Sala.IdentificadorJaExiste);
-                return;
-            }
-
-            var sala = new Sala(dto.Tipo, dto.IdentificadorSala, dto.Observacao, Convert.ToDecimal(dto.Area.Replace('.', ',')), dto.Andar, dto.CapacidadeAlunos);
-
-            if (dto.EquipamentoId != null && dto.EquipamentoId.Any())
-            {
-                var equipamentos = await _equipamentoRepository.ObterAsync(dto.EquipamentoId);
-                if (equipamentos == null || !equipamentos.Any())
+                var identificadorDuplicado = await _salaRepository.ObterAsync(dto.IdentificadorSala);
+                if (identificadorDuplicado != null)
                 {
-                    AddNotification("CadastrarSala", MensagemValidacao.Equipamento.NaoExiste);
+                    AddNotification("CadastrarSala", MensagemValidacao.Sala.IdentificadorJaExiste);
                     return;
                 }
 
-                sala.AdicionarSalaEquipamento(equipamentos.Select(e => new SalaEquipamento(sala.Id, e.Id)).ToList());
-            }
+                var sala = new Sala(dto.Tipo, dto.IdentificadorSala, dto.Observacao, Convert.ToDecimal(dto.Area.Replace('.', ',')), dto.Andar, dto.CapacidadeAlunos);
 
-            try
-            {
+                if (dto.EquipamentoId != null && dto.EquipamentoId.Any())
+                {
+                    var equipamentos = await _equipamentoRepository.ObterAsync(dto.EquipamentoId);
+                    if (equipamentos == null || !equipamentos.Any())
+                    {
+                        AddNotification("CadastrarSala", MensagemValidacao.Equipamento.NaoExiste);
+                        return;
+                    }
+
+                    sala.AdicionarSalaEquipamento(equipamentos.Select(e => new SalaEquipamento(sala.Id, e.Id)).ToList());
+                }
+
+
                 await _salaRepository.CriarAsync(sala);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 AddNotification("CadastrarSala", MensagemValidacao.ContacteSuporte);
                 return;
             }
-           
+
         }
 
         public async Task EditarAsync(SalaDto dto)
@@ -130,7 +131,7 @@ namespace NewSIGASE.Services
                 await _salaRepository.DeletarSalaEquipamentosAsync(salaEditar.SalaEquipamentos);
             }
 
-            await _salaRepository.EditatAsync(salaEditar);       
+            await _salaRepository.EditatAsync(salaEditar);
         }
 
         public async Task DeletarAsync(Guid id)
