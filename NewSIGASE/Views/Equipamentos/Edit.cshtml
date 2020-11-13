@@ -49,25 +49,26 @@
         <div class="row justify-content-center no-gutter">
             <div class="col-4">
                 <label for="Peso">Peso (kg) <small style="color:#acabab">opcional</small></label>
-                <input asp-for="Peso" type="number" class="form-control" />
+                <input asp-for="Peso"  class="form-control" />
             </div>
-            <div class="col-4">
-                <label for="Cor">Cor <small style="color:#acabab">opcional</small></label>
-                <input asp-for="Cor" class="form-control" />
-            </div>
+			<div class="col-4">
+				<label for="Cor">Cor <small style="color:#acabab">opcional</small></label>
+				<input asp-for="Cor" class="form-control" />
+				<span asp-validation-for="Cor" class="text-danger"></span>
+			</div>
         </div>
         <div class="row justify-content-center no-gutter">
             <div class="col-3">
                 <label for="Comprimento">Comprimento (cm) <small style="color:#acabab">opcional</small></label>
-                <input asp-for="Comprimento" type="number" class="form-control" />
+                <input asp-for="Comprimento"  class="form-control" />
             </div>
             <div class="col-2">
                 <label for="Largura">Largura (cm) <small style="color:#acabab">opcional</small></label>
-                <input asp-for="Largura" type="number" class="form-control" />
+                <input asp-for="Largura"  class="form-control" />
             </div>
             <div class="col-3">
                 <label for="Altura">Altura (cm) <small style="color:#acabab">opcional</small></label>
-                <input asp-for="Altura" type="number" class="form-control" />
+                <input asp-for="Altura"  class="form-control" />
             </div>
         </div>
         <div class="row justify-content-center no-gutter">

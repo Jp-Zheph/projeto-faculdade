@@ -21,6 +21,7 @@ namespace NewSIGASE.Dto.Request
         [Required(ErrorMessage = MensagemValidacao.CampoObrigatorio)]
         public int CapacidadeAlunos { get; set; }
 
+        [RegularExpression("^[0-9,.]+$",ErrorMessage = MensagemValidacao.CampoNaoLetras)]
         [Required(ErrorMessage = MensagemValidacao.CampoObrigatorio)]
         [DisplayFormat(DataFormatString = "{0:F3}")]
         public string Area { get; set; }
