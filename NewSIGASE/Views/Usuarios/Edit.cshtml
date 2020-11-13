@@ -24,7 +24,8 @@
 <div class="container">
     <form asp-action="Edit">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <input type="hidden" asp-for="Id" />
+        <input type="hidden" id="IdUsu" value="@(NewSIGASE.Infra.Configuration.AppSettings.Usuario)" />
+        <input type="hidden" id="Id" asp-for="Id" />
         <div class="row justify-content-center no-gutter">
             <div class="col-6">
                 <label for="Nome">Nome</label>
@@ -110,7 +111,7 @@
         <div class="row justify-content-center no-gutter">
             <div class="col-2">
                 <label for="Ativo">Ativo</label>
-                <select class="form-control" asp-for="Ativo" asp-items="@ViewBag.Status"> </select>
+                <select id="selectAtivo" class="form-control" asp-for="Ativo" asp-items="@ViewBag.Status"> </select>
             </div>
             <div class="col-6">
             </div>

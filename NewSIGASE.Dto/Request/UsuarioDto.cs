@@ -13,7 +13,7 @@ namespace NewSIGASE.Dto.Request
     {
         public Guid? Id { get; set; }
 
-        [RegularExpression("^[a-zA-Z]*$", ErrorMessage = MensagemValidacao.CampoAceitaStrings)]
+        [RegularExpression("^[a-zA-Z ]*$", ErrorMessage = MensagemValidacao.CampoAceitaStrings)]
         [Required(ErrorMessage = MensagemValidacao.CampoObrigatorio)]
         public string Nome { get; set; }
 

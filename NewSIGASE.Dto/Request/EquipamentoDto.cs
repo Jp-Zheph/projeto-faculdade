@@ -25,11 +25,11 @@ namespace NewSIGASE.Dto.Request
 
         public DateTime DataCriacao { get; set; }
 
-        [RegularExpression("^[0-9,.]+$")]
+        [RegularExpression("^[0-9,.]+$", ErrorMessage = MensagemValidacao.CampoNaoLetras)]
         [DisplayFormat(DataFormatString = "{0:F3}")]
         public string Peso { get ; set; }
 
-        [RegularExpression("^[a-zA-Z]*$", ErrorMessage = MensagemValidacao.CampoAceitaStrings)]
+        [RegularExpression("^[a-zA-Z ]*$", ErrorMessage = MensagemValidacao.CampoAceitaStrings)]
         public string Cor { get; set; }
 
         [RegularExpression("^[0-9,.]+$", ErrorMessage = MensagemValidacao.CampoNaoLetras)]

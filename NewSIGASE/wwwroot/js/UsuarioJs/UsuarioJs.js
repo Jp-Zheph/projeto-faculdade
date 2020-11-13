@@ -22,7 +22,7 @@ $(document).ready(function () {
             data: { cep: cep },
             dataType: 'json',
             contentType: "application/json; charset=utf-8",
-            success: function (data) {                               
+            success: function (data) {
 
                 if (data.erro) {
                     var tipo = data.strErro.tipo;
@@ -45,4 +45,8 @@ $(document).ready(function () {
             }
         });
     })
+
+    if ($("#IdUsu").val() == $("#Id").val()) {
+        $("#selectAtivo").attr('readonly', true);
+    }
 });
